@@ -8,4 +8,5 @@ RUN yarn install
 ADD . /usr/src/app
 RUN yarn run tsc
 
+EXPOSE 3000
 CMD ["npm","start"]
