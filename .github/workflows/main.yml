@@ -1,0 +1,16 @@
+name: Backend CI/CD
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout 
+      uses: actions/checkout@master
+
+    - name: Publish version
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: uladzimirbaklan/lecturer-private-cabinet-frontend
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+        snapshot: true
