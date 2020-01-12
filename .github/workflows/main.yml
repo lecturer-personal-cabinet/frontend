@@ -1,4 +1,4 @@
-name: Backend CI/CD
+name: Frontend CI/CD
 on: [push]
 jobs:
   build:
