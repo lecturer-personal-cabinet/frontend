@@ -1,0 +1,18 @@
+{
+  "taskDefinition": {
+    "containerDefinitions": [
+      {
+        "name": "frontend",
+        "image": "uladzimirbaklan/lecturer-private-cabinet-frontend:latest",
+        "portMappings": [
+          {
+            "protocol": "tcp",
+            "containerPort": 3000,
+            "hostPort": 80
+          }
+        ],
+        "memory": 300,
+      }
+    ]
+  }
+}
