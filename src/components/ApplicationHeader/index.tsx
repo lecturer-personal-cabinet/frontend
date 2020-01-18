@@ -1,7 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import {AppBar, Badge, CssBaseline, IconButton, Toolbar, Typography, withStyles, WithStyles} from "@material-ui/core";
-import ApplicationSidebar from "../ApplicationSidebar/ApplicationSidebar";
+import ApplicationSidebar from "../ApplicationSidebar";
 import styles from "./styles";
 import {ChevronLeft, ChevronRight} from "@material-ui/icons";
 
@@ -64,6 +64,15 @@ class ApplicationHeader extends React.Component<ApplicationHeaderProps, Applicat
                     </Toolbar>
                 </AppBar>
                 <ApplicationSidebar openState={this.state.sidebar.state}/>
+                <main
+                    className={clsx({
+                        [this.props.classes.contentShift]: this.state.sidebar.state,
+                        [this.props.classes.contentWidth]: !this.state.sidebar.state
+                    })}
+                >
+                    <div className={this.props.classes.drawerHeader}/>
+                    {this.props.children}
+                </main>
             </div>
         )
     }
