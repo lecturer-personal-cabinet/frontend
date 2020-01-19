@@ -4,9 +4,11 @@ import {AppBar, Badge, CssBaseline, IconButton, Toolbar, Typography, withStyles,
 import ApplicationSidebar from "../ApplicationSidebar";
 import styles from "./styles";
 import {ChevronLeft, ChevronRight} from "@material-ui/icons";
+import {SidebarItem} from "../ApplicationSidebar/types";
 
 export interface ApplicationHeaderProps extends WithStyles<typeof styles> {
-    title: string
+    title: string,
+    sidebarItems: SidebarItem[][]
 }
 
 interface ApplicationHeaderState {
@@ -63,7 +65,10 @@ class ApplicationHeader extends React.Component<ApplicationHeaderProps, Applicat
                         </Typography>
                     </Toolbar>
                 </AppBar>
-                <ApplicationSidebar openState={this.state.sidebar.state}/>
+                <ApplicationSidebar
+                    openState={this.state.sidebar.state}
+                    sidebarItems={this.props.sidebarItems}
+                />
                 <main
                     className={clsx({
                         [this.props.classes.contentShift]: this.state.sidebar.state,

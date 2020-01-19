@@ -1,4 +1,4 @@
-import {createStyles, Theme} from "@material-ui/core";
+import {createStyles, fade, Theme} from "@material-ui/core";
 
 const drawerWidth = 300;
 
@@ -23,6 +23,12 @@ const styles = (theme: Theme) => createStyles({
     },
     menuButton: {
         marginRight: 36,
+    },
+    activeMenuButton: {
+        backgroundColor: fade('#3F51B5', 0.15),
+        '&:hover': {
+            backgroundColor: fade('#3F51B5', 0.25),
+        },
     },
     hide: {
         display: 'none',

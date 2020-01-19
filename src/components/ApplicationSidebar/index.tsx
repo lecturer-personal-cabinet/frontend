@@ -7,19 +7,16 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import TocIcon from '@material-ui/icons/Toc';
 import {Badge, IconButton} from "@material-ui/core";
+import Icon from '@material-ui/core/Icon';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MailIcon from '@material-ui/icons/Mail';
-import AccessAlarmIcon from '@material-ui/icons/AccessAlarm';
-import AlarmOnIcon from '@material-ui/icons/AlarmOn';
-import PersonIcon from '@material-ui/icons/Person';
-import ClassIcon from '@material-ui/icons/Class';
-import GroupIcon from '@material-ui/icons/Group';
 import styles from "./styles";
+import {SidebarItem} from "./types";
 
 interface ApplicationSidebarProps extends WithStyles<typeof styles> {
     openState: boolean,
+    sidebarItems: SidebarItem[][],
 }
 
 function ApplicationSidebar(props: ApplicationSidebarProps) {
@@ -50,40 +47,21 @@ function ApplicationSidebar(props: ApplicationSidebarProps) {
                 </IconButton>
             </div>
             <Divider/>
-            {/*TODO: Заметки*/}
-            <List>
-                <ListItem button key={'timetable-lectures'}>
-                    <ListItemIcon><TocIcon/></ListItemIcon>
-                    <ListItemText primary={'Расписание занятий'}/>
-                </ListItem>
-                <ListItem button key={'timetable-credit'}>
-                    <ListItemIcon><AccessAlarmIcon/></ListItemIcon>
-                    <ListItemText primary={'Расписание зачетов'}/>
-                </ListItem>
-                <ListItem button key={'timetable-exams'}>
-                    <ListItemIcon><AlarmOnIcon/></ListItemIcon>
-                    <ListItemText primary={'Расписание экзаменов'}/>
-                </ListItem>
-                <ListItem button key={'marks'}>
-                    <ListItemIcon><AlarmOnIcon/></ListItemIcon>
-                    <ListItemText primary={'Оценки'}/>
-                </ListItem>
-            </List>
-            <Divider/>
-            <List>
-                <ListItem button key={'lecturers'}>
-                    <ListItemIcon><PersonIcon/></ListItemIcon>
-                    <ListItemText primary={'Преподаватели'}/>
-                </ListItem>
-                <ListItem button key={'students'}>
-                    <ListItemIcon><GroupIcon/></ListItemIcon>
-                    <ListItemText primary={'Студенты'}/>
-                </ListItem>
-                <ListItem button key={'classroom-codes'}>
-                    <ListItemIcon><ClassIcon/></ListItemIcon>
-                    <ListItemText primary={'Коды для Google Classroom'}/>
-                </ListItem>
-            </List>
+            {props.sidebarItems.map(section => (
+                <div>
+                    <List>
+                        {section.map(sidebarItem => (
+                            <ListItem button key={sidebarItem.path} className={clsx({
+                                [props.classes.activeMenuButton]: sidebarItem.isActive,
+                            })}>
+                                <ListItemIcon><Icon>{sidebarItem.itemIcon}</Icon></ListItemIcon>
+                                <ListItemText primary={sidebarItem.itemTitle}/>
+                            </ListItem>
+                        ))}
+                    </List>
+                    <Divider/>
+                </div>
+            ))}
         </Drawer>
     );
 }

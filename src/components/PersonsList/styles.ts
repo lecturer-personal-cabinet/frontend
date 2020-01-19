@@ -12,7 +12,7 @@ const styles = (theme: Theme) => createStyles({
         fontSize: '30px',
         cursor: 'pointer',
         marginLeft: '10px',
-        color: '#E54B49'
+        color: '#166138'
     },
 });
 
