@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom';
-import StudentApplication from './pages/student/StudentApplication';
+import StudentApplication from './applications/StudentApplication';
 import NotFound from "./pages/NotFound";
 
 ReactDOM.render((

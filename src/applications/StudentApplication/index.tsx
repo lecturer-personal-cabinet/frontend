@@ -2,12 +2,13 @@ import React from 'react';
 import styles from "./styles";
 import {WithStyles, withStyles} from "@material-ui/core";
 import {Route, Switch, Redirect} from 'react-router-dom';
-import StudentsListPage from '../../StudentsListPage';
-import LecturersListPage from '../../LecturersListPage';
-import NotFound from "../../NotFound";
-import ApplicationHeader from '../../../components/ApplicationHeader';
+import DashboardPage from '../../pages/DashboardPage';
+import StudentsListPage from '../../pages/StudentsListPage';
+import LecturersListPage from '../../pages/LecturersListPage';
+import NotFound from "../../pages/NotFound";
+import ApplicationHeader from '../../components/ApplicationHeader';
 import {sidebarItems} from "./menu";
-import {SidebarItem} from "../../../components/ApplicationSidebar/types";
+import {SidebarItem} from "../../components/ApplicationSidebar/types";
 import { RouteComponentProps } from 'react-router-dom';
 
 interface StudentApplicationProps extends WithStyles<typeof styles>, RouteComponentProps<any> {
@@ -75,6 +76,7 @@ class StudentApplication extends React.Component<StudentApplicationProps, Studen
                 <Switch>
                     <Route path='/s/students' component={StudentsListPage} />
                     <Route path='/s/lecturers' component={LecturersListPage} />
+                    <Route path='/s/dashboard' component={DashboardPage} />
                     <Redirect from="/s" to="/s/students" />
                     <Route component={NotFound}/>
                 </Switch>

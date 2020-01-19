@@ -1,6 +1,6 @@
 import React from 'react';
 import {withStyles, WithStyles} from "@material-ui/core";
-import styles from "../../student/StudentApplication/styles";
+import styles from "../StudentApplication/styles";
 
 interface LecturerApplicationProps extends WithStyles<typeof styles> {
 
