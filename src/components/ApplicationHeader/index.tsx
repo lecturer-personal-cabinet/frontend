@@ -8,7 +8,7 @@ import {SidebarItem} from "../ApplicationSidebar/types";
 
 export interface ApplicationHeaderProps extends WithStyles<typeof styles> {
     title: string,
-    sidebarItems: SidebarItem[][]
+    sidebarItems: SidebarItem[][],
 }
 
 interface ApplicationHeaderState {

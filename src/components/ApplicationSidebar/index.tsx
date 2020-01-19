@@ -13,6 +13,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import MailIcon from '@material-ui/icons/Mail';
 import styles from "./styles";
 import {SidebarItem} from "./types";
+import {Link} from "react-router-dom";
 
 interface ApplicationSidebarProps extends WithStyles<typeof styles> {
     openState: boolean,
@@ -51,12 +52,16 @@ function ApplicationSidebar(props: ApplicationSidebarProps) {
                 <div>
                     <List>
                         {section.map(sidebarItem => (
-                            <ListItem button key={sidebarItem.path} className={clsx({
-                                [props.classes.activeMenuButton]: sidebarItem.isActive,
-                            })}>
-                                <ListItemIcon><Icon>{sidebarItem.itemIcon}</Icon></ListItemIcon>
-                                <ListItemText primary={sidebarItem.itemTitle}/>
-                            </ListItem>
+                            <Link
+                                to={sidebarItem.path}
+                                style={{ color: 'inherit', textDecoration: 'inherit'}}>
+                                <ListItem button key={sidebarItem.path} className={clsx({
+                                    [props.classes.activeMenuButton]: sidebarItem.isActive,
+                                })}>
+                                    <ListItemIcon><Icon>{sidebarItem.itemIcon}</Icon></ListItemIcon>
+                                    <ListItemText primary={sidebarItem.itemTitle}/>
+                                </ListItem>
+                            </Link>
                         ))}
                     </List>
                     <Divider/>
