@@ -3,13 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import { Route, BrowserRouter as Router } from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
-import App from "./pages/App/App";
+import StudentApplication from './pages/student/StudentApplication';
+import LecturerApplication from './pages/lecturer/LecturerApplication';
 
 ReactDOM.render((
     <Router>
-        <div>
-            <Route exact path="/" component={App}/>
-        </div>
+        <Route path='/s' component={StudentApplication}/>
+        <Route path='/l' component={LecturerApplication}/>
     </Router>
     ), document.getElementById('root')
 );
