@@ -1,7 +1,15 @@
-import {SidebarItem} from "../../../components/ApplicationSidebar/types";
+import {SidebarItem} from "../../components/ApplicationSidebar/types";
 
 export const sidebarItems: SidebarItem[][] =
     [
+        [
+            {
+                itemTitle: 'Лобби',
+                itemIcon: 'dashboard',
+                path: '/s/dashboard',
+                isActive: false
+            }
+        ],
         [
             {
                 itemTitle: 'Расписание занятий',
