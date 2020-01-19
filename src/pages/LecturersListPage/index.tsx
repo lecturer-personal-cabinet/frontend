@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from "./styles";
 import {withStyles, WithStyles} from "@material-ui/core";
-import {Person} from "../../../types/person";
-import PersonsList from "../../../components/PersonsList";
-import ListActionBar from "../../../components/ListActionBar";
+import {Person} from "../../types/person";
+import PersonsList from "../../components/PersonsList";
+import ListActionBar from "../../components/ListActionBar";
 
 interface LecturersListProps extends WithStyles<typeof styles> {
 

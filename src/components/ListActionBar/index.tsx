@@ -27,8 +27,8 @@ function ListActionBar (props: ListActionBarProps) {
     return (
         <Paper className={props.classes.root}>
             <Grid container className={props.classes.container} spacing={3}>
-                <Grid item xs={10}/>
-                <Grid item xs={2}>
+                <Grid item md={9}/>
+                <Grid item md={3}>
                     {searchBar}
                 </Grid>
             </Grid>

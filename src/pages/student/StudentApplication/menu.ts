@@ -7,7 +7,7 @@ export const sidebarItems: SidebarItem[][] =
                 itemTitle: 'Расписание занятий',
                 itemIcon: 'alarm_on',
                 path: '/path1',
-                isActive: false
+                isActive: false,
             },
             {
                 itemTitle: 'Расписание зачетов',
@@ -26,13 +26,13 @@ export const sidebarItems: SidebarItem[][] =
             {
                 itemTitle: 'Список преподавателей',
                 itemIcon: 'account_box',
-                path: '/path4',
+                path: '/s/lecturers',
                 isActive: false
             },
             {
                 itemTitle: 'Список студентов',
                 itemIcon: 'perm_identity',
-                path: '/path5',
+                path: '/s/students',
                 isActive: true
             },
             {

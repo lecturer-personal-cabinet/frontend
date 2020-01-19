@@ -1,16 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import { Route, BrowserRouter as Router } from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
+import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom';
 import StudentApplication from './pages/student/StudentApplication';
-import LecturerApplication from './pages/lecturer/LecturerApplication';
+import NotFound from "./pages/NotFound";
 
 ReactDOM.render((
-    <Router>
-        <Route path='/s' component={StudentApplication}/>
-        <Route path='/l' component={LecturerApplication}/>
-    </Router>
+    <BrowserRouter>
+        <Switch>
+            <Route path='/s' component={StudentApplication} />
+            <Redirect from="/" to="/s" />
+            <Route component={NotFound} />
+        </Switch>
+    </BrowserRouter>
     ), document.getElementById('root')
 );
 

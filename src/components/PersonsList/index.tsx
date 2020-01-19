@@ -3,7 +3,17 @@ import {Person} from "../../types/person";
 import styles from './styles'
 import InfoIcon from '@material-ui/icons/Info';
 import ChatIcon from '@material-ui/icons/Chat';
-import {Avatar, Paper, Table, TableCell, TableContainer, TableRow, WithStyles, withStyles} from "@material-ui/core";
+import {
+    Avatar,
+    Paper,
+    Table,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    WithStyles,
+    withStyles
+} from "@material-ui/core";
 
 interface PersonsListProps extends WithStyles<typeof styles> {
     persons: Person[],
@@ -34,6 +44,7 @@ function PersonsList(props: PersonsListProps) {
     return (
         <TableContainer component={Paper}>
             <Table className={props.classes.table}>
+                <TableHead/>
                 {props.persons.map(personRow)}
             </Table>
         </TableContainer>
