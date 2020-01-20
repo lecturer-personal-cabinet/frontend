@@ -10,6 +10,9 @@ jobs:
     - name: Checkout 
       uses: actions/checkout@master
 
+   - name: Install deps
+     run: yarn install
+
     - name: Publish version
       uses: elgohr/Publish-Docker-Github-Action@master
       with:
