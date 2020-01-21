@@ -21,6 +21,10 @@ const styles = (theme: Theme) => createStyles({
         fontWeight: 'bold',
         fontFamily: 'Ubuntu',
         fontSize: theme.spacing(5),
+    },
+    secondaryInformation: {
+        fontSize: theme.spacing(2.5),
+        fontFamily: 'Ubuntu',
     }
 });
 

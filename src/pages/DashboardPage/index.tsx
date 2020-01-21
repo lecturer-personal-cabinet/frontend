@@ -24,6 +24,8 @@ class DashboardPage extends React.Component<DashboardPageProps, DashboardPageSta
     private informationBlock = () => (
       <Paper className={this.props.classes.informationBlockItem}>
           <div className={this.props.classes.name}>Vladimir Baklan</div>
+          <div className={this.props.classes.secondaryInformation}>Факультет информационных технологий, 16-ИТ-1</div>
+          <div className={this.props.classes.secondaryInformation}>08.02.1999</div>
       </Paper>
     );
 
