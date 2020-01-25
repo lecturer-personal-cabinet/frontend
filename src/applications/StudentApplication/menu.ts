@@ -32,15 +32,9 @@ export const sidebarItems: SidebarItem[][] =
         ],
         [
             {
-                itemTitle: 'Список преподавателей',
-                itemIcon: 'account_box',
-                path: '/s/lecturers',
-                isActive: false
-            },
-            {
-                itemTitle: 'Список студентов',
+                itemTitle: 'Пользователи',
                 itemIcon: 'perm_identity',
-                path: '/s/students',
+                path: '/s/users',
                 isActive: true
             },
             {

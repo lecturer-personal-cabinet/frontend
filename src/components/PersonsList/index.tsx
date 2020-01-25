@@ -17,13 +17,15 @@ import {
 
 interface PersonsListProps extends WithStyles<typeof styles> {
     persons: Person[],
+    onDialogIconClick: (persons: Person[]) => void,
+    onInfoIconClick: (persons: Person[]) => void,
 }
 
 function PersonsList(props: PersonsListProps) {
-    const actionCell = () => (
+    const actionCell = (person: Person) => (
         <TableCell align="center">
-            <InfoIcon className={props.classes.actionIcon} />
-            <ChatIcon className={props.classes.actionIcon} />
+            <InfoIcon className={props.classes.actionIcon} onClick={() => props.onInfoIconClick([person])} />
+            <ChatIcon className={props.classes.actionIcon} onClick={() => props.onDialogIconClick([person])} />
         </TableCell>
     );
 
@@ -37,7 +39,7 @@ function PersonsList(props: PersonsListProps) {
               + person.lastName + ' '
               + (!person.patronymic ? '' : person.patronymic)}
           </TableCell>
-          {actionCell()}
+          {actionCell(person)}
       </TableRow>
     );
 
