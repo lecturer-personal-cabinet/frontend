@@ -3,8 +3,7 @@ import styles from "./styles";
 import {WithStyles, withStyles} from "@material-ui/core";
 import {Route, Switch, Redirect} from 'react-router-dom';
 import DashboardPage from '../../pages/DashboardPage';
-import StudentsListPage from '../../pages/StudentsListPage';
-import LecturersListPage from '../../pages/LecturersListPage';
+import PersonsPage from '../../pages/PersonsPage';
 import NotFound from "../../pages/NotFound";
 import ApplicationHeader from '../../components/ApplicationHeader';
 import {sidebarItems} from "./menu";
@@ -74,8 +73,7 @@ class StudentApplication extends React.Component<StudentApplicationProps, Studen
                 sidebarItems={this.state.menuItems}
             >
                 <Switch>
-                    <Route path='/s/students' component={StudentsListPage} />
-                    <Route path='/s/lecturers' component={LecturersListPage} />
+                    <Route path='/s/users' component={PersonsPage} />
                     <Route path='/s/dashboard' component={DashboardPage} />
                     <Redirect from="/s" to="/s/dashboard" />
                     <Route component={NotFound}/>
