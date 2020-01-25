@@ -2,15 +2,15 @@ import React from 'react';
 import {TransitionProps} from "@material-ui/core/transitions";
 import {Button, Dialog, Grid, Slide, TextField, withStyles, WithStyles} from "@material-ui/core";
 import styles from "./styles";
-import {Person} from "../../types/person";
 import {AutocompleteValue} from "../AutocompleteInput/types";
 import AutocompleteInput from "../AutocompleteInput";
+import {User} from "../../store/users/types";
 
 interface SendMessageDialogProps extends WithStyles<typeof styles>{
     openDialog: boolean,
-    onDialogClose: (persons: Person[]) => void,
-    contacts: Person[],
-    selectedPersons: Person[],
+    onDialogClose: (persons: User[]) => void,
+    contacts: User[],
+    selectedUsers: User[],
 }
 
 const Transition = React.forwardRef<unknown, TransitionProps>(function Transition(props, ref) {
@@ -18,14 +18,14 @@ const Transition = React.forwardRef<unknown, TransitionProps>(function Transitio
 });
 
 function SendMessageDialog(props: SendMessageDialogProps) {
-    const personToAutocompleteValue = (person: Person): AutocompleteValue<Person> => {
+    const personToAutocompleteValue = (person: User): AutocompleteValue<User> => {
       return {
           title: `${person.firstName} ${person.lastName}`,
           value: person,
       }
     };
 
-    const toBlock = (persons: Person[], selectedPersons: Person[]) => (
+    const toBlock = (persons: User[], selectedPersons: User[]) => (
         <Grid container className={props.classes.autocompleteContainer}>
             <AutocompleteInput defaultValues={selectedPersons.map(personToAutocompleteValue)}
                                values={persons.map(personToAutocompleteValue)}
@@ -61,10 +61,10 @@ function SendMessageDialog(props: SendMessageDialogProps) {
     return (
         <Dialog open={props.openDialog}
                 TransitionComponent={Transition}
-                onClose={() => props.onDialogClose(props.selectedPersons)}
+                onClose={() => props.onDialogClose(props.selectedUsers)}
                 keepMounted>
             <main className={props.classes.layout}>
-                {toBlock(props.contacts, props.selectedPersons)}
+                {toBlock(props.contacts, props.selectedUsers)}
                 {textBlock()}
                 {actions()}
             </main>
