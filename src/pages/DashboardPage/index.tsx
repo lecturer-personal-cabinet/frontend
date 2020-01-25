@@ -21,11 +21,15 @@ class DashboardPage extends React.Component<DashboardPageProps, DashboardPageSta
         </Paper>
     );
 
-    private informationBlock = () => (
+    private informationBlock = (firstName: string,
+                                lastName: string,
+                                faculty: string,
+                                groupNumber: string,
+                                formattedBirthdayDate: string) => (
       <Paper className={this.props.classes.informationBlockItem}>
-          <div className={this.props.classes.name}>Vladimir Baklan</div>
-          <div className={this.props.classes.secondaryInformation}>Факультет информационных технологий, 16-ИТ-1</div>
-          <div className={this.props.classes.secondaryInformation}>08.02.1999</div>
+          <div className={this.props.classes.name}>{`${firstName} ${lastName}`}</div>
+          <div className={this.props.classes.secondaryInformation}>{`${faculty}, ${groupNumber}`}</div>
+          <div className={this.props.classes.secondaryInformation}>{formattedBirthdayDate}</div>
       </Paper>
     );
 
@@ -37,7 +41,11 @@ class DashboardPage extends React.Component<DashboardPageProps, DashboardPageSta
                         {this.avatarBlock('Vladimir Baklan', 'https://www.un.org/development/desa/youth/wp-content/plugins/all-in-one-seo-pack/images/default-user-image.png')}
                     </Grid>
                     <Grid item md={10}>
-                        {this.informationBlock()}
+                        {this.informationBlock('Vladimir',
+                            'Baklan',
+                            'Факультет информационных технологий',
+                            '16-ИТ-1',
+                            '08.02.1999')}
                     </Grid>
                 </Grid>
             </div>
