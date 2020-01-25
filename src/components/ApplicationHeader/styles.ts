@@ -30,8 +30,8 @@ const styles = (theme: Theme) => createStyles({
     toolbar: {
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'flex-end',
-        padding: theme.spacing(0, 1),
+        justifyContent: 'flex-start',
+        padding: theme.spacing(0, 3, 0, 3),
         ...theme.mixins.toolbar,
     },
     content: {
@@ -73,6 +73,26 @@ const styles = (theme: Theme) => createStyles({
             marginLeft: theme.spacing(9) + 1,
         },
     },
+    pageTitle: {
+        flexGrow: 1,
+        paddingLeft: theme.spacing(3),
+        // align: 'left',
+    },
+    sidebarButton: {
+        // flexGrow: 1,
+        // align
+    },
+    accountMenuButton: {
+        // flexGrow: 1,
+        alignItems: 'right',
+        justifyContent: 'flex-end',
+        fontSize: theme.spacing(2.3),
+    },
+    dropdownMenu: {
+        alignItems: 'right',
+        justifyContent: 'flex-end',
+        fontSize: theme.spacing(2.3),
+    }
 });
 
 export default styles;

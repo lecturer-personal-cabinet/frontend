@@ -77,7 +77,7 @@ class StudentApplication extends React.Component<StudentApplicationProps, Studen
                     <Route path='/s/students' component={StudentsListPage} />
                     <Route path='/s/lecturers' component={LecturersListPage} />
                     <Route path='/s/dashboard' component={DashboardPage} />
-                    <Redirect from="/s" to="/s/students" />
+                    <Redirect from="/s" to="/s/dashboard" />
                     <Route component={NotFound}/>
                 </Switch>
             </ApplicationHeader>
