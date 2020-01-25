@@ -13,7 +13,6 @@ interface UsersContainerProps extends WithStyles<typeof styles> {
 }
 
 interface UsersContainerState {
-    users: User[],
     openDialogWindow: boolean,
     selectedUsers: User[],
 }
@@ -22,7 +21,6 @@ class UsersContainer extends React.Component<UsersContainerProps, UsersContainer
     constructor(props: UsersContainerProps) {
         super(props);
         this.state = {
-            users: this.props.users,
             openDialogWindow: false,
             selectedUsers: [],
         };
@@ -48,13 +46,13 @@ class UsersContainer extends React.Component<UsersContainerProps, UsersContainer
             <div className={this.props.classes.root}>
                 <SendMessageDialog openDialog={this.state.openDialogWindow}
                                    onDialogClose={this.onDialogIconClick}
-                                   contacts={this.state.users}
+                                   contacts={this.props.users}
                                    selectedUsers={this.state.selectedUsers}/>
 
                 <div className={this.props.classes.actionBar}>
                     <ListActionBar />
                 </div>
-                <PersonsList users={this.state.users}
+                <PersonsList users={this.props.users}
                              onDialogIconClick={this.onDialogIconClick}
                              onInfoIconClick={this.onInfoIconClick} />
             </div>
@@ -63,7 +61,7 @@ class UsersContainer extends React.Component<UsersContainerProps, UsersContainer
 }
 
 const mapStateToProps = (state: RootState) => ({
-    users: state.users.users,
+    users: state.userState.users,
 });
 
 export default withStyles(styles)(connect(mapStateToProps)(UsersContainer))

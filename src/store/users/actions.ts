@@ -1,7 +1,15 @@
-import {GET_AVAILABLE_USERS, PersonActionTypes} from "./types";
+import {ThunkAction} from "redux-thunk";
+import axios from 'axios';
+import {IGetUsersAction, IUsersState, UsersActionTypes} from "./types";
 
-export function getAvailableUsers(): PersonActionTypes {
-    return {
-        type: GET_AVAILABLE_USERS,
+export const getAllUsers = (): ThunkAction<Promise<any>, IUsersState, null, IGetUsersAction> => async dispatch => {
+    try {
+        const response = await axios.get("https://api.myjson.com/bins/h8ej6");
+        dispatch<IGetUsersAction>({
+            type: UsersActionTypes.GET_ALL,
+            payload: response.data,
+        });
+    } catch (error) {
+        console.error(error);
     }
-}
+};

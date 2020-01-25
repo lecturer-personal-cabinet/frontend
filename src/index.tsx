@@ -6,8 +6,10 @@ import StudentApplication from './applications/StudentApplication';
 import NotFound from "./containers/NotFound";
 import { Provider } from 'react-redux'
 import configureStore from "./store";
+import {getAllUsers} from "./store/users/actions";
 
 const store = configureStore();
+store.dispatch(getAllUsers());
 
 ReactDOM.render((
     <Provider store={store}>

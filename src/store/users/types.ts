@@ -7,14 +7,17 @@ export type User = {
     avatarSrc?: string,
 }
 
-export interface UsersState {
+export interface IUsersState {
     users: User[],
 }
 
-export const GET_AVAILABLE_USERS = 'GET_AVAILABLE_USERS';
-
-interface GetAvailableUsersAction {
-    type: typeof GET_AVAILABLE_USERS;
+export enum UsersActionTypes {
+    GET_ALL = 'GET_ALL',
 }
 
-export type PersonActionTypes = GetAvailableUsersAction;
+export interface IGetUsersAction {
+    type: UsersActionTypes.GET_ALL;
+    payload: User[];
+}
+
+export type UserActions = IGetUsersAction;

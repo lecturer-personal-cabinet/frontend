@@ -1,17 +1,18 @@
-import {GET_AVAILABLE_USERS, PersonActionTypes, UsersState} from "./types";
+import {IUsersState, UserActions, UsersActionTypes} from "./types";
 
-const initialState: UsersState = {
+const initialState: IUsersState = {
     users: []
 };
 
 export function usersReducer(
     state = initialState,
-    action: PersonActionTypes
-): UsersState {
+    action: UserActions
+): IUsersState {
     switch(action.type) {
-        case GET_AVAILABLE_USERS:
+        case UsersActionTypes.GET_ALL:
             return {
-                users: [...state.users]
+                ...state,
+                users: action.payload,
             };
         default:
             return state;
