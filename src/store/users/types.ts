@@ -2,8 +2,7 @@ export type User = {
     id: string,
     firstName: string,
     lastName: string,
-    patronymic?: string,
-    title?: string,
+    email: string,
     avatarSrc?: string,
 }
 
@@ -12,12 +11,11 @@ export interface IUsersState {
 }
 
 export enum UsersActionTypes {
-    GET_ALL = 'GET_ALL',
+    GET_ALL = 'GET_ALL'
 }
 
 export interface IGetUsersAction {
     type: UsersActionTypes.GET_ALL;
     payload: User[];
 }
-
 export type UserActions = IGetUsersAction;

@@ -35,9 +35,7 @@ function UsersList(props: UsersListProps) {
               <Avatar alt={user.firstName + ' ' + user.lastName} src={user.avatarSrc}/>
           </TableCell>
           <TableCell align="left">
-              {user.firstName + ' '
-              + user.lastName + ' '
-              + (!user.patronymic ? '' : user.patronymic)}
+              {user.firstName + ' ' + user.lastName}
           </TableCell>
           {actionCell(user)}
       </TableRow>
