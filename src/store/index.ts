@@ -1,10 +1,10 @@
 import { createStore, combineReducers, applyMiddleware, Store } from "redux";
 import thunkMiddleware from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
-import {usersReducer} from './users/reducers';
-import {IUsersState} from "./users/types";
-import {INotificationState} from "./notifications/types";
-import {notificationsReducer} from "./notifications/reducers";
+import {IUsersState} from "../types/users";
+import {INotificationState} from "../types/notifications";
+import {usersReducer} from "../reducers/users";
+import {notificationsReducer} from "../reducers/notifications";
 
 export interface RootState {
     userState: IUsersState,

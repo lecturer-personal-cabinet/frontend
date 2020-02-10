@@ -13,7 +13,7 @@ import {
     WithStyles,
     withStyles
 } from "@material-ui/core";
-import {User} from "../../store/users/types";
+import {User} from "../../types/users";
 
 interface UsersListProps extends WithStyles<typeof styles> {
     users: User[],

@@ -1,182 +1,72 @@
 import React from 'react';
-import {Button, Grid, Link, TextField, withStyles, WithStyles} from "@material-ui/core";
+import {Typography, withStyles, WithStyles} from "@material-ui/core";
 import styles from "./styles";
-import Avatar from '@material-ui/core/Avatar';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+import {RootState} from "../../store";
+import {connect} from "react-redux";
+import SignUpForm from "../../components/forms/SignUpForm";
+import {showNotification} from "../../actions/notifications";
+import {signUp} from "../../actions/users";
+import {ThunkDispatch} from "redux-thunk";
+import {Link, Redirect} from "react-router-dom";
 
-
-interface SignUpPageProps extends WithStyles<typeof styles> {}
-
-interface SignUpPageState {
-    values: {
-        firstName: string,
-        lastName: string,
-        email: string,
-        password: string,
-        repeatPassword: string
-    }
+interface SignUpProps extends WithStyles<typeof styles> {
+    signUp: {
+        failure: {
+            isFailure: boolean,
+            errorMessage: string,
+        }
+    },
+    showNotification: (message: string) => void;
+    signUpMethod: (firstName: string, lastName: string, email: string, password: string) => void;
 }
 
-class SignUpPage extends React.Component<SignUpPageProps, SignUpPageState> {
-    state: Readonly<SignUpPageState> = {
-        values: {
-            firstName: '',
-            lastName: '',
-            email: '',
-            password: '',
-            repeatPassword: ''
-        }
-    };
-    // constructor(props: SignUpPageProps) {
-    //     super(props);
-    //     this.state = {
-    //         values: {
-    //             email: ''
-    //         }
-    //     }
-    // }
-    //
-    // private onError = () => {};
-    //
-    // private handleSubmit = () => {};
-    //
-    private handleChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-        const {value, name} = e.currentTarget;
-        switch (name) {
-            case 'firstName':
-                this.updateState('firstName', value);
-                break;
-            case 'lastName':
-                this.updateState('lastName', value);
-                break;
-            case 'email':
-                this.updateState('email', value);
-                break;
-            case 'password':
-                this.updateState('password', value);
-                break;
-            case 'repeatPassword':
-                this.setState({
+interface SignUpState {}
 
-                })
-                this.updateState('repeatPassword', value);
-                break;
-        }
-    };
+class SignUpPage extends React.Component<SignUpProps, SignUpState> {
+    constructor(props: SignUpProps) {
+        super(props);
+        this.onSubmit = this.onSubmit.bind(this);
+        this.showMessage = this.showMessage.bind(this);
+    }
 
-    private updateState = (key: string, value: string) => (
-        prevState: SignUpPageState
-    ): SignUpPageState => ({
-        values: {
-            ...prevState.values,
-            [key]: value
-        },
-    });
+    private onSubmit(firstName: string, lastName: string, email: string, password: string): boolean {
+        this.props.signUpMethod(firstName, lastName, email, password);
+        return true;
+    }
+
+    private showMessage(message: string) {
+        this.props.showNotification(message);
+    }
 
     render() {
         return (
-            <Container component="main" maxWidth="xs">
+            <Grid container component="main" className={this.props.classes.root}>
+                {this.props.signUp.failure.isFailure && this.showMessage(this.props.signUp.failure.errorMessage)}
+
                 <CssBaseline />
-                <div className={this.props.classes.paper}>
-                    <Avatar className={this.props.classes.avatar}>
-                    </Avatar>
-                    <Typography component="h1" variant="h5">
-                        Sign up
-                    </Typography>
-                    <form className={this.props.classes.form} noValidate>
-                        <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    autoComplete="fname"
-                                    name="firstName"
-                                    variant="outlined"
-                                    required
-                                    fullWidth
-                                    id="firstName"
-                                    label="First Name"
-                                    autoFocus
-                                    value={this.state.values.firstName}
-                                    onChange={this.handleChange}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    variant="outlined"
-                                    required
-                                    fullWidth
-                                    id="lastName"
-                                    label="Last Name"
-                                    name="lastName"
-                                    autoComplete="lname"
-                                    value={this.state.values.lastName}
-                                    onChange={this.handleChange}
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    variant="outlined"
-                                    required
-                                    fullWidth
-                                    id="email"
-                                    label="Email Address"
-                                    name="email"
-                                    autoComplete="email"
-                                    value={this.state.values.email}
-                                    onChange={this.handleChange}
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    variant="outlined"
-                                    required
-                                    fullWidth
-                                    name="password"
-                                    label="Password"
-                                    type="password"
-                                    id="password"
-                                    autoComplete="current-password"
-                                    value={this.state.values.password}
-                                    onChange={this.handleChange}
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    variant="outlined"
-                                    required
-                                    fullWidth
-                                    name="repeatPassword"
-                                    label="Repeat password"
-                                    type="repeatPassword"
-                                    id="repeatPassword"
-                                    autoComplete="current-password"
-                                    value={this.state.values.repeatPassword}
-                                    onChange={this.handleChange}
-                                />
-                            </Grid>
-                        </Grid>
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            color="primary"
-                            className={this.props.classes.submit}
-                        >
-                            Sign Up
-                        </Button>
-                        <Grid container justify="flex-end">
-                            <Grid item>
-                                <Link href="#" variant="body2">
-                                    Already have an account? Sign in
-                                </Link>
-                            </Grid>
-                        </Grid>
-                    </form>
-                </div>
-            </Container>
-        )
+                <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+                    <div className={this.props.classes.paper}>
+                        <Typography component="h1" variant="h5">
+                            Sign up
+                        </Typography>
+                        <SignUpForm submit={this.onSubmit} />
+                    </div>
+                </Grid>
+                <Grid item xs={false} sm={4} md={7} className={this.props.classes.image} />
+            </Grid>
+        );
     }
 }
+const mapStateToProps = (state: RootState) => ({
+    signUp: state.userState.signUp,
+});
 
-export default withStyles(styles)(SignUpPage);
+const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>) => ({
+    showNotification: (message: string) => dispatch(showNotification(message)),
+    signUpMethod: (firstName: string, lastName: string, email: string, password: string) => dispatch(signUp(firstName, lastName, email, password)),
+});
+
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(SignUpPage))

@@ -4,7 +4,7 @@ import {Button, Dialog, Grid, Slide, TextField, withStyles, WithStyles} from "@m
 import styles from "./styles";
 import {AutocompleteValue} from "../AutocompleteInput/types";
 import AutocompleteInput from "../AutocompleteInput";
-import {User} from "../../store/users/types";
+import {User} from "../../types/users";
 
 interface SendMessageDialogProps extends WithStyles<typeof styles>{
     openDialog: boolean,

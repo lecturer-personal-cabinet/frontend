@@ -2,13 +2,14 @@ import React from 'react';
 import styles from "./styles";
 import {WithStyles, withStyles} from "@material-ui/core";
 import {Route, Switch, Redirect} from 'react-router-dom';
-import DashboardPage from '../../containers/DashboardPage';
-import PersonsPage from '../../containers/UsersContainer';
-import NotFound from "../../containers/NotFound";
+import DashboardPage from '../DashboardPage';
+import PersonsPage from '../UsersContainer';
+import NotFound from "../NotFound";
 import ApplicationHeader from '../../components/ApplicationHeader';
 import {sidebarItems} from "./menu";
 import {SidebarItem} from "../../components/ApplicationSidebar/types";
 import { RouteComponentProps } from 'react-router-dom';
+import {PrivateRoute} from "../../components/PrivateRoute";
 
 interface StudentApplicationProps extends WithStyles<typeof styles>, RouteComponentProps<any> {
 
@@ -73,8 +74,8 @@ class StudentApplication extends React.Component<StudentApplicationProps, Studen
                 sidebarItems={this.state.menuItems}
             >
                 <Switch>
-                    <Route path='/s/users' component={PersonsPage} />
-                    <Route path='/s/dashboard' component={DashboardPage} />
+                    <PrivateRoute path='/s/users' component={PersonsPage} />
+                    <PrivateRoute path='/s/dashboard' component={DashboardPage} />
                     <Redirect from="/s" to="/s/dashboard" />
                     <Route component={NotFound}/>
                 </Switch>
