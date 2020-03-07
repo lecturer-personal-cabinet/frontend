@@ -1,14 +1,13 @@
 import React from 'react';
 import styles from "./styles";
 import {WithStyles, withStyles} from "@material-ui/core";
-import {Route, Switch, Redirect} from 'react-router-dom';
+import {Redirect, Route, RouteComponentProps, Switch} from 'react-router-dom';
 import DashboardPage from '../DashboardPage';
 import PersonsPage from '../UsersContainer';
 import NotFound from "../NotFound";
 import ApplicationHeader from '../../components/ApplicationHeader';
 import {sidebarItems} from "./menu";
 import {SidebarItem} from "../../components/ApplicationSidebar/types";
-import { RouteComponentProps } from 'react-router-dom';
 import {PrivateRoute} from "../../components/PrivateRoute";
 
 interface StudentApplicationProps extends WithStyles<typeof styles>, RouteComponentProps<any> {

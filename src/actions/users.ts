@@ -1,6 +1,6 @@
 import {ThunkAction} from "redux-thunk";
-import axios, {AxiosResponse} from 'axios';
-import {IGetUsersAction, IUsersState, SignUpSuccessAction, UsersActionTypes} from "../types/users";
+import axios from 'axios';
+import {IGetUsersAction, IUsersState, UsersActionTypes} from "../types/users";
 import {ApiRequest} from "./api-tool";
 import {RootState} from "../store";
 import {Action} from "typesafe-actions";

@@ -10,7 +10,6 @@ import SignUpForm from "../../components/forms/SignUpForm";
 import {showNotification} from "../../actions/notifications";
 import {signUp} from "../../actions/users";
 import {ThunkDispatch} from "redux-thunk";
-import {Link, Redirect} from "react-router-dom";
 
 interface SignUpProps extends WithStyles<typeof styles> {
     signUp: {

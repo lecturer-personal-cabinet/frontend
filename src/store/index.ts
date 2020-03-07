@@ -1,6 +1,6 @@
-import { createStore, combineReducers, applyMiddleware, Store } from "redux";
+import {applyMiddleware, combineReducers, createStore, Store} from "redux";
 import thunkMiddleware from "redux-thunk";
-import { composeWithDevTools } from "redux-devtools-extension";
+import {composeWithDevTools} from "redux-devtools-extension";
 import {IUsersState} from "../types/users";
 import {INotificationState} from "../types/notifications";
 import {usersReducer} from "../reducers/users";
