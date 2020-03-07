@@ -13,7 +13,7 @@ import {
     WithStyles,
     withStyles
 } from "@material-ui/core";
-import {User} from "../../store/users/types";
+import {User} from "../../types/users";
 
 interface UsersListProps extends WithStyles<typeof styles> {
     users: User[],
@@ -35,9 +35,7 @@ function UsersList(props: UsersListProps) {
               <Avatar alt={user.firstName + ' ' + user.lastName} src={user.avatarSrc}/>
           </TableCell>
           <TableCell align="left">
-              {user.firstName + ' '
-              + user.lastName + ' '
-              + (!user.patronymic ? '' : user.patronymic)}
+              {user.firstName + ' ' + user.lastName}
           </TableCell>
           {actionCell(user)}
       </TableRow>

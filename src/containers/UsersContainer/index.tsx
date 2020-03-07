@@ -6,7 +6,7 @@ import ListActionBar from "../../components/ListActionBar";
 import SendMessageDialog from "../../components/SendMessageDialog";
 import {connect} from 'react-redux';
 import {RootState} from "../../store";
-import {User} from "../../store/users/types";
+import {User} from "../../types/users";
 
 interface UsersContainerProps extends WithStyles<typeof styles> {
     users: User[],
