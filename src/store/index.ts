@@ -5,15 +5,19 @@ import {IUsersState} from "../types/users";
 import {INotificationState} from "../types/notifications";
 import {usersReducer} from "../reducers/users";
 import {notificationsReducer} from "../reducers/notifications";
+import {UiState} from "../types/ui";
+import {uiReducer} from "../reducers/ui";
 
 export interface RootState {
     userState: IUsersState,
     notificationsState: INotificationState,
+    uiState: UiState,
 }
 
 const rootReducer = combineReducers<RootState>({
     userState: usersReducer,
     notificationsState: notificationsReducer,
+    uiState: uiReducer,
 });
 
 export default function configureStore(): Store<RootState, any> {

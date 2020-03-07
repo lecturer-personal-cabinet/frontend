@@ -1,38 +1,26 @@
 import {ThunkAction} from "redux-thunk";
-import axios from 'axios';
-import {IGetUsersAction, IUsersState, UsersActionTypes} from "../types/users";
+import {User, UsersActionTypes} from "../types/users";
 import {ApiRequest} from "./api-tool";
 import {RootState} from "../store";
 import {Action} from "typesafe-actions";
-import {GoogleLoginResponse, GoogleLoginResponseOffline} from "react-google-login";
+import {changeLoaderState} from "./ui";
 
-export const getAllUsers = (): ThunkAction<Promise<any>, IUsersState, null, IGetUsersAction> => async dispatch => {
-    try {
-        const response = await axios.get("https://api.myjson.com/bins/h8ej6");
-        dispatch<IGetUsersAction>({
-            type: UsersActionTypes.GET_ALL,
-            payload: response.data,
-        });
-    } catch (error) {}
-};
-
-export const signUp = (firstName: string, lastName: string, email: string, password: string)
-    : ThunkAction<void, RootState, null, Action<string>> => async dispatch => {
-    await ApiRequest.postWithoutAuth({
-        endpoint: '/signup',
-        data: {
-            identifier: email,
-            password: password,
-            email: email,
-            firstName: firstName,
-            lastName: lastName
+export const getAllUsers = (): ThunkAction<void, RootState, null, Action<string>> => async dispatch => {
+    await ApiRequest.getWithAuth({
+        endpoint: '/users',
+        data: {},
+        success: (response) => {
+            dispatch(setUsers(response.data));
+            dispatch(changeLoaderState(false));
         },
-        success: (response) => {},
-        failure: () => {},
+        failure: () => {
+        }
     });
 };
 
-export const googleSuccessResponse = (response: GoogleLoginResponse | GoogleLoginResponseOffline)
-    : ThunkAction<void, RootState, null, Action<string>> => async dispatch => {
-    console.log(response);
-};
+export function setUsers(users: User[]) {
+    return {
+        type: UsersActionTypes.GET_ALL,
+        payload: users,
+    }
+}

@@ -10,7 +10,6 @@ import SignInForm from "../../components/forms/SignInForm";
 import {showNotification} from "../../actions/notifications";
 import {ThunkDispatch} from "redux-thunk";
 import GoogleLogin, {GoogleLoginResponse, GoogleLoginResponseOffline} from "react-google-login";
-import {googleSuccessResponse} from "../../actions/users";
 import config from '../../config.json';
 
 interface SignInMapStateToProps extends WithStyles<typeof styles> {}
@@ -54,8 +53,7 @@ const mapStateToProps = (state: RootState) => ({});
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>) => ({
     showNotification: (message: string) => dispatch(showNotification(message)),
-    onGoogleSuccess : (response: GoogleLoginResponse | GoogleLoginResponseOffline) =>
-        dispatch(googleSuccessResponse(response)),
+    onGoogleSuccess : (response: GoogleLoginResponse | GoogleLoginResponseOffline) => {},
 });
 
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(SignInPage))

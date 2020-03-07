@@ -92,6 +92,9 @@ const styles = (theme: Theme) => createStyles({
         alignItems: 'right',
         justifyContent: 'flex-end',
         fontSize: theme.spacing(2.3),
+    },
+    container: {
+        height: '100%',
     }
 });
 
