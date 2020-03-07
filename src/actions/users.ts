@@ -4,6 +4,7 @@ import {IGetUsersAction, IUsersState, SignUpSuccessAction, UsersActionTypes} fro
 import {ApiRequest} from "./api-tool";
 import {RootState} from "../store";
 import {Action} from "typesafe-actions";
+import {GoogleLoginResponse, GoogleLoginResponseOffline} from "react-google-login";
 
 export const getAllUsers = (): ThunkAction<Promise<any>, IUsersState, null, IGetUsersAction> => async dispatch => {
     try {
@@ -12,8 +13,7 @@ export const getAllUsers = (): ThunkAction<Promise<any>, IUsersState, null, IGet
             type: UsersActionTypes.GET_ALL,
             payload: response.data,
         });
-    } catch (error) {
-    }
+    } catch (error) {}
 };
 
 export const signUp = (firstName: string, lastName: string, email: string, password: string)
@@ -27,20 +27,12 @@ export const signUp = (firstName: string, lastName: string, email: string, passw
             firstName: firstName,
             lastName: lastName
         },
-        success: (response) => {
-            dispatch({
-                type: UsersActionTypes.SIGN_UP_SUCCESS,
-                payload: response.data
-            };
-            dispatch(push('/'))
-        },
-        failure: () => {
-            dispatch({
-                type: UsersActionTypes.SIGN_UP_FAILURE,
-                payload: {
-                    errorMessage: 'Oooops',
-                }
-            })
-        },
+        success: (response) => {},
+        failure: () => {},
     });
+};
+
+export const googleSuccessResponse = (response: GoogleLoginResponse | GoogleLoginResponseOffline)
+    : ThunkAction<void, RootState, null, Action<string>> => async dispatch => {
+    console.log(response);
 };

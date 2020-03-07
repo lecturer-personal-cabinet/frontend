@@ -13,10 +13,16 @@ const styles = (theme: Theme) => createStyles({
         backgroundPosition: 'center',
     },
     paper: {
-        margin: theme.spacing(8, 4),
+        margin: theme.spacing(4, 4),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+    },
+    socialNetworks: {
+        margin: theme.spacing(4, 4),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'start',
     },
     avatar: {
         margin: theme.spacing(1),
