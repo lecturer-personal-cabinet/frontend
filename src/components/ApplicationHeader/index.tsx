@@ -17,12 +17,18 @@ import ApplicationSidebar from "../ApplicationSidebar";
 import styles from "./styles";
 import {ChevronLeft, ChevronRight} from "@material-ui/icons";
 import {SidebarItem} from "../ApplicationSidebar/types";
+import {RootState} from "../../store";
+import {connect} from "react-redux";
 
-export interface ApplicationHeaderProps extends WithStyles<typeof styles> {
+interface MapStateToProps {}
+
+interface ApplicationHeaderProps extends WithStyles<typeof styles> {
     title: string,
     sidebarItems: SidebarItem[][],
     userName?: string,
 }
+
+type Props = MapStateToProps & ApplicationHeaderProps;
 
 interface ApplicationHeaderState {
     sidebar: {
@@ -34,8 +40,8 @@ interface ApplicationHeaderState {
     }
 }
 
-class ApplicationHeader extends React.Component<ApplicationHeaderProps, ApplicationHeaderState> {
-    constructor(props: ApplicationHeaderProps) {
+class ApplicationHeader extends React.Component<Props, ApplicationHeaderState> {
+    constructor(props: Props) {
         super(props);
         this.state = {
             sidebar: {
@@ -116,13 +122,14 @@ class ApplicationHeader extends React.Component<ApplicationHeaderProps, Applicat
                     openState={this.state.sidebar.state}
                     sidebarItems={this.props.sidebarItems}
                 />
+
                 <main
                     className={clsx({
                         [this.props.classes.contentShift]: this.state.sidebar.state,
-                        [this.props.classes.contentWidth]: !this.state.sidebar.state
+                        [this.props.classes.contentWidth]: !this.state.sidebar.state,
                     })}
                 >
-                    <div className={this.props.classes.drawerHeader}/>
+                    (<div className={this.props.classes.drawerHeader}/>
                     {this.props.children}
                 </main>
             </div>
@@ -130,4 +137,6 @@ class ApplicationHeader extends React.Component<ApplicationHeaderProps, Applicat
     }
 }
 
-export default withStyles(styles)(ApplicationHeader)
+const mapStateToProps = (state: RootState) => ({});
+
+export default withStyles(styles)(connect(mapStateToProps)(ApplicationHeader))

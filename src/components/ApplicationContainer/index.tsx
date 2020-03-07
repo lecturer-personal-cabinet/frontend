@@ -8,7 +8,7 @@ class ApplicationContainer extends React.Component<ApplicationContainerProps, {}
     render() {
         return (
             <div>
-                <main>
+                <main style={{height: '100%'}}>
                     <ToastContainer
                         position={"bottom-left"}
                         autoClose={5000}

@@ -8,7 +8,6 @@ import {RootState} from "../../store";
 import {connect} from "react-redux";
 import SignUpForm from "../../components/forms/SignUpForm";
 import {showNotification} from "../../actions/notifications";
-import {signUp} from "../../actions/users";
 import {ThunkDispatch} from "redux-thunk";
 
 interface SignUpProps extends WithStyles<typeof styles> {
@@ -65,7 +64,7 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>) => ({
     showNotification: (message: string) => dispatch(showNotification(message)),
-    signUpMethod: (firstName: string, lastName: string, email: string, password: string) => dispatch(signUp(firstName, lastName, email, password)),
+    signUpMethod: (firstName: string, lastName: string, email: string, password: string) => {},
 });
 
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(SignUpPage))

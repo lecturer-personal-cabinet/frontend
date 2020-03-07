@@ -9,11 +9,9 @@ import configureStore from "./store";
 import SignInPage from './containers/SignInPage';
 import SignUpPage from './containers/SignUpPage';
 import ApplicationContainer from "./components/ApplicationContainer";
-import {getAllUsers} from "./actions/users";
 import {PrivateRoute} from "./components/PrivateRoute";
 
 const store = configureStore();
-store.dispatch(getAllUsers());
 
 ReactDOM.render((
         <Provider store={store}>
