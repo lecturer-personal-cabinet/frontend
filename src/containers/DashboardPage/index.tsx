@@ -1,6 +1,7 @@
 import React from 'react';
 import {Avatar, Grid, Paper, withStyles, WithStyles} from "@material-ui/core";
 import styles from "./styles";
+import InformationPaper from "../../components/InformationPaper";
 
 interface DashboardPageProps extends WithStyles<typeof styles> {
 
@@ -46,6 +47,9 @@ class DashboardPage extends React.Component<DashboardPageProps, DashboardPageSta
                             'Факультет информационных технологий',
                             '16-ИТ-1',
                             '08.02.1999')}
+                    </Grid>
+                    <Grid item md={12}>
+                        <InformationPaper content={'Seamless Pay is a payment system integrated into the SeamlessDocs platform. Seamless payment allows customers to set up payment for forms, add various payment gateways, perform transactions (partial, purchase, authorization, etc.), track and manage payment configuration and transactions, generate reports, in-app and email notifications.'} />
                     </Grid>
                 </Grid>
             </div>

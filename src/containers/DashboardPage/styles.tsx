@@ -25,7 +25,7 @@ const styles = (theme: Theme) => createStyles({
     secondaryInformation: {
         fontSize: theme.spacing(2.5),
         fontFamily: 'Ubuntu',
-    }
+    },
 });
 
 export default styles;
