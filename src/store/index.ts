@@ -9,12 +9,15 @@ import {UiState} from "../types/ui";
 import {uiReducer} from "../reducers/ui";
 import {PortfolioState} from "../types/portfolio";
 import {portfolioReducer} from "../reducers/portfolio";
+import {UserTimelineState} from "../types/user_timeline";
+import {userTimelineReducer} from "../reducers/user_timeline";
 
 export interface RootState {
     userState: IUsersState,
     notificationsState: INotificationState,
     uiState: UiState,
     portfolioState: PortfolioState,
+    userTimelineState: UserTimelineState,
 }
 
 const rootReducer = combineReducers<RootState>({
@@ -22,6 +25,7 @@ const rootReducer = combineReducers<RootState>({
     notificationsState: notificationsReducer,
     uiState: uiReducer,
     portfolioState: portfolioReducer,
+    userTimelineState: userTimelineReducer,
 });
 
 export default function configureStore(): Store<RootState, any> {
