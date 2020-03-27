@@ -37,6 +37,13 @@ class PortfolioContainer extends React.Component<Props, State> {
                         'https://s3-eu-west-1.amazonaws.com/oceanographic/wp-content/uploads/2019/11/26104000/ocean-communities.jpg',
                         'https://www.aljazeera.com/mritems/imagecache/mbdxxlarge/mritems/Images/2019/6/12/5f77ac61d2ab4d6a86e1aa0b110179c8_18.jpg',
                     ],
+                    creator: {
+                        id: 'string',
+                        firstName: 'Vladimir',
+                        lastName: 'Baklan',
+                        email: 'string',
+                    },
+                    created: '08/02/2010 12:22'
                 },
                 {
                     id: '1',
@@ -52,6 +59,13 @@ class PortfolioContainer extends React.Component<Props, State> {
                         'https://s3-eu-west-1.amazonaws.com/oceanographic/wp-content/uploads/2019/11/26104000/ocean-communities.jpg',
                         'https://www.aljazeera.com/mritems/imagecache/mbdxxlarge/mritems/Images/2019/6/12/5f77ac61d2ab4d6a86e1aa0b110179c8_18.jpg',
                     ],
+                    creator: {
+                        id: 'string',
+                        firstName: 'Vladimir',
+                        lastName: 'Baklan',
+                        email: 'string',
+                    },
+                    created: '08/02/2010 12:22'
                 },
                 {
                     id: '1',
@@ -67,6 +81,13 @@ class PortfolioContainer extends React.Component<Props, State> {
                         'https://s3-eu-west-1.amazonaws.com/oceanographic/wp-content/uploads/2019/11/26104000/ocean-communities.jpg',
                         'https://www.aljazeera.com/mritems/imagecache/mbdxxlarge/mritems/Images/2019/6/12/5f77ac61d2ab4d6a86e1aa0b110179c8_18.jpg',
                     ],
+                    creator: {
+                        id: 'string',
+                        firstName: 'Vladimir',
+                        lastName: 'Baklan',
+                        email: 'string',
+                    },
+                    created: '08/02/2010 12:22'
                 },
             ]
         };

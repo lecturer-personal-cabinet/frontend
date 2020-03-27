@@ -1,3 +1,5 @@
+import {User} from "./users";
+
 export interface PortfolioState {
 
 }
@@ -7,6 +9,8 @@ export type PortfolioItem = {
     title: string,
     description: string,
     portfolioPhotos: string[],
+    created: string,
+    creator: User
 };
 
 export enum PortfolioActionTypes {

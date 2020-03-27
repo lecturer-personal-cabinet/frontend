@@ -1,5 +1,5 @@
 import React from 'react';
-import {Avatar, Grid, Paper, withStyles, WithStyles} from "@material-ui/core";
+import {Avatar, Grid, Hidden, Paper, withStyles, WithStyles} from "@material-ui/core";
 import styles from "./styles";
 import InformationPaper from "../../components/InformationPaper";
 import Timeline from '../../components/Timeline';
@@ -162,10 +162,12 @@ class DashboardPage extends React.Component<DashboardPageProps, DashboardPageSta
         return (
             <div className={this.props.classes.root}>
                 <Grid container spacing={3}>
-                    <Grid item md={2}>
-                        {this.avatarBlock('Vladimir Baklan', 'https://www.un.org/development/desa/youth/wp-content/plugins/all-in-one-seo-pack/images/default-user-image.png')}
-                    </Grid>
-                    <Grid item md={10}>
+                    <Hidden xsDown>
+                        <Grid item md={2} sm={12}>
+                            {this.avatarBlock('Vladimir Baklan', 'https://www.un.org/development/desa/youth/wp-content/plugins/all-in-one-seo-pack/images/default-user-image.png')}
+                        </Grid>
+                    </Hidden>
+                    <Grid item md={10} xs={12} sm={12}>
                         {this.informationBlock('Vladimir',
                             'Baklan',
                             'Факультет информационных технологий',
