@@ -175,7 +175,10 @@ class DashboardPage extends React.Component<DashboardPageProps, DashboardPageSta
                             '08.02.1999')}
                     </Grid>
                     <Grid item md={12}>
-                        <InformationPaper content={'Seamless Pay is a payment system integrated into the SeamlessDocs platform. Seamless payment allows customers to set up payment for forms, add various payment gateways, perform transactions (partial, purchase, authorization, etc.), track and manage payment configuration and transactions, generate reports, in-app and email notifications.'} />
+                        <InformationPaper
+                            title={'О себе'}
+                            content={'Seamless Pay is a payment system integrated into the SeamlessDocs platform. Seamless payment allows customers to set up payment for forms, add various payment gateways, perform transactions (partial, purchase, authorization, etc.), track and manage payment configuration and transactions, generate reports, in-app and email notifications.'}
+                        />
                     </Grid>
                     <Grid item md={12}>
                         <TimelinePostForm

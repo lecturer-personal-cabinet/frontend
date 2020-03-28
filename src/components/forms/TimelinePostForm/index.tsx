@@ -2,7 +2,6 @@ import {
     Dialog,
     DialogActions,
     DialogContent,
-    DialogContentText,
     DialogTitle,
     withStyles,
     WithStyles
@@ -20,27 +19,34 @@ interface Props extends WithStyles<typeof styles> {
 function TimelinePostForm (props: Props) {
     return (
         <Dialog open={props.open} onClose={props.handleClose} aria-labelledby="form-dialog-title">
-            <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+            <DialogTitle id="form-dialog-title">Добавить новую запись</DialogTitle>
             <DialogContent>
-                <DialogContentText>
-                    To subscribe to this website, please enter your email address here. We will send updates
-                    occasionally.
-                </DialogContentText>
                 <TextField
                     autoFocus
                     margin="dense"
-                    id="name"
-                    label="Email Address"
-                    type="email"
+                    id="title"
+                    label="Заголовок"
+                    type="title"
                     fullWidth
+                    variant="outlined"
+                />
+                <TextField
+                    style={{marginTop: '10px'}}
+                    id="content"
+                    label="Содержание"
+                    type="content"
+                    multiline
+                    rows="10"
+                    fullWidth
+                    variant="outlined"
                 />
             </DialogContent>
             <DialogActions>
                 <Button onClick={props.handleClose} color="primary">
-                    Cancel
+                    Отменить
                 </Button>
                 <Button onClick={props.handleClose} color="primary">
-                    Subscribe
+                    Добавить
                 </Button>
             </DialogActions>
         </Dialog>
