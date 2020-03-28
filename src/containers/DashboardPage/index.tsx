@@ -5,38 +5,48 @@ import InformationPaper from "../../components/InformationPaper";
 import Timeline from '../../components/Timeline';
 import {UserTimelineItem} from "../../types/user_timeline";
 import TimelinePostForm from "../../components/forms/TimelinePostForm";
+import {RootState} from "../../store";
+import {ThunkDispatch} from "redux-thunk";
+import {connect} from "react-redux";
+import {getAllPosts, setTimelineLoading} from "../../actions/user_timeline";
+import PageLoader from "../../components/PageLoader";
 
-interface DashboardPageProps extends WithStyles<typeof styles> {
-
+interface StateToProps extends WithStyles<typeof styles> {
+    timeline: {
+        items: UserTimelineItem[]
+    },
+    loading: {
+        timelineLoading: boolean,
+    }
 }
 
-interface DashboardPageState {
+interface DispatchToProps {
+    getAllPosts: (userId: string) => void,
+    setTimelineLoading: (loading: boolean) => void,
+}
+
+type Props = StateToProps & DispatchToProps
+
+interface State {
     timeline: {
         insertPopupState: boolean,
-        items: UserTimelineItem[],
     },
 }
 
-class DashboardPage extends React.Component<DashboardPageProps, DashboardPageState> {
-    constructor(props: DashboardPageProps) {
+class DashboardPage extends React.Component<Props, State> {
+    constructor(props: Props) {
         super(props);
         this.state = {
             timeline: {
                 insertPopupState: false,
-                items: [
-                    {
-                        id: '1',
-                        title: 'Post title 1',
-                        content: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',
-                        createdTs: '08/02/2018 12:56',
-                        senderFirstName: 'Vladimir',
-                        senderLastName: 'Baklan'
-                    },
-                ]
             },
         };
     }
 
+    componentWillMount(): void {
+        this.props.setTimelineLoading(true);
+        this.props.getAllPosts('USR1');
+    }
 
     private avatarBlock = (alt: string, src: string) => (
         <Paper className={this.props.classes.item}>
@@ -71,6 +81,7 @@ class DashboardPage extends React.Component<DashboardPageProps, DashboardPageSta
     };
 
     render() {
+        if(this.props.loading.timelineLoading) return <PageLoader />;
         return (
             <div className={this.props.classes.root}>
                 <Grid container spacing={3}>
@@ -98,7 +109,7 @@ class DashboardPage extends React.Component<DashboardPageProps, DashboardPageSta
                             handleClose={this.switchStateTimelinePostInsertPopup}
                         />
                         <Timeline
-                            items={this.state.timeline.items}
+                            items={this.props.timeline.items}
                             onPostAddClick={this.switchStateTimelinePostInsertPopup}
                         />
                     </Grid>
@@ -108,4 +119,18 @@ class DashboardPage extends React.Component<DashboardPageProps, DashboardPageSta
     }
 }
 
-export default withStyles(styles)(DashboardPage)
+const mapStateToProps = (state: RootState) => ({
+    timeline: {
+        items: state.userTimelineState.ownPosts
+    },
+    loading: {
+        timelineLoading: state.userTimelineState.ownTimelineLoading,
+    }
+});
+
+const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>) => ({
+    getAllPosts: (userId: string) => dispatch(getAllPosts(userId)),
+    setTimelineLoading: (loading: boolean) => dispatch(setTimelineLoading(loading)),
+});
+
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(DashboardPage))

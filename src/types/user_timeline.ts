@@ -1,7 +1,6 @@
-import {User} from "./users";
-
 export interface UserTimelineState {
-
+    ownPosts: UserTimelineItem[],
+    ownTimelineLoading: boolean
 }
 
 export type UserTimelineItem = {
@@ -14,11 +13,18 @@ export type UserTimelineItem = {
 };
 
 export enum UserTimelineTypes {
-    DUMMY = 'DUMMY',
+    GET_ALL = 'GET_ALL',
+    TIMELINE_LOADING = 'TIMELINE_LOADING',
 }
 
-export interface DummyAction {
-    type: UserTimelineTypes.DUMMY
+export interface GetAllAction {
+    type: UserTimelineTypes.GET_ALL,
+    payload: UserTimelineItem[],
 }
 
-export type UserTimelineActions = DummyAction;
+export interface TimelineLoading {
+    type: UserTimelineTypes.TIMELINE_LOADING,
+    loading: boolean
+}
+
+export type UserTimelineActions = GetAllAction | TimelineLoading;
