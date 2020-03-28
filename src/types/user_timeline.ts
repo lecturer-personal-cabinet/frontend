@@ -8,8 +8,9 @@ export type UserTimelineItem = {
     id: string,
     title: string,
     content: string,
-    timestamp: string,
-    sender: User,
+    createdTs: string,
+    senderFirstName: string,
+    senderLastName: string,
 };
 
 export enum UserTimelineTypes {

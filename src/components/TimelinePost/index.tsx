@@ -28,15 +28,15 @@ function TimelinePost(props: Props) {
                 handleClose={() => setOpenPreview(false)}
                 title={props.item.title}
                 content={props.item.content}
-                signerFullName={`${props.item.sender.firstName} ${props.item.sender.lastName}`}
-                signerTimestamp={props.item.timestamp}
+                signerFullName={`${props.item.senderFirstName} ${props.item.senderLastName}`}
+                signerTimestamp={props.item.createdTs}
             />
             <Paper className={props.classes.root} onClick={() => setOpenPreview(true)}>
                 {title(props.item.title)}
                 {content(props.item.content)}
                 <PostSignature
-                    fullName={`${props.item.sender.firstName} ${props.item.sender.lastName}`}
-                    timestamp={props.item.timestamp}
+                    fullName={`${props.item.senderFirstName} ${props.item.senderLastName}`}
+                    timestamp={props.item.createdTs}
                 />
             </Paper>
         </div>
