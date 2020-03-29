@@ -14,9 +14,6 @@ export interface IUsersState {
             errorMessage: string,
         }
     },
-    loading: {
-        profileLoading: boolean,
-    }
     profile?: User
 }
 
@@ -25,7 +22,6 @@ export enum UsersActionTypes {
     SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS',
     SIGN_UP_FAILURE = 'SIGN_UP_FAILURE',
     SET_PROFILE = 'SET_PROFILE',
-    SET_PROFILE_LOADING = 'SET_PROFILE_LOADING',
 }
 
 export interface IGetUsersAction {
@@ -53,9 +49,4 @@ export interface SignUpFailureAction {
     }
 }
 
-export interface ProfileLoadingAction {
-    type: UsersActionTypes.SET_PROFILE_LOADING,
-    loading: boolean
-}
-
-export type UserActions = IGetUsersAction | SignUpSuccessAction | SignUpFailureAction | SetProfileAction | ProfileLoadingAction;
+export type UserActions = IGetUsersAction | SignUpSuccessAction | SignUpFailureAction | SetProfileAction;

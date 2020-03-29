@@ -8,10 +8,11 @@ import TimelinePostForm from "../../components/forms/TimelinePostForm";
 import {RootState} from "../../store";
 import {ThunkDispatch} from "redux-thunk";
 import {connect} from "react-redux";
-import {getAllPosts, setTimelineLoading} from "../../actions/user_timeline";
 import PageLoader from "../../components/PageLoader";
-import {getProfile, setProfileLoading} from "../../actions/users";
 import {User} from "../../types/users";
+import {setProfileLoading, setTimelineLoading} from "../../actions/loadings";
+import {getProfile} from "../../actions/users";
+import {getAllPosts} from "../../actions/user_timeline";
 
 interface StateToProps extends WithStyles<typeof styles> {
     timeline: {
@@ -134,8 +135,8 @@ const mapStateToProps = (state: RootState) => ({
         items: state.userTimelineState.ownPosts
     },
     loading: {
-        timelineLoading: state.userTimelineState.ownTimelineLoading,
-        profileLoading: state.userState.loading.profileLoading,
+        timelineLoading: state.loadingState.timeline,
+        profileLoading: state.loadingState.profile,
     },
     profile: state.userState.profile!,
 });

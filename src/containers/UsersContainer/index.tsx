@@ -9,8 +9,8 @@ import {RootState} from "../../store";
 import {User} from "../../types/users";
 import {ThunkDispatch} from "redux-thunk";
 import {getAllUsers} from "../../actions/users";
-import {changeLoaderState} from "../../actions/ui";
 import PageLoader from "../../components/PageLoader";
+import {setUsersListLoading} from "../../actions/loadings";
 
 interface StateToProps extends WithStyles<typeof styles> {
     users: User[],
@@ -19,7 +19,7 @@ interface StateToProps extends WithStyles<typeof styles> {
 
 interface DispatchToProps {
     getAllUsers: () => void,
-    changeLoaderState: (isEnabled: boolean) => void,
+    setUsersListLoading: (loading: boolean) => void,
 }
 
 type Props = StateToProps & DispatchToProps
@@ -31,7 +31,7 @@ interface State {
 
 class UsersContainer extends React.Component<Props, State> {
     UNSAFE_componentWillMount() {
-        this.props.changeLoaderState(true);
+        this.props.setUsersListLoading(true);
         this.props.getAllUsers();
     }
 
@@ -78,12 +78,12 @@ class UsersContainer extends React.Component<Props, State> {
 
 const mapStateToProps = (state: RootState) => ({
     users: state.userState.users,
-    isLoaderEnabled: state.uiState.isLoaderEnabled,
+    isLoaderEnabled: state.loadingState.usersList,
 });
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>) => ({
     getAllUsers: () => dispatch(getAllUsers()),
-    changeLoaderState: (isEnabled: boolean) => dispatch(changeLoaderState(isEnabled)),
+    setUsersListLoading: (loading: boolean) => dispatch(setUsersListLoading(loading)),
 });
 
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(UsersContainer))

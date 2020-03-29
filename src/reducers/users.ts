@@ -7,9 +7,6 @@ const initialState: IUsersState = {
             isFailure: false,
             errorMessage: '',
         }
-    },
-    loading: {
-        profileLoading: true,
     }
 };
 
@@ -27,14 +24,6 @@ export function usersReducer(
             return {
                 ...state,
                 profile: action.payload,
-            };
-        case UsersActionTypes.SET_PROFILE_LOADING:
-            return {
-              ...state,
-              loading: {
-                  ...state.loading,
-                  profileLoading: action.loading,
-              }
             };
         case UsersActionTypes.SIGN_UP_SUCCESS:
             return {

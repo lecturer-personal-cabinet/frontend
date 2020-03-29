@@ -2,7 +2,6 @@ import {UserTimelineActions, UserTimelineState, UserTimelineTypes} from "../type
 
 const initialState: UserTimelineState = {
     ownPosts: [],
-    ownTimelineLoading: true,
 };
 
 export function userTimelineReducer(
@@ -14,11 +13,6 @@ export function userTimelineReducer(
             return {
                 ...state,
                 ownPosts: action.payload,
-            };
-        case UserTimelineTypes.TIMELINE_LOADING:
-            return {
-                ...state,
-                ownTimelineLoading: action.loading,
             };
         default:
             return state;

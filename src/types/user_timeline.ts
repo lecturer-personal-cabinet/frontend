@@ -1,6 +1,5 @@
 export interface UserTimelineState {
     ownPosts: UserTimelineItem[],
-    ownTimelineLoading: boolean
 }
 
 export type UserTimelineItem = {
@@ -22,9 +21,4 @@ export interface GetAllAction {
     payload: UserTimelineItem[],
 }
 
-export interface TimelineLoading {
-    type: UserTimelineTypes.TIMELINE_LOADING,
-    loading: boolean
-}
-
-export type UserTimelineActions = GetAllAction | TimelineLoading;
+export type UserTimelineActions = GetAllAction;

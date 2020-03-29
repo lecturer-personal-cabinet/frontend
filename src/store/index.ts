@@ -5,27 +5,27 @@ import {IUsersState} from "../types/users";
 import {INotificationState} from "../types/notifications";
 import {usersReducer} from "../reducers/users";
 import {notificationsReducer} from "../reducers/notifications";
-import {UiState} from "../types/ui";
-import {uiReducer} from "../reducers/ui";
 import {PortfolioState} from "../types/portfolio";
 import {portfolioReducer} from "../reducers/portfolio";
 import {UserTimelineState} from "../types/user_timeline";
 import {userTimelineReducer} from "../reducers/user_timeline";
+import {LoadingState} from "../types/loadings";
+import {loadingReducer} from "../reducers/loadings";
 
 export interface RootState {
     userState: IUsersState,
     notificationsState: INotificationState,
-    uiState: UiState,
     portfolioState: PortfolioState,
     userTimelineState: UserTimelineState,
+    loadingState: LoadingState,
 }
 
 const rootReducer = combineReducers<RootState>({
     userState: usersReducer,
     notificationsState: notificationsReducer,
-    uiState: uiReducer,
     portfolioState: portfolioReducer,
     userTimelineState: userTimelineReducer,
+    loadingState: loadingReducer,
 });
 
 export default function configureStore(): Store<RootState, any> {

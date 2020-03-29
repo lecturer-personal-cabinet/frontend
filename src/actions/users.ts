@@ -3,9 +3,9 @@ import {User, UsersActionTypes} from "../types/users";
 import {ApiRequest} from "./api-tool";
 import {RootState} from "../store";
 import {Action} from "typesafe-actions";
-import {changeLoaderState} from "./ui";
 import {showError} from "./notifications";
 import {redirectToProfile} from "./redirects";
+import {setProfileLoading, setUsersListLoading} from "./loadings";
 
 export const getAllUsers = (): ThunkAction<void, RootState, null, Action<string>> => async dispatch => {
     await ApiRequest.getWithAuth({
@@ -13,7 +13,7 @@ export const getAllUsers = (): ThunkAction<void, RootState, null, Action<string>
         data: {},
         success: (response) => {
             dispatch(setUsers(response.data));
-            dispatch(changeLoaderState(false));
+            dispatch(setUsersListLoading(false));
         },
         failure: () => {
             dispatch(showError('Что-то пошло не по плану ...'))
@@ -46,12 +46,5 @@ export function setProfile(profile: User) {
     return {
         type: UsersActionTypes.SET_PROFILE,
         payload: profile,
-    }
-}
-
-export function setProfileLoading(loading: boolean) {
-    return {
-        type: UsersActionTypes.SET_PROFILE_LOADING,
-        loading,
     }
 }
