@@ -3,7 +3,6 @@ import axios, {AxiosRequestConfig, AxiosResponse, Method} from 'axios';
 const API_HOST = process.env.REACT_APP_API_HOST;
 
 const apiClient = axios.create({
-    // baseURL: API_HOST,
     responseType: 'json',
     headers: {
         'Content-Type': 'application/json',
@@ -18,7 +17,6 @@ export type ApiRequestOptions = {
 };
 
 const createRequest = (method: Method, requestOptions: ApiRequestOptions, options: AxiosRequestConfig = {}) => {
-    console.log('ApiHost: ' + API_HOST);
     return apiClient({
         ...options,
         baseURL: API_HOST,
@@ -28,6 +26,7 @@ const createRequest = (method: Method, requestOptions: ApiRequestOptions, option
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
         }
     }).then(requestOptions.success)
         .catch(requestOptions.failure);
@@ -56,8 +55,6 @@ export const ApiRequest = class {
     }
 
     static postWithAuth(requestOptions: ApiRequestOptions) {
-        console.log('POST');
-
         const updatedOptions = {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`,

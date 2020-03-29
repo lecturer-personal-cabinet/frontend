@@ -30,7 +30,7 @@ interface State {
 }
 
 class UsersContainer extends React.Component<Props, State> {
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         this.props.changeLoaderState(true);
         this.props.getAllUsers();
     }

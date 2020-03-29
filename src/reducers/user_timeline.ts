@@ -2,7 +2,7 @@ import {UserTimelineActions, UserTimelineState, UserTimelineTypes} from "../type
 
 const initialState: UserTimelineState = {
     ownPosts: [],
-    ownTimelineLoading: false,
+    ownTimelineLoading: true,
 };
 
 export function userTimelineReducer(

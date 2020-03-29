@@ -1,7 +1,7 @@
 import {UiActions, UiActionTypes, UiState} from "../types/ui";
 
 const initialState: UiState = {
-    isLoaderEnabled: false,
+    isLoaderEnabled: true,
 };
 
 export function uiReducer(

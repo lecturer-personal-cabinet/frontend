@@ -10,3 +10,10 @@ export const showNotification = (message: string, id: string = nanoid())
         toastId: id,
     });
 };
+
+export const showError = (message: string, id: string = nanoid())
+    : ThunkAction<void, RootState, null, Action<string>> => async dispatch => {
+    toast.error(message, {
+        toastId: id,
+    });
+};

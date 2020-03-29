@@ -10,6 +10,8 @@ import {ThunkDispatch} from "redux-thunk";
 import {connect} from "react-redux";
 import {getAllPosts, setTimelineLoading} from "../../actions/user_timeline";
 import PageLoader from "../../components/PageLoader";
+import {getProfile, setProfileLoading} from "../../actions/users";
+import {User} from "../../types/users";
 
 interface StateToProps extends WithStyles<typeof styles> {
     timeline: {
@@ -17,12 +19,16 @@ interface StateToProps extends WithStyles<typeof styles> {
     },
     loading: {
         timelineLoading: boolean,
-    }
+        profileLoading: boolean,
+    },
+    profile: User,
 }
 
 interface DispatchToProps {
     getAllPosts: (userId: string) => void,
     setTimelineLoading: (loading: boolean) => void,
+    setProfileLoading: (loading: boolean) => void,
+    getProfile: (userId: string) => void,
 }
 
 type Props = StateToProps & DispatchToProps
@@ -43,9 +49,11 @@ class DashboardPage extends React.Component<Props, State> {
         };
     }
 
-    componentWillMount(): void {
+    UNSAFE_componentWillMount(): void {
         this.props.setTimelineLoading(true);
-        this.props.getAllPosts('USR1');
+        this.props.setProfileLoading(true);
+        this.props.getProfile(localStorage.getItem('userId') || '');
+        this.props.getAllPosts(localStorage.getItem('userId') || '');
     }
 
     private avatarBlock = (alt: string, src: string) => (
@@ -81,18 +89,20 @@ class DashboardPage extends React.Component<Props, State> {
     };
 
     render() {
-        if(this.props.loading.timelineLoading) return <PageLoader />;
+        if(this.props.loading.timelineLoading || this.props.loading.profileLoading) return <PageLoader />;
         return (
             <div className={this.props.classes.root}>
                 <Grid container spacing={3}>
                     <Hidden xsDown>
                         <Grid item md={2} sm={12}>
-                            {this.avatarBlock('Vladimir Baklan', 'https://www.un.org/development/desa/youth/wp-content/plugins/all-in-one-seo-pack/images/default-user-image.png')}
+                            {this.avatarBlock(
+                                `${this.props.profile.firstName} ${this.props.profile.lastName}`,
+                                'https://www.un.org/development/desa/youth/wp-content/plugins/all-in-one-seo-pack/images/default-user-image.png')}
                         </Grid>
                     </Hidden>
                     <Grid item md={10} xs={12} sm={12}>
-                        {this.informationBlock('Vladimir',
-                            'Baklan',
+                        {this.informationBlock(this.props.profile.firstName,
+                            this.props.profile.lastName,
                             'Факультет информационных технологий',
                             '16-ИТ-1',
                             '08.02.1999')}
@@ -125,12 +135,16 @@ const mapStateToProps = (state: RootState) => ({
     },
     loading: {
         timelineLoading: state.userTimelineState.ownTimelineLoading,
-    }
+        profileLoading: state.userState.loading.profileLoading,
+    },
+    profile: state.userState.profile!,
 });
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>) => ({
     getAllPosts: (userId: string) => dispatch(getAllPosts(userId)),
     setTimelineLoading: (loading: boolean) => dispatch(setTimelineLoading(loading)),
+    setProfileLoading: (loading: boolean) => dispatch(setProfileLoading(loading)),
+    getProfile: (userId: string) => dispatch(getProfile(userId)),
 });
 
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(DashboardPage))

@@ -7,10 +7,11 @@ import Grid from '@material-ui/core/Grid';
 import {RootState} from "../../store";
 import {connect} from "react-redux";
 import SignInForm from "../../components/forms/SignInForm";
-import {showNotification} from "../../actions/notifications";
+import {showError, showNotification} from "../../actions/notifications";
 import {ThunkDispatch} from "redux-thunk";
 import GoogleLogin, {GoogleLoginResponse, GoogleLoginResponseOffline} from "react-google-login";
 import config from '../../config.json';
+import {onGoogleSuccess} from "../../actions/authentication";
 
 interface SignInMapStateToProps extends WithStyles<typeof styles> {}
 interface SignInMapDispatchToProps {
@@ -24,7 +25,7 @@ interface SignInState {}
 
 class SignInPage extends React.Component<SignInProps, SignInState> {
     private onGoogleFailure = (error: any): void => {
-        console.log('Error: ' + JSON.stringify(error));
+        showError('Ошибка взаимодействия с Google');
     };
 
     render() {
@@ -53,7 +54,7 @@ const mapStateToProps = (state: RootState) => ({});
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>) => ({
     showNotification: (message: string) => dispatch(showNotification(message)),
-    onGoogleSuccess : (response: GoogleLoginResponse | GoogleLoginResponseOffline) => {},
+    onGoogleSuccess : (response: GoogleLoginResponse | GoogleLoginResponseOffline) => dispatch(onGoogleSuccess(response)),
 });
 
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(SignInPage))
