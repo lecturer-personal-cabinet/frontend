@@ -1,9 +1,17 @@
 export type User = {
-    id: string,
+    id?: string,
     firstName: string,
     lastName: string,
     email: string,
     avatarSrc?: string,
+}
+
+export type UserInfo = {
+    id?: string,
+    description: string,
+    timezone: string,
+    address: string,
+    phoneNumber: string,
 }
 
 export interface IUsersState {
@@ -14,7 +22,8 @@ export interface IUsersState {
             errorMessage: string,
         }
     },
-    profile?: User
+    profile?: User,
+    profileInfo?: UserInfo,
 }
 
 export enum UsersActionTypes {
@@ -22,6 +31,7 @@ export enum UsersActionTypes {
     SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS',
     SIGN_UP_FAILURE = 'SIGN_UP_FAILURE',
     SET_PROFILE = 'SET_PROFILE',
+    SET_PROFILE_INFO = 'SET_PROFILE_INFO',
 }
 
 export interface IGetUsersAction {
@@ -49,4 +59,14 @@ export interface SignUpFailureAction {
     }
 }
 
-export type UserActions = IGetUsersAction | SignUpSuccessAction | SignUpFailureAction | SetProfileAction;
+export interface SetProfileInfoAction {
+    type: UsersActionTypes.SET_PROFILE_INFO,
+    payload: UserInfo,
+}
+
+export type UserActions =
+    IGetUsersAction |
+    SignUpSuccessAction |
+    SignUpFailureAction |
+    SetProfileAction |
+    SetProfileInfoAction;

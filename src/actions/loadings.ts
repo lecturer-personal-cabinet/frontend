@@ -7,6 +7,13 @@ export function setProfileLoading(loading: boolean) {
     }
 }
 
+export function setProfileInfoLoading(loading: boolean) {
+    return {
+        type: LoadingsActionTypes.PROFILE_INFO,
+        loading,
+    }
+}
+
 export function setTimelineLoading(loading: boolean) {
     return {
         type: LoadingsActionTypes.TIMELINE,
@@ -17,6 +24,13 @@ export function setTimelineLoading(loading: boolean) {
 export function setUsersListLoading(loading: boolean) {
     return {
         type: LoadingsActionTypes.USERS_LIST,
+        loading,
+    }
+}
+
+export function setTimezonesLoading(loading: boolean) {
+    return {
+        type: LoadingsActionTypes.TIMEZONES,
         loading,
     }
 }

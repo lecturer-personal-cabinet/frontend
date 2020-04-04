@@ -17,7 +17,7 @@ export const getAllPosts = (userId: string): ThunkAction<void, RootState, null, 
             dispatch(setPosts(response.data));
             dispatch(setTimelineLoading(false));
         },
-        failure: () => {
+        failure: (error: any) => {
 
         }
     });

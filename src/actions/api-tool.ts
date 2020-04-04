@@ -13,7 +13,7 @@ export type ApiRequestOptions = {
     endpoint: string,
     data: object,
     success: (f: AxiosResponse) => void,
-    failure: () => void
+    failure: (error: any) => void
 };
 
 const createRequest = (method: Method, requestOptions: ApiRequestOptions, options: AxiosRequestConfig = {}) => {
@@ -29,12 +29,46 @@ const createRequest = (method: Method, requestOptions: ApiRequestOptions, option
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
         }
     }).then(requestOptions.success)
-        .catch(requestOptions.failure);
+        .catch(error => {
+            if(error['response']) {
+                requestOptions.failure(error);
+            } else {
+                console.log("Most likely a server timeout or an internet connection error");
+                console.log("error response property is undefined")
+            }
+        })
 };
 
 export const ApiRequest = class {
     static getWithoutAuth(requestOptions: ApiRequestOptions) {
         return createRequest('GET', requestOptions);
+    }
+
+    static withoutAuth(method: Method, endpoint: string, data?: object) {
+        return ApiRequest.apiCall(method, endpoint, data);
+    }
+
+    static withAuth(method: Method, endpoint: string, data?: object) {
+        const additionalHeaders = {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        };
+        return ApiRequest.apiCall(method, endpoint, data, additionalHeaders)
+    }
+
+    private static apiCall(method: Method, endpoint: string, data?: object, headers?: object) {
+        return apiClient({
+            baseURL: API_HOST,
+            method: method,
+            url: endpoint,
+            responseType: 'json',
+            headers: {
+                ...headers,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            },
+            data,
+        });
     }
 
     static postWithoutAuth(requestOptions: ApiRequestOptions) {

@@ -11,6 +11,8 @@ import {UserTimelineState} from "../types/user_timeline";
 import {userTimelineReducer} from "../reducers/user_timeline";
 import {LoadingState} from "../types/loadings";
 import {loadingReducer} from "../reducers/loadings";
+import {CommonState} from "../types/common";
+import {commonReducer} from "../reducers/common";
 
 export interface RootState {
     userState: IUsersState,
@@ -18,6 +20,7 @@ export interface RootState {
     portfolioState: PortfolioState,
     userTimelineState: UserTimelineState,
     loadingState: LoadingState,
+    commonState: CommonState,
 }
 
 const rootReducer = combineReducers<RootState>({
@@ -26,6 +29,7 @@ const rootReducer = combineReducers<RootState>({
     portfolioState: portfolioReducer,
     userTimelineState: userTimelineReducer,
     loadingState: loadingReducer,
+    commonState: commonReducer,
 });
 
 export default function configureStore(): Store<RootState, any> {

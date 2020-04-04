@@ -2,8 +2,10 @@ import {LoadingActions, LoadingsActionTypes, LoadingState} from "../types/loadin
 
 const initialState: LoadingState = {
     profile: true,
+    profileInfo: true,
     timeline: true,
     usersList: true,
+    timezones: true,
 };
 
 export function loadingReducer(
@@ -25,6 +27,16 @@ export function loadingReducer(
             return {
                 ...state,
                 usersList: action.loading,
+            };
+        case LoadingsActionTypes.PROFILE_INFO:
+            return {
+                ...state,
+                profileInfo: action.loading,
+            };
+        case LoadingsActionTypes.TIMEZONES:
+            return {
+                ...state,
+                timezones: action.loading,
             };
         default:
             return state;

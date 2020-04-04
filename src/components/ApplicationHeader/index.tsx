@@ -19,8 +19,14 @@ import {ChevronLeft, ChevronRight} from "@material-ui/icons";
 import {SidebarItem} from "../ApplicationSidebar/types";
 import {RootState} from "../../store";
 import {connect} from "react-redux";
+import {ThunkDispatch} from "redux-thunk";
+import {logout} from "../../actions/authentication";
 
 interface MapStateToProps {}
+
+interface MapDispatchToProps {
+    logout: () => void,
+}
 
 interface ApplicationHeaderProps extends WithStyles<typeof styles> {
     title: string,
@@ -28,7 +34,7 @@ interface ApplicationHeaderProps extends WithStyles<typeof styles> {
     userName?: string,
 }
 
-type Props = MapStateToProps & ApplicationHeaderProps;
+type Props = MapStateToProps & MapDispatchToProps & ApplicationHeaderProps;
 
 interface ApplicationHeaderState {
     sidebar: {
@@ -114,7 +120,11 @@ class ApplicationHeader extends React.Component<Props, ApplicationHeaderState> {
                             open={this.state.header.accountMenuState}
                             onClose={this.handleAccountMenuState}
                         >
-                            <MenuItem>Выйти</MenuItem>
+                            <MenuItem
+                                onClick={() => this.props.logout()}
+                            >
+                                Выйти
+                            </MenuItem>
                         </Menu>
                     </Toolbar>
                 </AppBar>
@@ -139,4 +149,8 @@ class ApplicationHeader extends React.Component<Props, ApplicationHeaderState> {
 
 const mapStateToProps = (state: RootState) => ({});
 
-export default withStyles(styles)(connect(mapStateToProps)(ApplicationHeader))
+const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>) => ({
+    logout: () => dispatch(logout()),
+});
+
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(ApplicationHeader))

@@ -10,6 +10,7 @@ import {sidebarItems} from "./menu";
 import {SidebarItem} from "../../components/ApplicationSidebar/types";
 import {PrivateRoute} from "../../components/PrivateRoute";
 import PortfolioContainer from "../PortfolioContainer";
+import CompleteProfileContainer from "../CompleteProfileContainer";
 
 interface StudentApplicationProps extends WithStyles<typeof styles>, RouteComponentProps<any> {
 
@@ -27,7 +28,7 @@ class StudentApplication extends React.Component<StudentApplicationProps, Studen
         super(props);
         this.state = {
             currentPage: {
-                title: 'Лобби студента'
+                title: ''
             },
             menuItems: sidebarItems
         }
@@ -75,6 +76,7 @@ class StudentApplication extends React.Component<StudentApplicationProps, Studen
             >
                 <Switch>
                     <PrivateRoute path='/s/users' component={PersonsPage} />
+                    <PrivateRoute path='/s/profile/complete' component={CompleteProfileContainer} />
                     <PrivateRoute path='/s/profile' component={DashboardPage} />
                     <PrivateRoute path='/s/portfolio' component={PortfolioContainer} />
                     <Redirect from="/s" to="/s/profile" />

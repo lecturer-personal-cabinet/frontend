@@ -1,11 +1,12 @@
 import {ThunkAction} from "redux-thunk";
-import {User, UsersActionTypes} from "../types/users";
+import {User, UserInfo, UsersActionTypes} from "../types/users";
 import {ApiRequest} from "./api-tool";
 import {RootState} from "../store";
 import {Action} from "typesafe-actions";
-import {showError} from "./notifications";
+import {showError, showNotification} from "./notifications";
+import {setProfileInfoLoading, setProfileLoading, setUsersListLoading} from "./loadings";
+import {getUserProfile, saveUserInfo, updateUser} from "../controller/users_controller";
 import {redirectToProfile} from "./redirects";
-import {setProfileLoading, setUsersListLoading} from "./loadings";
 
 export const getAllUsers = (): ThunkAction<void, RootState, null, Action<string>> => async dispatch => {
     await ApiRequest.getWithAuth({
@@ -15,7 +16,7 @@ export const getAllUsers = (): ThunkAction<void, RootState, null, Action<string>
             dispatch(setUsers(response.data));
             dispatch(setUsersListLoading(false));
         },
-        failure: () => {
+        failure: (error: any) => {
             dispatch(showError('Что-то пошло не по плану ...'))
         }
     });
@@ -29,10 +30,42 @@ export const getProfile = (userId: string): ThunkAction<void, RootState, null, A
             dispatch(setProfile(response.data));
             dispatch(setProfileLoading(false));
         },
-        failure: () => {
-            redirectToProfile();
+        failure: (error: any) => {
+
         }
     });
+};
+
+export const getProfileInfo = (userId: string): ThunkAction<void, RootState, null, Action<string>> => async dispatch => {
+  await ApiRequest.getWithAuth({
+     endpoint: `/users/${userId}/profile`,
+     data: {},
+     success: (response) => {
+        dispatch(setProfileInfo(response.data));
+        dispatch(setProfileInfoLoading(false));
+     },
+      failure: (error: any) => {
+         const statusCode = error.response.status;
+         if(statusCode === 404) {
+             dispatch(setProfileInfoLoading(false));
+         } else {
+             dispatch(showError('Во время загрузки профиля что-то пошло не так ...'))
+         }
+      }
+  });
+};
+
+export const saveProfileAndProfileInfo = (info: UserInfo, profile: User)
+    : ThunkAction<void, RootState, null, Action<string>> => async dispatch => {
+    try {
+        await updateUser(profile);
+        await saveUserInfo(profile.id || '', info);
+        dispatch(showNotification('Данные успешно сохранены'));
+        redirectToProfile();
+    } catch(e) {
+        dispatch(showError('Что-то пошло не так'));
+    }
+
 };
 
 export function setUsers(users: User[]) {
@@ -46,5 +79,13 @@ export function setProfile(profile: User) {
     return {
         type: UsersActionTypes.SET_PROFILE,
         payload: profile,
+    }
+}
+
+
+export function setProfileInfo(profileInfo: UserInfo) {
+    return {
+        type: UsersActionTypes.SET_PROFILE_INFO,
+        payload: profileInfo
     }
 }

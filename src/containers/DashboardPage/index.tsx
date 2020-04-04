@@ -9,9 +9,9 @@ import {RootState} from "../../store";
 import {ThunkDispatch} from "redux-thunk";
 import {connect} from "react-redux";
 import PageLoader from "../../components/PageLoader";
-import {User} from "../../types/users";
-import {setProfileLoading, setTimelineLoading} from "../../actions/loadings";
-import {getProfile} from "../../actions/users";
+import {User, UserInfo} from "../../types/users";
+import {setProfileInfoLoading, setProfileLoading, setTimelineLoading} from "../../actions/loadings";
+import {getProfile, getProfileInfo} from "../../actions/users";
 import {getAllPosts} from "../../actions/user_timeline";
 
 interface StateToProps extends WithStyles<typeof styles> {
@@ -21,15 +21,19 @@ interface StateToProps extends WithStyles<typeof styles> {
     loading: {
         timelineLoading: boolean,
         profileLoading: boolean,
+        profileInfoLoading: boolean,
     },
     profile: User,
+    profileInfo: UserInfo,
 }
 
 interface DispatchToProps {
     getAllPosts: (userId: string) => void,
     setTimelineLoading: (loading: boolean) => void,
     setProfileLoading: (loading: boolean) => void,
+    setProfileInfoLoading: (loading: boolean) => void,
     getProfile: (userId: string) => void,
+    getProfileInfo: (userId: string) => void,
 }
 
 type Props = StateToProps & DispatchToProps
@@ -53,7 +57,9 @@ class DashboardPage extends React.Component<Props, State> {
     UNSAFE_componentWillMount(): void {
         this.props.setTimelineLoading(true);
         this.props.setProfileLoading(true);
+        this.props.setProfileInfoLoading(true);
         this.props.getProfile(localStorage.getItem('userId') || '');
+        this.props.getProfileInfo(localStorage.getItem('userId') || '');
         this.props.getAllPosts(localStorage.getItem('userId') || '');
     }
 
@@ -90,7 +96,9 @@ class DashboardPage extends React.Component<Props, State> {
     };
 
     render() {
-        if(this.props.loading.timelineLoading || this.props.loading.profileLoading) return <PageLoader />;
+        if(this.props.loading.timelineLoading ||
+            this.props.loading.profileLoading ||
+            this.props.loading.profileInfoLoading) return <PageLoader />;
         return (
             <div className={this.props.classes.root}>
                 <Grid container spacing={3}>
@@ -111,7 +119,7 @@ class DashboardPage extends React.Component<Props, State> {
                     <Grid item md={12}>
                         <InformationPaper
                             title={'О себе'}
-                            content={'Seamless Pay is a payment system integrated into the SeamlessDocs platform. Seamless payment allows customers to set up payment for forms, add various payment gateways, perform transactions (partial, purchase, authorization, etc.), track and manage payment configuration and transactions, generate reports, in-app and email notifications.'}
+                            content={this.props.profileInfo.description}
                         />
                     </Grid>
                     <Grid item md={12}>
@@ -137,15 +145,19 @@ const mapStateToProps = (state: RootState) => ({
     loading: {
         timelineLoading: state.loadingState.timeline,
         profileLoading: state.loadingState.profile,
+        profileInfoLoading: state.loadingState.profileInfo,
     },
     profile: state.userState.profile!,
+    profileInfo: state.userState.profileInfo!,
 });
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>) => ({
     getAllPosts: (userId: string) => dispatch(getAllPosts(userId)),
     setTimelineLoading: (loading: boolean) => dispatch(setTimelineLoading(loading)),
     setProfileLoading: (loading: boolean) => dispatch(setProfileLoading(loading)),
+    setProfileInfoLoading: (loading: boolean) => dispatch(setProfileInfoLoading(loading)),
     getProfile: (userId: string) => dispatch(getProfile(userId)),
+    getProfileInfo: (userId: string) => dispatch(getProfileInfo(userId)),
 });
 
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(DashboardPage))

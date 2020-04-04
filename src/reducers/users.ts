@@ -48,6 +48,11 @@ export function usersReducer(
                     }
                 }
             };
+        case UsersActionTypes.SET_PROFILE_INFO:
+            return {
+                ...state,
+                profileInfo: action.payload,
+            };
         default:
             return state;
     }
