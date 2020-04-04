@@ -23,7 +23,13 @@ interface Props extends WithStyles<typeof styles> {
 
 function PostPreviewDialog (props: Props) {
     return (
-        <Dialog open={props.open} onClose={props.handleClose} aria-labelledby="form-dialog-title">
+        <Dialog
+            open={props.open}
+            onClose={props.handleClose}
+            aria-labelledby="form-dialog-title"
+            fullWidth={true}
+            maxWidth={"md"}
+        >
             <DialogTitle id="form-dialog-title">
                 {props.title}
             </DialogTitle>

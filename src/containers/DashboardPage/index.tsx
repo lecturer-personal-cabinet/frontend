@@ -12,7 +12,7 @@ import PageLoader from "../../components/PageLoader";
 import {User, UserInfo} from "../../types/users";
 import {setProfileInfoLoading, setProfileLoading, setTimelineLoading} from "../../actions/loadings";
 import {getProfile, getProfileInfo} from "../../actions/users";
-import {getAllPosts} from "../../actions/user_timeline";
+import {getAllPosts, savePost} from "../../actions/user_timeline";
 
 interface StateToProps extends WithStyles<typeof styles> {
     timeline: {
@@ -34,6 +34,7 @@ interface DispatchToProps {
     setProfileInfoLoading: (loading: boolean) => void,
     getProfile: (userId: string) => void,
     getProfileInfo: (userId: string) => void,
+    savePost: (userId: string, title: string, content: string, sender: User) => void,
 }
 
 type Props = StateToProps & DispatchToProps
@@ -80,7 +81,7 @@ class DashboardPage extends React.Component<Props, State> {
                                 formattedBirthdayDate: string) => (
       <Paper className={this.props.classes.informationBlockItem}>
           <div className={this.props.classes.name}>{`${firstName} ${lastName}`}</div>
-          <div className={this.props.classes.secondaryInformation}>{`${faculty}, ${groupNumber}`}</div>
+          <div className={this.props.classes.secondaryInformation}>{`${faculty} ${groupNumber}`}</div>
           <div className={this.props.classes.secondaryInformation}>{formattedBirthdayDate}</div>
       </Paper>
     );
@@ -93,6 +94,15 @@ class DashboardPage extends React.Component<Props, State> {
               insertPopupState: !this.state.timeline.insertPopupState,
           }
       });
+    };
+
+    private savePost = (title: string, content: string) => {
+        this.props.savePost(
+            this.props.profile.id || localStorage.getItem('userId') || '',
+            title,
+            content,
+            this.props.profile);
+        this.switchStateTimelinePostInsertPopup();
     };
 
     render() {
@@ -112,9 +122,9 @@ class DashboardPage extends React.Component<Props, State> {
                     <Grid item md={10} xs={12} sm={12}>
                         {this.informationBlock(this.props.profile.firstName,
                             this.props.profile.lastName,
-                            'Факультет информационных технологий',
-                            '16-ИТ-1',
-                            '08.02.1999')}
+                            '',
+                            '',
+                            '')}
                     </Grid>
                     <Grid item md={12}>
                         <InformationPaper
@@ -126,6 +136,7 @@ class DashboardPage extends React.Component<Props, State> {
                         <TimelinePostForm
                             open={this.state.timeline.insertPopupState}
                             handleClose={this.switchStateTimelinePostInsertPopup}
+                            handleSave={this.savePost}
                         />
                         <Timeline
                             items={this.props.timeline.items}
@@ -140,7 +151,7 @@ class DashboardPage extends React.Component<Props, State> {
 
 const mapStateToProps = (state: RootState) => ({
     timeline: {
-        items: state.userTimelineState.ownPosts
+        items: state.userTimelineState.posts
     },
     loading: {
         timelineLoading: state.loadingState.timeline,
@@ -158,6 +169,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>) => ({
     setProfileInfoLoading: (loading: boolean) => dispatch(setProfileInfoLoading(loading)),
     getProfile: (userId: string) => dispatch(getProfile(userId)),
     getProfileInfo: (userId: string) => dispatch(getProfileInfo(userId)),
+    savePost: (userId: string, title: string, content: string, sender: User) => dispatch(savePost(userId, title, content, sender)),
 });
 
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(DashboardPage))

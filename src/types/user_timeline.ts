@@ -1,9 +1,9 @@
 export interface UserTimelineState {
-    ownPosts: UserTimelineItem[],
+    posts: UserTimelineItem[],
 }
 
 export type UserTimelineItem = {
-    id: string,
+    id?: string,
     title: string,
     content: string,
     createdTs: string,
@@ -12,13 +12,19 @@ export type UserTimelineItem = {
 };
 
 export enum UserTimelineTypes {
-    GET_ALL = 'GET_ALL',
+    SAVE_ALL = 'SAVE_ALL',
     TIMELINE_LOADING = 'TIMELINE_LOADING',
+    SAVE_TIMELINE_POST = 'SAVE_TIMELINE_POST'
 }
 
-export interface GetAllAction {
-    type: UserTimelineTypes.GET_ALL,
+export interface SaveAllAction {
+    type: UserTimelineTypes.SAVE_ALL,
     payload: UserTimelineItem[],
 }
 
-export type UserTimelineActions = GetAllAction;
+export interface SaveTimelinePost {
+    type: UserTimelineTypes.SAVE_TIMELINE_POST,
+    payload: UserTimelineItem
+}
+
+export type UserTimelineActions = SaveAllAction | SaveTimelinePost;

@@ -1,7 +1,7 @@
-import {UserTimelineActions, UserTimelineState, UserTimelineTypes} from "../types/user_timeline";
+import {UserTimelineActions, UserTimelineItem, UserTimelineState, UserTimelineTypes} from "../types/user_timeline";
 
 const initialState: UserTimelineState = {
-    ownPosts: [],
+    posts: [],
 };
 
 export function userTimelineReducer(
@@ -9,10 +9,15 @@ export function userTimelineReducer(
     action: UserTimelineActions
 ): UserTimelineState {
     switch(action.type) {
-        case UserTimelineTypes.GET_ALL:
+        case UserTimelineTypes.SAVE_ALL:
             return {
                 ...state,
-                ownPosts: action.payload,
+                posts: action.payload.reverse(),
+            };
+        case UserTimelineTypes.SAVE_TIMELINE_POST:
+            return {
+                ...state,
+                posts: [...state.posts, action.payload].reverse()
             };
         default:
             return state;
