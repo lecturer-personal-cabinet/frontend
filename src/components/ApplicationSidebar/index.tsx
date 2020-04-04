@@ -18,6 +18,7 @@ import {Link} from "react-router-dom";
 interface ApplicationSidebarProps extends WithStyles<typeof styles> {
     openState: boolean,
     sidebarItems: SidebarItem[][],
+    withNotifications: boolean,
 }
 
 function ApplicationSidebar(props: ApplicationSidebarProps) {
@@ -35,18 +36,25 @@ function ApplicationSidebar(props: ApplicationSidebarProps) {
                 }),
             }}
         >
+
             <div className={props.classes.toolbar}>
-                <IconButton color="inherit">
-                    <Badge badgeContent={11} color="secondary">
-                        <NotificationsIcon/>
-                    </Badge>
-                </IconButton>
-                <IconButton color="inherit">
-                    <Badge badgeContent={6} color="secondary">
-                        <MailIcon/>
-                    </Badge>
-                </IconButton>
+                {props.withNotifications &&
+                    <div>
+                        <IconButton color="inherit">
+                            <Badge badgeContent={11} color="secondary">
+                                <NotificationsIcon/>
+                            </Badge>
+                        </IconButton>
+                        <IconButton color="inherit">
+                            <Badge badgeContent={6} color="secondary">
+                                <MailIcon/>
+                            </Badge>
+                        </IconButton>
+                    </div>
+                }
             </div>
+
+
             <Divider/>
             {props.sidebarItems.map(section => (
                 <div>

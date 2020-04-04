@@ -32,6 +32,8 @@ interface ApplicationHeaderProps extends WithStyles<typeof styles> {
     title: string,
     sidebarItems: SidebarItem[][],
     userName?: string,
+    withNotifications: boolean,
+    withMenu: boolean,
 }
 
 type Props = MapStateToProps & MapDispatchToProps & ApplicationHeaderProps;
@@ -98,7 +100,7 @@ class ApplicationHeader extends React.Component<Props, ApplicationHeaderState> {
                             className={this.props.classes.sidebarButton}>
                             {this.state.sidebar.state ?
                                 <ChevronLeft/> :
-                                <Badge badgeContent={17} color="secondary">
+                                <Badge badgeContent={this.props.withNotifications ? 1 : undefined} color="secondary">
                                     <ChevronRight/>
                                 </Badge>
                             }
@@ -106,13 +108,15 @@ class ApplicationHeader extends React.Component<Props, ApplicationHeaderState> {
                         <Typography variant="h6" noWrap className={this.props.classes.pageTitle}>
                             {this.props.title}
                         </Typography>
-                        <Button color="inherit"
-                                aria-controls="account-menu"
-                                aria-haspopup="true"
-                                className={this.props.classes.accountMenuButton}
-                                onClick={this.handleAccountMenuState}>
+                        {this.props.withMenu &&
+                            <Button color="inherit"
+                                    aria-controls="account-menu"
+                                    aria-haspopup="true"
+                                    className={this.props.classes.accountMenuButton}
+                                    onClick={this.handleAccountMenuState}>
                                 {!this.props.userName ? 'Меню' : this.props.userName}
-                        </Button>
+                            </Button>
+                        }
                         <Menu
                             id="account-menu"
                             keepMounted
@@ -131,6 +135,7 @@ class ApplicationHeader extends React.Component<Props, ApplicationHeaderState> {
                 <ApplicationSidebar
                     openState={this.state.sidebar.state}
                     sidebarItems={this.props.sidebarItems}
+                    withNotifications={this.props.withNotifications}
                 />
 
                 <main

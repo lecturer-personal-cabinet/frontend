@@ -2,29 +2,26 @@ import React from 'react';
 import styles from "./styles";
 import {WithStyles, withStyles} from "@material-ui/core";
 import {Redirect, Route, RouteComponentProps, Switch} from 'react-router-dom';
-import DashboardPage from '../DashboardPage';
 import PersonsPage from '../UsersContainer';
 import NotFound from "../NotFound";
 import ApplicationHeader from '../../components/ApplicationHeader';
 import {sidebarItems} from "./menu";
 import {SidebarItem} from "../../components/ApplicationSidebar/types";
-import {PrivateRoute} from "../../components/PrivateRoute";
-import PortfolioContainer from "../PortfolioContainer";
-import CompleteProfileContainer from "../CompleteProfileContainer";
+import PublicProfile from "../PublicProfile";
 
-interface StudentApplicationProps extends WithStyles<typeof styles>, RouteComponentProps<any> {
+interface ApplicationProps extends WithStyles<typeof styles>, RouteComponentProps<any> {
 
 }
 
-interface StudentApplicationState {
+interface ApplicationState {
     currentPage: {
         title: string
     },
     menuItems: SidebarItem[][],
 }
 
-class StudentApplication extends React.Component<StudentApplicationProps, StudentApplicationState> {
-    constructor(props: StudentApplicationProps) {
+class PublicApplication extends React.Component<ApplicationProps, ApplicationState> {
+    constructor(props: ApplicationProps) {
         super(props);
         this.state = {
             currentPage: {
@@ -34,7 +31,7 @@ class StudentApplication extends React.Component<StudentApplicationProps, Studen
         }
     }
 
-    componentDidUpdate(prevProps: Readonly<StudentApplicationProps>, prevState: Readonly<StudentApplicationState>, snapshot?: any): void {
+    componentDidUpdate(prevProps: Readonly<ApplicationProps>, prevState: Readonly<ApplicationState>, snapshot?: any): void {
         if(this.props.location !== prevProps.location)
             this.changeActivePage(this.findSelectedItemByPath(this.props.location.pathname));
     }
@@ -73,15 +70,12 @@ class StudentApplication extends React.Component<StudentApplicationProps, Studen
             <ApplicationHeader
                 title={this.state.currentPage.title}
                 sidebarItems={this.state.menuItems}
-                withNotifications={true}
-                withMenu={true}
+                withNotifications={false}
+                withMenu={false}
             >
                 <Switch>
-                    <PrivateRoute path='/s/users' component={PersonsPage} />
-                    <PrivateRoute path='/s/profile/complete' component={CompleteProfileContainer} />
-                    <PrivateRoute path='/s/profile' component={DashboardPage} />
-                    <PrivateRoute path='/s/portfolio' component={PortfolioContainer} />
-                    <Redirect from="/s" to="/s/profile" />
+                    <Route path='/p/profile/:userId' component={PublicProfile} />
+                    <Route path='/p/users' component={PersonsPage} />
                     <Route component={NotFound}/>
                 </Switch>
             </ApplicationHeader>
@@ -89,4 +83,4 @@ class StudentApplication extends React.Component<StudentApplicationProps, Studen
     }
 }
 
-export default withStyles(styles)(StudentApplication);
+export default withStyles(styles)(PublicApplication);

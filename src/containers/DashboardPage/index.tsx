@@ -13,6 +13,7 @@ import {User, UserInfo} from "../../types/users";
 import {setProfileInfoLoading, setProfileLoading, setTimelineLoading} from "../../actions/loadings";
 import {getProfile, getProfileInfo} from "../../actions/users";
 import {getAllPosts, savePost} from "../../actions/user_timeline";
+import ProfileInformation from "../../components/ProfileImpormation";
 
 interface StateToProps extends WithStyles<typeof styles> {
     timeline: {
@@ -74,18 +75,6 @@ class DashboardPage extends React.Component<Props, State> {
         </Paper>
     );
 
-    private informationBlock = (firstName: string,
-                                lastName: string,
-                                faculty: string,
-                                groupNumber: string,
-                                formattedBirthdayDate: string) => (
-      <Paper className={this.props.classes.informationBlockItem}>
-          <div className={this.props.classes.name}>{`${firstName} ${lastName}`}</div>
-          <div className={this.props.classes.secondaryInformation}>{`${faculty} ${groupNumber}`}</div>
-          <div className={this.props.classes.secondaryInformation}>{formattedBirthdayDate}</div>
-      </Paper>
-    );
-
     private switchStateTimelinePostInsertPopup = () => {
       this.setState({
           ...this.state,
@@ -120,11 +109,13 @@ class DashboardPage extends React.Component<Props, State> {
                         </Grid>
                     </Hidden>
                     <Grid item md={10} xs={12} sm={12}>
-                        {this.informationBlock(this.props.profile.firstName,
-                            this.props.profile.lastName,
-                            '',
-                            '',
-                            '')}
+                        <ProfileInformation
+                            firstName={this.props.profile.firstName}
+                            lastName={this.props.profile.lastName}
+                            faculty=''
+                            groupNumber={''}
+                            formattedBirthdayDate={''}
+                        />
                     </Grid>
                     <Grid item md={12}>
                         <InformationPaper
