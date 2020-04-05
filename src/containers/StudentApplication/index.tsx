@@ -11,6 +11,9 @@ import {SidebarItem} from "../../components/ApplicationSidebar/types";
 import {PrivateRoute} from "../../components/PrivateRoute";
 import PortfolioContainer from "../PortfolioContainer";
 import CompleteProfileContainer from "../CompleteProfileContainer";
+import {isAuthenticated} from "../../actions/authentication";
+import PublicProfile from "../PublicProfile";
+import {unauthenticatedMenuItems} from "./unauthenticated_menu";
 
 interface StudentApplicationProps extends WithStyles<typeof styles>, RouteComponentProps<any> {
 
@@ -26,11 +29,15 @@ interface StudentApplicationState {
 class StudentApplication extends React.Component<StudentApplicationProps, StudentApplicationState> {
     constructor(props: StudentApplicationProps) {
         super(props);
+        let menu: SidebarItem[][] = [];
+        if(isAuthenticated()) menu = sidebarItems;
+        else menu = unauthenticatedMenuItems;
+
         this.state = {
             currentPage: {
                 title: ''
             },
-            menuItems: sidebarItems
+            menuItems: menu
         }
     }
 
@@ -73,11 +80,12 @@ class StudentApplication extends React.Component<StudentApplicationProps, Studen
             <ApplicationHeader
                 title={this.state.currentPage.title}
                 sidebarItems={this.state.menuItems}
-                withNotifications={true}
-                withMenu={true}
+                withNotifications={isAuthenticated()}
+                withMenu={isAuthenticated()}
             >
                 <Switch>
-                    <PrivateRoute path='/s/users' component={PersonsPage} />
+                    <Route path='/s/users' component={() => <PersonsPage isAuthenticated={isAuthenticated()} />}/>
+                    <Route path='/s/profile/:userId' component={PublicProfile} />
                     <PrivateRoute path='/s/profile/complete' component={CompleteProfileContainer} />
                     <PrivateRoute path='/s/profile' component={DashboardPage} />
                     <PrivateRoute path='/s/portfolio' component={PortfolioContainer} />

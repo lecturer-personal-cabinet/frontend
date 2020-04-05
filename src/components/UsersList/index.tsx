@@ -14,23 +14,26 @@ import {
     withStyles
 } from "@material-ui/core";
 import {User} from "../../types/users";
+import {redirectToPublicProfile} from "../../actions/redirects";
 
 interface UsersListProps extends WithStyles<typeof styles> {
     users: User[],
     onDialogIconClick: (users: User[]) => void,
     onInfoIconClick: (users: User[]) => void,
+    withSendMessage: boolean,
+    withInformation: boolean
 }
 
 function UsersList(props: UsersListProps) {
     const actionCell = (user: User) => (
         <TableCell align="center">
-            <InfoIcon className={props.classes.actionIcon} onClick={() => props.onInfoIconClick([user])} />
-            <ChatIcon className={props.classes.actionIcon} onClick={() => props.onDialogIconClick([user])} />
+            {props.withInformation && <InfoIcon className={props.classes.actionIcon} onClick={() => props.onInfoIconClick([user])} />}
+            {props.withSendMessage && <ChatIcon className={props.classes.actionIcon} onClick={() => props.onDialogIconClick([user])} />}
         </TableCell>
     );
 
     const userRow = (user: User) => (
-      <TableRow key={user.id}>
+      <TableRow key={user.id} style={{cursor: 'pointer'}} onClick={() => onUserRowClick(user)}>
           <TableCell align="center">
               <Avatar alt={user.firstName + ' ' + user.lastName} src={user.avatarSrc}/>
           </TableCell>
@@ -40,6 +43,10 @@ function UsersList(props: UsersListProps) {
           {actionCell(user)}
       </TableRow>
     );
+
+    const onUserRowClick = (user: User) => {
+        redirectToPublicProfile(user.id || '');
+    };
 
     return (
         <TableContainer component={Paper}>

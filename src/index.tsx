@@ -10,8 +10,6 @@ import SignInPage from './containers/SignInPage';
 import SignUpPage from './containers/SignUpPage';
 import ApplicationContainer from "./components/ApplicationContainer";
 import {PrivateRoute} from "./components/PrivateRoute";
-import PublicProfile from "./containers/PublicProfile";
-import PublicApplication from "./containers/PublicApplication";
 
 const store = configureStore();
 
@@ -22,8 +20,7 @@ ReactDOM.render((
                     <Switch>
                         <Route path='/sign-in' component={SignInPage}/>
                         <Route path='/sign-up' component={SignUpPage}/>
-                        <Route path='/p' component={PublicApplication} />
-                        <PrivateRoute path='/s' component={StudentApplication}/>
+                        <Route path='/s' component={StudentApplication}/>
                         <Redirect from="/" to="/s"/>
                         <Route component={NotFound}/>
                     </Switch>

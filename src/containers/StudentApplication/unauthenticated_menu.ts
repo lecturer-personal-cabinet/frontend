@@ -1,14 +1,13 @@
 import {SidebarItem} from "../../components/ApplicationSidebar/types";
 
-export const sidebarItems: SidebarItem[][] =
+export const unauthenticatedMenuItems: SidebarItem[][] =
     [
-
         [
             {
                 itemTitle: 'Пользователи',
                 itemIcon: 'perm_identity',
-                path: '/p/users',
-                isActive: false
+                path: '/s/users',
+                isActive: true
             },
         ],
     ];

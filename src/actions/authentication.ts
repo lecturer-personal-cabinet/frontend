@@ -36,3 +36,7 @@ export const logout = (): ThunkAction<void, RootState, null, Action<string>> => 
     localStorage.removeItem('userId');
     redirectToSignIn();
 };
+
+export const isAuthenticated = () => {
+  return localStorage.getItem('userId') !== undefined && localStorage.getItem('token') != undefined;
+};

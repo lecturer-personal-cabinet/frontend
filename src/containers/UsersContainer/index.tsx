@@ -12,6 +12,10 @@ import {getAllUsers} from "../../actions/users";
 import PageLoader from "../../components/PageLoader";
 import {setUsersListLoading} from "../../actions/loadings";
 
+interface CustomProps {
+    isAuthenticated: boolean,
+}
+
 interface StateToProps extends WithStyles<typeof styles> {
     users: User[],
     isLoaderEnabled: boolean,
@@ -22,7 +26,7 @@ interface DispatchToProps {
     setUsersListLoading: (loading: boolean) => void,
 }
 
-type Props = StateToProps & DispatchToProps
+type Props = StateToProps & DispatchToProps & CustomProps;
 
 interface State {
     openDialogWindow: boolean,
@@ -70,7 +74,10 @@ class UsersContainer extends React.Component<Props, State> {
                 </div>
                 <PersonsList users={this.props.users}
                              onDialogIconClick={this.onDialogIconClick}
-                             onInfoIconClick={this.onInfoIconClick}/>
+                             onInfoIconClick={this.onInfoIconClick}
+                             withSendMessage={this.props.isAuthenticated}
+                             withInformation={false}
+                />
             </div>
         )
     }
