@@ -8,9 +8,9 @@ import {setProfileInfoLoading, setProfileLoading, setUsersListLoading} from "./l
 import {getUserProfile, saveUserInfo, updateUser} from "../controller/users_controller";
 import {redirectToProfile} from "./redirects";
 
-export const getAllUsers = (): ThunkAction<void, RootState, null, Action<string>> => async dispatch => {
+export const getAllUsers = (search?: string): ThunkAction<void, RootState, null, Action<string>> => async dispatch => {
     await ApiRequest.getWithAuth({
-        endpoint: '/users',
+        endpoint: '/users?search=' + (search || ''),
         data: {},
         success: (response) => {
             dispatch(setUsers(response.data));

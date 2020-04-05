@@ -3,11 +3,11 @@ import {Grid, InputBase, Paper, WithStyles, withStyles} from "@material-ui/core"
 import SearchIcon from '@material-ui/icons/Search';
 import styles from "./styles";
 
-interface ListActionBarProps extends WithStyles<typeof styles> {
-
+interface Props extends WithStyles<typeof styles> {
+    onSearch: (value: string) => void,
 }
 
-function ListActionBar (props: ListActionBarProps) {
+function ListActionBar (props: Props) {
     const searchBar = (
         <div className={props.classes.search}>
             <div className={props.classes.searchIcon}>
@@ -20,6 +20,7 @@ function ListActionBar (props: ListActionBarProps) {
                     input: props.classes.inputInput,
                 }}
                 inputProps={{ 'aria-label': 'search' }}
+                onChange={(e) => props.onSearch(e.target.value)}
             />
         </div>
     );

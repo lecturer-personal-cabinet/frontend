@@ -22,7 +22,7 @@ interface StateToProps extends WithStyles<typeof styles> {
 }
 
 interface DispatchToProps {
-    getAllUsers: () => void,
+    getAllUsers: (search?: string) => void,
     setUsersListLoading: (loading: boolean) => void,
 }
 
@@ -48,6 +48,7 @@ class UsersContainer extends React.Component<Props, State> {
 
         this.onDialogIconClick = this.onDialogIconClick.bind(this);
         this.onInfoIconClick = this.onInfoIconClick.bind(this);
+        this.onSearch = this.onSearch.bind(this);
     }
 
     private onDialogIconClick(users: User[]) {
@@ -56,6 +57,10 @@ class UsersContainer extends React.Component<Props, State> {
             openDialogWindow: !this.state.openDialogWindow,
             selectedUsers: users,
         })
+    }
+
+    private onSearch(value: string) {
+        this.props.getAllUsers(value);
     }
 
     private onInfoIconClick(users: User[]) {}
@@ -70,7 +75,9 @@ class UsersContainer extends React.Component<Props, State> {
                                    selectedUsers={this.state.selectedUsers}/>
 
                 <div className={this.props.classes.actionBar}>
-                    <ListActionBar/>
+                    <ListActionBar
+                        onSearch={this.onSearch}
+                    />
                 </div>
                 <PersonsList users={this.props.users}
                              onDialogIconClick={this.onDialogIconClick}
@@ -89,7 +96,7 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>) => ({
-    getAllUsers: () => dispatch(getAllUsers()),
+    getAllUsers: (search?: string) => dispatch(getAllUsers(search)),
     setUsersListLoading: (loading: boolean) => dispatch(setUsersListLoading(loading)),
 });
 
