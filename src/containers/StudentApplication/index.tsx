@@ -2,7 +2,7 @@ import React from 'react';
 import styles from "./styles";
 import {WithStyles, withStyles} from "@material-ui/core";
 import {Redirect, Route, RouteComponentProps, Switch} from 'react-router-dom';
-import DashboardPage from '../DashboardPage';
+import DashboardPage from '../OwnProfile';
 import PersonsPage from '../UsersContainer';
 import NotFound from "../NotFound";
 import ApplicationHeader from '../../components/ApplicationHeader';
@@ -15,19 +15,19 @@ import {isAuthenticated} from "../../actions/authentication";
 import PublicProfile from "../PublicProfile";
 import {unauthenticatedMenuItems} from "./unauthenticated_menu";
 
-interface StudentApplicationProps extends WithStyles<typeof styles>, RouteComponentProps<any> {
+interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
 
 }
 
-interface StudentApplicationState {
+interface State {
     currentPage: {
         title: string
     },
     menuItems: SidebarItem[][],
 }
 
-class StudentApplication extends React.Component<StudentApplicationProps, StudentApplicationState> {
-    constructor(props: StudentApplicationProps) {
+class Application extends React.Component<Props, State> {
+    constructor(props: Props) {
         super(props);
         let menu: SidebarItem[][] = [];
         if(isAuthenticated()) menu = sidebarItems;
@@ -41,7 +41,7 @@ class StudentApplication extends React.Component<StudentApplicationProps, Studen
         }
     }
 
-    componentDidUpdate(prevProps: Readonly<StudentApplicationProps>, prevState: Readonly<StudentApplicationState>, snapshot?: any): void {
+    componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>, snapshot?: any): void {
         if(this.props.location !== prevProps.location)
             this.changeActivePage(this.findSelectedItemByPath(this.props.location.pathname));
     }
@@ -96,4 +96,4 @@ class StudentApplication extends React.Component<StudentApplicationProps, Studen
     }
 }
 
-export default withStyles(styles)(StudentApplication);
+export default withStyles(styles)(Application);

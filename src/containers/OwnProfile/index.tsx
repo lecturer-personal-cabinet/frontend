@@ -47,7 +47,7 @@ interface State {
     },
 }
 
-class DashboardPage extends React.Component<Props, State> {
+class OwnProfile extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
@@ -158,4 +158,4 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>) => ({
     savePost: (userId: string, title: string, content: string, sender: User) => dispatch(savePost(userId, title, content, sender)),
 });
 
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(DashboardPage))
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(OwnProfile))
