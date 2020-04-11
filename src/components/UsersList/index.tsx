@@ -44,9 +44,7 @@ function UsersList(props: UsersListProps) {
       </TableRow>
     );
 
-    const onUserRowClick = (user: User) => {
-        redirectToPublicProfile(user.id || '');
-    };
+    const onUserRowClick = (user: User) => redirectToPublicProfile(user.id || '');
 
     return (
         <TableContainer component={Paper}>

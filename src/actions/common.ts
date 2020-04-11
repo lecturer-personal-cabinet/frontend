@@ -1,4 +1,4 @@
-import {CommonActionsTypes, RequestStatus} from "../types/common";
+import {CommonActionsTypes} from "../types/common";
 import {ThunkAction} from "redux-thunk";
 import {RootState} from "../store";
 import {Action} from "typesafe-actions";
@@ -25,12 +25,4 @@ function setTimezones(timezones: string[]) {
         type: CommonActionsTypes.SET_TIMEZONES,
         payload: timezones,
     }
-}
-
-function setSaveStatus(success: RequestStatus, message?: string) {
-    return {
-        type: CommonActionsTypes.SET_SAVE_STATUS,
-        success,
-        message
-    };
 }

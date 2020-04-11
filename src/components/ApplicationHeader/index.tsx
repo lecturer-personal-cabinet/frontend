@@ -21,19 +21,20 @@ import {RootState} from "../../store";
 import {connect} from "react-redux";
 import {ThunkDispatch} from "redux-thunk";
 import {logout} from "../../actions/authentication";
+import {redirectToSignIn} from "../../actions/redirects";
 
 interface MapStateToProps {}
 
 interface MapDispatchToProps {
     logout: () => void,
+    redirectToSignIn: () => void,
 }
 
 interface ApplicationHeaderProps extends WithStyles<typeof styles> {
     title: string,
     sidebarItems: SidebarItem[][],
     userName?: string,
-    withNotifications: boolean,
-    withMenu: boolean,
+    isAuthenticated: boolean,
 }
 
 type Props = MapStateToProps & MapDispatchToProps & ApplicationHeaderProps;
@@ -81,6 +82,38 @@ class ApplicationHeader extends React.Component<Props, ApplicationHeaderState> {
         })
     };
 
+    private authenticatedMenu = () => (
+        <Menu
+            id="account-menu"
+            keepMounted
+            anchorEl={this.state.header.anchorElement}
+            open={this.state.header.accountMenuState}
+            onClose={this.handleAccountMenuState}
+        >
+            <MenuItem
+                onClick={() => this.props.logout()}
+            >
+                Выйти
+            </MenuItem>
+        </Menu>
+    );
+
+    private unauthenticatedMenu = () => (
+        <Menu
+            id="account-menu"
+            keepMounted
+            anchorEl={this.state.header.anchorElement}
+            open={this.state.header.accountMenuState}
+            onClose={this.handleAccountMenuState}
+        >
+            <MenuItem
+                onClick={() => this.props.redirectToSignIn()}
+            >
+                Войти
+            </MenuItem>
+        </Menu>
+    );
+
     render() {
         return (
             <div>
@@ -100,7 +133,7 @@ class ApplicationHeader extends React.Component<Props, ApplicationHeaderState> {
                             className={this.props.classes.sidebarButton}>
                             {this.state.sidebar.state ?
                                 <ChevronLeft/> :
-                                <Badge badgeContent={this.props.withNotifications ? 1 : undefined} color="secondary">
+                                <Badge badgeContent={this.props.isAuthenticated ? 1 : undefined} color="secondary">
                                     <ChevronRight/>
                                 </Badge>
                             }
@@ -108,34 +141,21 @@ class ApplicationHeader extends React.Component<Props, ApplicationHeaderState> {
                         <Typography variant="h6" noWrap className={this.props.classes.pageTitle}>
                             {this.props.title}
                         </Typography>
-                        {this.props.withMenu &&
-                            <Button color="inherit"
-                                    aria-controls="account-menu"
-                                    aria-haspopup="true"
-                                    className={this.props.classes.accountMenuButton}
-                                    onClick={this.handleAccountMenuState}>
-                                {!this.props.userName ? 'Меню' : this.props.userName}
-                            </Button>
-                        }
-                        <Menu
-                            id="account-menu"
-                            keepMounted
-                            anchorEl={this.state.header.anchorElement}
-                            open={this.state.header.accountMenuState}
-                            onClose={this.handleAccountMenuState}
-                        >
-                            <MenuItem
-                                onClick={() => this.props.logout()}
-                            >
-                                Выйти
-                            </MenuItem>
-                        </Menu>
+                        <Button color="inherit"
+                                aria-controls="account-menu"
+                                aria-haspopup="true"
+                                className={this.props.classes.accountMenuButton}
+                                onClick={this.handleAccountMenuState}>
+                            {!this.props.userName ? 'Меню' : this.props.userName}
+                        </Button>
+                        {this.props.isAuthenticated && this.authenticatedMenu()}
+                        {!this.props.isAuthenticated && this.unauthenticatedMenu()}
                     </Toolbar>
                 </AppBar>
                 <ApplicationSidebar
                     openState={this.state.sidebar.state}
                     sidebarItems={this.props.sidebarItems}
-                    withNotifications={this.props.withNotifications}
+                    withNotifications={this.props.isAuthenticated}
                 />
 
                 <main
@@ -156,6 +176,7 @@ const mapStateToProps = (state: RootState) => ({});
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>) => ({
     logout: () => dispatch(logout()),
+    redirectToSignIn: () => redirectToSignIn(),
 });
 
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(ApplicationHeader))

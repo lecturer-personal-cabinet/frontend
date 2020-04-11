@@ -9,12 +9,13 @@ import ProfileInformation from "../../components/ProfileImpormation";
 import InformationPaper from "../../components/InformationPaper";
 import {UserTimelineItem} from "../../types/user_timeline";
 import {User, UserInfo} from "../../types/users";
-import {getAllPosts, savePost} from "../../actions/user_timeline";
+import {getAllPosts} from "../../actions/user_timeline";
 import {setProfileInfoLoading, setProfileLoading, setTimelineLoading} from "../../actions/loadings";
 import {getProfile, getProfileInfo} from "../../actions/users";
 import TimelinePost from "../../components/TimelinePost";
 import PageLoader from "../../components/PageLoader";
 import { RouteComponentProps } from 'react-router-dom';
+import {isAuthenticated} from "../../actions/authentication";
 
 interface MatchParams {
     userId: string,
@@ -58,10 +59,6 @@ class PublicProfile extends React.Component<Props, State> {
         this.props.getAllPosts(this.props.match.params.userId);
     }
 
-    constructor(props: Props) {
-        super(props);
-    }
-
     render() {
         if(this.props.loading.timelineLoading ||
             this.props.loading.profileLoading ||
@@ -76,6 +73,7 @@ class PublicProfile extends React.Component<Props, State> {
                             faculty=''
                             groupNumber={''}
                             formattedBirthdayDate={''}
+                            isAuthenticated={isAuthenticated()}
                         />
                     </Grid>
                     <Grid item md={12}>

@@ -2,8 +2,7 @@ import {ThunkAction} from "redux-thunk";
 import {RootState} from "../store";
 import {Action} from "typesafe-actions";
 import {GoogleLoginResponse, GoogleLoginResponseOffline} from "react-google-login";
-import {showError, showNotification} from "./notifications";
-import {ApiRequest} from "./api-tool";
+import {showError} from "./notifications";
 import {redirectToProfile, redirectToProfileComplete, redirectToSignIn} from "./redirects";
 import {googleLogin} from "../controller/authentication_controller";
 import {getUserProfile} from "../controller/users_controller";
@@ -38,5 +37,5 @@ export const logout = (): ThunkAction<void, RootState, null, Action<string>> => 
 };
 
 export const isAuthenticated = () => {
-  return localStorage.getItem('userId') !== undefined && localStorage.getItem('token') != undefined;
+  return localStorage.getItem('userId') !== undefined && localStorage.getItem('token') !== undefined;
 };

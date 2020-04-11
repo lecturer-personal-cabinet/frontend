@@ -9,7 +9,6 @@ import configureStore from "./store";
 import SignInPage from './containers/SignInPage';
 import SignUpPage from './containers/SignUpPage';
 import ApplicationContainer from "./components/ApplicationContainer";
-import {PrivateRoute} from "./components/PrivateRoute";
 
 const store = configureStore();
 

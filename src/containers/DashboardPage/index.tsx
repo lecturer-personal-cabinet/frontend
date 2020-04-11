@@ -1,5 +1,5 @@
 import React from 'react';
-import {Avatar, Grid, Hidden, Paper, withStyles, WithStyles} from "@material-ui/core";
+import {Avatar, Grid, Paper, withStyles, WithStyles} from "@material-ui/core";
 import styles from "./styles";
 import InformationPaper from "../../components/InformationPaper";
 import Timeline from '../../components/Timeline';
@@ -14,6 +14,7 @@ import {setProfileInfoLoading, setProfileLoading, setTimelineLoading} from "../.
 import {getProfile, getProfileInfo} from "../../actions/users";
 import {getAllPosts, savePost} from "../../actions/user_timeline";
 import ProfileInformation from "../../components/ProfileImpormation";
+import {isAuthenticated} from "../../actions/authentication";
 
 interface StateToProps extends WithStyles<typeof styles> {
     timeline: {
@@ -101,20 +102,14 @@ class DashboardPage extends React.Component<Props, State> {
         return (
             <div className={this.props.classes.root}>
                 <Grid container spacing={3}>
-                    <Hidden xsDown>
-                        <Grid item md={2} sm={12}>
-                            {this.avatarBlock(
-                                `${this.props.profile.firstName} ${this.props.profile.lastName}`,
-                                'https://www.un.org/development/desa/youth/wp-content/plugins/all-in-one-seo-pack/images/default-user-image.png')}
-                        </Grid>
-                    </Hidden>
-                    <Grid item md={10} xs={12} sm={12}>
+                    <Grid item md={12} xs={12} sm={12}>
                         <ProfileInformation
                             firstName={this.props.profile.firstName}
                             lastName={this.props.profile.lastName}
                             faculty=''
                             groupNumber={''}
                             formattedBirthdayDate={''}
+                            isAuthenticated={isAuthenticated()}
                         />
                     </Grid>
                     <Grid item md={12}>

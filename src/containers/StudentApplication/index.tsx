@@ -80,8 +80,7 @@ class StudentApplication extends React.Component<StudentApplicationProps, Studen
             <ApplicationHeader
                 title={this.state.currentPage.title}
                 sidebarItems={this.state.menuItems}
-                withNotifications={isAuthenticated()}
-                withMenu={isAuthenticated()}
+                isAuthenticated={isAuthenticated()}
             >
                 <Switch>
                     <Route path='/s/users' component={() => <PersonsPage isAuthenticated={isAuthenticated()} />}/>

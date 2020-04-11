@@ -5,7 +5,7 @@ import {RootState} from "../store";
 import {Action} from "typesafe-actions";
 import {showError, showNotification} from "./notifications";
 import {setProfileInfoLoading, setProfileLoading, setUsersListLoading} from "./loadings";
-import {getUserProfile, saveUserInfo, updateUser} from "../controller/users_controller";
+import {saveUserInfo, updateUser} from "../controller/users_controller";
 import {redirectToProfile} from "./redirects";
 
 export const getAllUsers = (search?: string): ThunkAction<void, RootState, null, Action<string>> => async dispatch => {

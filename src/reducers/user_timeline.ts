@@ -1,4 +1,4 @@
-import {UserTimelineActions, UserTimelineItem, UserTimelineState, UserTimelineTypes} from "../types/user_timeline";
+import {UserTimelineActions, UserTimelineState, UserTimelineTypes} from "../types/user_timeline";
 
 const initialState: UserTimelineState = {
     posts: [],
