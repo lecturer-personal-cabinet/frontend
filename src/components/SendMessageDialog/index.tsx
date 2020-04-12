@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import {TransitionProps} from "@material-ui/core/transitions";
 import {Button, Dialog, Grid, Slide, TextField, withStyles, WithStyles} from "@material-ui/core";
 import styles from "./styles";
@@ -11,6 +11,8 @@ interface SendMessageDialogProps extends WithStyles<typeof styles>{
     onDialogClose: (persons: User[]) => void,
     contacts: User[],
     selectedUsers: User[],
+
+    onSendClick: (receivers: User[], message: string) => void,
 }
 
 const Transition = React.forwardRef<unknown, TransitionProps>(function Transition(props, ref) {
@@ -18,6 +20,17 @@ const Transition = React.forwardRef<unknown, TransitionProps>(function Transitio
 });
 
 function SendMessageDialog(props: SendMessageDialogProps) {
+    const [message, setMessage] = React.useState('');
+
+    const sendMessage = () => {
+        props.onSendClick(props.selectedUsers, message);
+    };
+
+    const onMessageChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        e.preventDefault();
+        setMessage(e.target.value);
+    };
+
     const personToAutocompleteValue = (person: User): AutocompleteValue<User> => {
       return {
           title: `${person.firstName} ${person.lastName}`,
@@ -41,6 +54,8 @@ function SendMessageDialog(props: SendMessageDialogProps) {
                 rows="4"
                 defaultValue=""
                 className={props.classes.messageTextBox}
+                onChange={onMessageChange}
+                value={message}
                 variant="outlined" />
         </Grid>
     );
@@ -52,7 +67,7 @@ function SendMessageDialog(props: SendMessageDialogProps) {
             direction="row"
             justify="flex-end"
             alignItems="flex-end">
-            <Button variant="contained" color="primary">
+            <Button variant="contained" color="primary" onClick={() => sendMessage()}>
                 Отправить
             </Button>
         </Grid>

@@ -16,6 +16,9 @@ import TimelinePost from "../../components/TimelinePost";
 import PageLoader from "../../components/PageLoader";
 import { RouteComponentProps } from 'react-router-dom';
 import {isAuthenticated} from "../../actions/authentication";
+import SendMessageDialog from "../../components/SendMessageDialog";
+import {setSendMessageDialogState} from "../../actions/dialogs";
+import {WebSocketController} from "../../actions/websocket";
 
 interface MatchParams {
     userId: string,
@@ -30,6 +33,9 @@ interface MapStateToProps extends WithStyles<typeof styles>, RouteComponentProps
         profileLoading: boolean,
         profileInfoLoading: boolean,
     },
+    dialogs: {
+        sendMessageDialog: boolean,
+    },
     profile: User,
     profileInfo: UserInfo,
 }
@@ -41,6 +47,7 @@ interface MapDispatchToProps {
     setProfileInfoLoading: (loading: boolean) => void,
     getProfile: (userId: string) => void,
     getProfileInfo: (userId: string) => void,
+    setSendMessageDialogState: (open: boolean) => void,
 }
 
 type Props = MapStateToProps & MapDispatchToProps;
@@ -50,6 +57,11 @@ interface State {
 }
 
 class PublicProfile extends React.Component<Props, State> {
+    constructor(props: Props) {
+        super(props);
+        this.onSendClick = this.onSendClick.bind(this);
+    }
+
     UNSAFE_componentWillMount(): void {
         this.props.setTimelineLoading(true);
         this.props.setProfileLoading(true);
@@ -57,6 +69,15 @@ class PublicProfile extends React.Component<Props, State> {
         this.props.getProfile(this.props.match.params.userId);
         this.props.getProfileInfo(this.props.match.params.userId);
         this.props.getAllPosts(this.props.match.params.userId);
+        this.props.setSendMessageDialogState(false);
+    }
+
+    private onSendClick (receivers: User[], message: string) {
+        this.props.setSendMessageDialogState(false);
+        WebSocketController.sendMessage(
+            localStorage.getItem('userId') || '',
+            receivers.map(r => r.id!),
+            message)
     }
 
     render() {
@@ -65,6 +86,13 @@ class PublicProfile extends React.Component<Props, State> {
             this.props.loading.profileInfoLoading) return <PageLoader />;
         return (
             <div className={this.props.classes.root}>
+                <SendMessageDialog openDialog={this.props.dialogs.sendMessageDialog}
+                                   onDialogClose={() => this.props.setSendMessageDialogState(false)}
+                                   contacts={[]}
+                                   selectedUsers={[this.props.profile]}
+                                   onSendClick={this.onSendClick}
+                />
+
                 <Grid container spacing={3}>
                     <Grid item md={12} xs={12} sm={12}>
                         <ProfileInformation
@@ -73,7 +101,9 @@ class PublicProfile extends React.Component<Props, State> {
                             faculty=''
                             groupNumber={''}
                             formattedBirthdayDate={''}
+                            onSendMessageClick={() => this.props.setSendMessageDialogState(true)}
                             isAuthenticated={isAuthenticated()}
+                            withActiveBar={true}
                         />
                     </Grid>
                     <Grid item md={12}>
@@ -104,6 +134,9 @@ const mapStateToProps = (state: RootState) => ({
         profileLoading: state.loadingState.profile,
         profileInfoLoading: state.loadingState.profileInfo,
     },
+    dialogs: {
+        sendMessageDialog: state.dialogsState.sendMessageDialogStatus,
+    },
     profile: state.userState.profile!,
     profileInfo: state.userState.profileInfo!,
 });
@@ -115,6 +148,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>) => ({
     setProfileInfoLoading: (loading: boolean) => dispatch(setProfileInfoLoading(loading)),
     getProfile: (userId: string) => dispatch(getProfile(userId)),
     getProfileInfo: (userId: string) => dispatch(getProfileInfo(userId)),
+    setSendMessageDialogState: (open: boolean) => dispatch(setSendMessageDialogState(open)),
 });
 
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(PublicProfile))

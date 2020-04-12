@@ -11,6 +11,9 @@ interface Props extends WithStyles<typeof styles> {
     groupNumber: string,
     formattedBirthdayDate: string,
     isAuthenticated: boolean,
+    withActiveBar: boolean,
+
+    onSendMessageClick: () => void,
 }
 
 function ProfileInformation(props: Props) {
@@ -29,7 +32,7 @@ function ProfileInformation(props: Props) {
             <div className={props.classes.secondaryInformation}>{`${props.faculty} ${props.groupNumber}`}</div>
             <div className={props.classes.secondaryInformation}>{props.formattedBirthdayDate}</div>
 
-            {props.isAuthenticated &&
+            {props.isAuthenticated && props.withActiveBar &&
                 <Grid
                     container
                     spacing={3}
@@ -39,8 +42,13 @@ function ProfileInformation(props: Props) {
                     className={props.classes.actionsBar}
                 >
                     <Grid item md={12}>
-                        <Button variant="contained" color="secondary" className={props.classes.actionButton}>
-                            Secondary
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            className={props.classes.actionButton}
+                            onClick={() => props.onSendMessageClick()}
+                        >
+                            Сообщение
                         </Button>
                         <Button variant="contained" color="primary" className={props.classes.actionButton}>
                             Secondary

@@ -14,6 +14,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import styles from "./styles";
 import {SidebarItem} from "./types";
 import {Link} from "react-router-dom";
+import nanoid from "nanoid";
 
 interface ApplicationSidebarProps extends WithStyles<typeof styles> {
     openState: boolean,
@@ -57,10 +58,11 @@ function ApplicationSidebar(props: ApplicationSidebarProps) {
 
             <Divider/>
             {props.sidebarItems.map(section => (
-                <div>
+                <div key={nanoid()}>
                     <List>
                         {section.map(sidebarItem => (
                             <Link
+                                key={nanoid()}
                                 to={sidebarItem.path}
                                 style={{ color: 'inherit', textDecoration: 'inherit'}}>
                                 <ListItem button key={sidebarItem.path} className={clsx({

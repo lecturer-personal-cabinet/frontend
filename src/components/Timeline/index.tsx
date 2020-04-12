@@ -5,6 +5,7 @@ import {WithStyles} from "@material-ui/core";
 import TimelineControlPanel from "../TimelineControlPanel";
 import TimelinePost from "../TimelinePost";
 import {UserTimelineItem} from "../../types/user_timeline";
+import nanoid from 'nanoid';
 
 interface Props extends WithStyles<typeof styles> {
     items: UserTimelineItem[],
@@ -16,7 +17,7 @@ function Timeline(props: Props) {
         <div>
             <TimelineControlPanel onPostAddClick={props.onPostAddClick} />
             {props.items.map(item => (
-                <div className={props.classes.timelinePost}>
+                <div className={props.classes.timelinePost} key={nanoid()}>
                     <TimelinePost item={item} />
                 </div>
             ))}

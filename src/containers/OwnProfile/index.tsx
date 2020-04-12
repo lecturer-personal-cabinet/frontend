@@ -110,6 +110,8 @@ class OwnProfile extends React.Component<Props, State> {
                             groupNumber={''}
                             formattedBirthdayDate={''}
                             isAuthenticated={isAuthenticated()}
+                            withActiveBar={false}
+                            onSendMessageClick={() => {}}
                         />
                     </Grid>
                     <Grid item md={12}>
