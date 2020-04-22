@@ -34,3 +34,11 @@ export const getUserProfile = (userId: string) => {
         {}
     );
 };
+
+export const getUser = (userId: string) => {
+  return ApiRequest.withAuth(
+      'GET',
+      `/users/${userId}`,
+      {}
+  );
+};

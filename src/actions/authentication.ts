@@ -18,8 +18,10 @@ export const onGoogleSuccess = (response: GoogleLoginResponse | GoogleLoginRespo
             localStorage.setItem('userId', result.data['userId']);
             try {
                 await getUserProfile(result.data['userId']);
+                console.log('GET USR PROFILE???');
                 redirectToProfile();
             } catch(e) {
+                console.log('REDIRECT');
                 redirectToProfileComplete();
             }
         } else {

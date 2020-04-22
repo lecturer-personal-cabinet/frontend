@@ -6,29 +6,24 @@ import {connect} from "react-redux";
 import {ThunkDispatch} from "redux-thunk";
 import {User, UserInfo} from "../../types/users";
 import {getProfile, getProfileInfo, saveProfileAndProfileInfo} from "../../actions/users";
-import {setProfileInfoLoading, setProfileLoading, setTimezonesLoading} from "../../actions/loadings";
+import {setProfileInfoLoading, setProfileLoading} from "../../actions/loadings";
 import PageLoader from "../../components/PageLoader";
-import {getTimezones} from "../../actions/common";
 
 interface MapStateToProps extends WithStyles<typeof styles> {
     profile: User,
     profileInfo?: UserInfo,
-    availableTimezones: string[],
 
     loading: {
         profile: boolean,
         profileInfo: boolean,
-        timezones: boolean,
     },
 }
 
 interface MapDispatchToProps {
     getProfile: (userId: string) => void,
     getProfileInfo: (userId: string) => void,
-    getTimezones: () => void,
     setProfileLoading: (loading: boolean) => void,
     setProfileInfoLoading: (loading: boolean) => void,
-    setTimezonesLoading: (loading: boolean) => void,
     saveProfileAndProfileInfo: (info: UserInfo, profile: User) => void,
 }
 
@@ -73,6 +68,7 @@ class CompleteProfileContainer extends React.Component<Props, State> {
     }
 
     UNSAFE_componentWillMount(): void {
+        console.log('asdjasoidas');
         this.props.setProfileLoading(true);
         this.props.setProfileInfoLoading(true);
         this.props.getProfile(localStorage.getItem('userId') || '');
@@ -285,7 +281,7 @@ class CompleteProfileContainer extends React.Component<Props, State> {
     };
 
     render() {
-        // if (this.isLoading()) return <PageLoader/>;
+        if (this.isLoading()) return <PageLoader/>;
         return (
             <Dialog open={true} fullWidth={true} maxWidth={"md"}>
                 <div className={this.props.classes.root}>
@@ -329,10 +325,8 @@ const mapStateToProps = (state: RootState) => ({
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>) => ({
     getProfile: (userId: string) => dispatch(getProfile(userId)),
     getProfileInfo: (userId: string) => dispatch(getProfileInfo(userId)),
-    getTimezones: () => dispatch(getTimezones()),
     setProfileLoading: (loading: boolean) => dispatch(setProfileLoading(loading)),
     setProfileInfoLoading: (loading: boolean) => dispatch(setProfileInfoLoading(loading)),
-    setTimezonesLoading: (loading: boolean) => dispatch(setTimezonesLoading(loading)),
     saveProfileAndProfileInfo: (info: UserInfo, profile: User) => dispatch(saveProfileAndProfileInfo(info, profile)),
 });
 

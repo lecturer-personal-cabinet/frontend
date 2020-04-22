@@ -5,7 +5,7 @@ import {RootState} from "../store";
 import {Action} from "typesafe-actions";
 import {showError, showNotification} from "./notifications";
 import {setProfileInfoLoading, setProfileLoading, setUsersListLoading} from "./loadings";
-import {saveUserInfo, updateUser} from "../controller/users_controller";
+import {getUser, getUserProfile, saveUserInfo, updateUser} from "../controller/users_controller";
 import {redirectToProfile} from "./redirects";
 
 export const getAllUsers = (search?: string): ThunkAction<void, RootState, null, Action<string>> => async dispatch => {
@@ -23,36 +23,21 @@ export const getAllUsers = (search?: string): ThunkAction<void, RootState, null,
 };
 
 export const getProfile = (userId: string): ThunkAction<void, RootState, null, Action<string>> => async dispatch => {
-    await ApiRequest.getWithAuth({
-        endpoint: `/users/${userId}`,
-        data: {},
-        success: (response) => {
-            dispatch(setProfile(response.data));
-            dispatch(setProfileLoading(false));
-        },
-        failure: (error: any) => {
-
-        }
-    });
+    try {
+        const response = await getUser(userId);
+        dispatch(setProfile(response.data));
+        dispatch(setProfileLoading(false));
+    } catch (e) {}
 };
 
 export const getProfileInfo = (userId: string): ThunkAction<void, RootState, null, Action<string>> => async dispatch => {
-  await ApiRequest.getWithAuth({
-     endpoint: `/users/${userId}/profile`,
-     data: {},
-     success: (response) => {
+    try {
+        const response = await getUserProfile(userId);
         dispatch(setProfileInfo(response.data));
         dispatch(setProfileInfoLoading(false));
-     },
-      failure: (error: any) => {
-         const statusCode = error.response.status;
-         if(statusCode === 404) {
-             dispatch(setProfileInfoLoading(false));
-         } else {
-             dispatch(showError('Во время загрузки профиля что-то пошло не так ...'))
-         }
-      }
-  });
+    } catch (e) {
+        dispatch(setProfileInfoLoading(false));
+    }
 };
 
 export const saveProfileAndProfileInfo = (info: UserInfo, profile: User)
@@ -62,7 +47,7 @@ export const saveProfileAndProfileInfo = (info: UserInfo, profile: User)
         await saveUserInfo(profile.id || '', info);
         dispatch(showNotification('Данные успешно сохранены'));
         redirectToProfile();
-    } catch(e) {
+    } catch (e) {
         dispatch(showError('Что-то пошло не так'));
     }
 

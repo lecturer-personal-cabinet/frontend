@@ -85,8 +85,8 @@ class Application extends React.Component<Props, State> {
             >
                 <Switch>
                     <Route path='/s/users' component={() => <PersonsPage isAuthenticated={isAuthenticated()} />}/>
-                    <Route path='/s/profile/:userId' component={PublicProfile} />
                     <PrivateRoute path='/s/profile/complete' component={CompleteProfileContainer} />
+                    <Route path='/s/profile/:userId' component={PublicProfile} />
                     <PrivateRoute path='/s/dialogs' component={DialogsContainer} />
                     <PrivateRoute path='/s/profile' component={DashboardPage} />
                     <PrivateRoute path='/s/portfolio' component={PortfolioContainer} />
