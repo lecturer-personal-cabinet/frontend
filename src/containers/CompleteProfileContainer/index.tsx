@@ -285,7 +285,7 @@ class CompleteProfileContainer extends React.Component<Props, State> {
     };
 
     render() {
-        if (this.isLoading()) return <PageLoader/>;
+        // if (this.isLoading()) return <PageLoader/>;
         return (
             <Dialog open={true} fullWidth={true} maxWidth={"md"}>
                 <div className={this.props.classes.root}>
