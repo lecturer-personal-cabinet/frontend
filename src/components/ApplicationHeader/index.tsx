@@ -164,7 +164,7 @@ class ApplicationHeader extends React.Component<Props, ApplicationHeaderState> {
                         [this.props.classes.contentWidth]: !this.state.sidebar.state,
                     })}
                 >
-                    (<div className={this.props.classes.drawerHeader}/>
+                    <div className={this.props.classes.drawerHeader}/>
                     {this.props.children}
                 </main>
             </div>

@@ -15,6 +15,7 @@ import styles from "./styles";
 import {SidebarItem} from "./types";
 import {Link} from "react-router-dom";
 import nanoid from "nanoid";
+import {redirectToDialogs} from "../../actions/redirects";
 
 interface ApplicationSidebarProps extends WithStyles<typeof styles> {
     openState: boolean,
@@ -48,7 +49,7 @@ function ApplicationSidebar(props: ApplicationSidebarProps) {
                         </IconButton>
                         <IconButton color="inherit">
                             <Badge badgeContent={6} color="secondary">
-                                <MailIcon/>
+                                <MailIcon onClick={() => redirectToDialogs()}/>
                             </Badge>
                         </IconButton>
                     </div>

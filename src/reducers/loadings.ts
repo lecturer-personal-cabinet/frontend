@@ -6,38 +6,29 @@ const initialState: LoadingState = {
     timeline: true,
     usersList: true,
     timezones: true,
+    dialogs: true,
+    dialog: true,
 };
 
 export function loadingReducer(
     state = initialState,
     action: LoadingActions
 ): LoadingState {
-    switch(action.type) {
+    switch (action.type) {
         case LoadingsActionTypes.TIMELINE:
-            return {
-                ...state,
-                timeline: action.loading
-            };
+            return {...state, timeline: action.loading};
         case LoadingsActionTypes.USER_PROFILE:
-            return {
-                ...state,
-                profile: action.loading
-            };
+            return {...state, profile: action.loading};
         case LoadingsActionTypes.USERS_LIST:
-            return {
-                ...state,
-                usersList: action.loading,
-            };
+            return {...state, usersList: action.loading};
         case LoadingsActionTypes.PROFILE_INFO:
-            return {
-                ...state,
-                profileInfo: action.loading,
-            };
+            return {...state, profileInfo: action.loading};
         case LoadingsActionTypes.TIMEZONES:
-            return {
-                ...state,
-                timezones: action.loading,
-            };
+            return {...state, timezones: action.loading};
+        case LoadingsActionTypes.DIALOGS:
+            return {...state, dialogs: action.loading};
+        case LoadingsActionTypes.DIALOG:
+            return {...state, dialog: action.loading};
         default:
             return state;
     }

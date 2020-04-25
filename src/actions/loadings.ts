@@ -34,3 +34,17 @@ export function setTimezonesLoading(loading: boolean) {
         loading,
     }
 }
+
+export function setDialogsLoading(loading: boolean) {
+    return {
+        type: LoadingsActionTypes.DIALOGS,
+        loading,
+    }
+}
+
+export function setDialogLoading(loading: boolean) {
+    return {
+        type: LoadingsActionTypes.DIALOG,
+        loading,
+    }
+}

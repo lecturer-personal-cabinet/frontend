@@ -15,6 +15,7 @@ import {isAuthenticated} from "../../actions/authentication";
 import PublicProfile from "../PublicProfile";
 import {unauthenticatedMenuItems} from "./unauthenticated_menu";
 import DialogsContainer from "../DialogsContainer";
+import MessageContainer from "../MessageContainer";
 
 interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
 
@@ -87,6 +88,7 @@ class Application extends React.Component<Props, State> {
                     <Route path='/s/users' component={() => <PersonsPage isAuthenticated={isAuthenticated()} />}/>
                     <PrivateRoute path='/s/profile/complete' component={CompleteProfileContainer} />
                     <Route path='/s/profile/:userId' component={PublicProfile} />
+                    <PrivateRoute path='/s/dialogs/:dialogId' component={MessageContainer} />
                     <PrivateRoute path='/s/dialogs' component={DialogsContainer} />
                     <PrivateRoute path='/s/profile' component={DashboardPage} />
                     <PrivateRoute path='/s/portfolio' component={PortfolioContainer} />

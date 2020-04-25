@@ -11,14 +11,17 @@ export class WebSocketController {
             WebSocketController.ws = new WebSocket(process.env.REACT_APP_MESSAGE_SERVICE_HOST!);
         // @ts-ignore
         WebSocketController.ws.onopen = () => {
+            console.log('on open');
             setTimeout(() => WebSocketController.sendJoinChannelEvent(localStorage.getItem('userId')!), 1000);
         };
 
         WebSocketController.ws.onclose = () => {
+            console.log('close');
             setTimeout(() => WebSocketController.ws = new WebSocket(process.env.REACT_APP_MESSAGE_SERVICE_HOST!), 1000);
         };
 
         WebSocketController.ws.onmessage = (message) => {
+            console.log('On message');
             WebSocketController.handleIncomingEvents(JSON.parse(message.data));
         };
 
@@ -57,6 +60,7 @@ export class WebSocketController {
     }
 
     static sendMessage(userId: string, receivers: string[], content: string) {
+        console.log(`Send message: ${userId}, receivers: ${receivers}, content: ${content}`);
         const request = {
             userId,
             'eventType': 'send-message-event',

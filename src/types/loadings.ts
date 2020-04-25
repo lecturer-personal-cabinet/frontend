@@ -4,6 +4,8 @@ export interface LoadingState {
     timeline: boolean,
     usersList: boolean,
     timezones: boolean,
+    dialogs: boolean,
+    dialog: boolean,
 }
 
 export enum LoadingsActionTypes {
@@ -12,6 +14,8 @@ export enum LoadingsActionTypes {
     USERS_LIST = 'USERS_LIST',
     PROFILE_INFO = 'PROFILE_INFO',
     TIMEZONES = 'TIMEZONES',
+    DIALOGS = 'DIALOGS',
+    DIALOG = 'DIALOG',
 }
 
 export interface UserProfileLoadingAction {
@@ -39,9 +43,21 @@ export interface TimezonesLoadingAction {
     loading: boolean,
 }
 
+export interface DialogsLoadingAction {
+    type: LoadingsActionTypes.DIALOGS,
+    loading: boolean,
+}
+
+export interface DialogLoadingAction {
+    type: LoadingsActionTypes.DIALOG,
+    loading: boolean,
+}
+
 export type LoadingActions =
     UserProfileLoadingAction |
     UserProfileInfoLoadingAction |
     TimelineLoadingAction |
     UsersListLoadingAction |
-    TimezonesLoadingAction;
+    TimezonesLoadingAction |
+    DialogsLoadingAction |
+    DialogLoadingAction;
