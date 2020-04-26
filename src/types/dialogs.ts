@@ -13,6 +13,15 @@ export type DialogMessage = {
     content: string,
     createdTs: Date,
     sender: User,
+    isRead: boolean,
+};
+
+export type FlatMessage = {
+    id: string,
+    dialogId: string,
+    content: string,
+    createdTs: Date,
+    senderId: string,
 };
 
 export type DialogParticipant = {
@@ -30,6 +39,8 @@ export enum DialogActionsTypes {
     SEND_MESSAGE_DIALOG = 'SEND_MESSAGE_DIALOG',
     SET_DIALOGS = 'SET_DIALOGS',
     SET_MESSAGES = 'SET_MESSAGES',
+    SET_MESSAGE = 'SET_MESSAGE',
+    SET_MESSAGES_READ = 'SET_MESSAGES_READ',
 }
 
 export interface SendMessageDialogStatus {
@@ -47,4 +58,15 @@ export interface SetMessages {
     payload: DialogMessage[],
 }
 
-export type DialogsActions = SendMessageDialogStatus | SetDialogs | SetMessages;
+export interface SetMessage {
+    type: DialogActionsTypes.SET_MESSAGE,
+    payload: DialogMessage,
+}
+
+export interface SetMessagesRead {
+    type: DialogActionsTypes.SET_MESSAGES_READ,
+    read: boolean,
+    dialogId: string,
+}
+
+export type DialogsActions = SendMessageDialogStatus | SetDialogs | SetMessages | SetMessage | SetMessagesRead;

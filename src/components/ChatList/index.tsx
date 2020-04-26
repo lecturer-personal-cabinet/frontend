@@ -20,6 +20,7 @@ function ChatList(props: Props) {
                     <Message
                         message={message.content}
                         isOwnMessage={message.sender.id === props.userId}
+                        isRead={message.isRead}
                     />
                 </div>
             ))}

@@ -13,7 +13,7 @@ import MessageInput from "../../components/MessageInput";
 import ChatList from "../../components/ChatList";
 import {DialogMessage} from "../../types/dialogs";
 import PageLoader from "../../components/PageLoader";
-import {getMessagesAction} from "../../actions/dialogs";
+import {changeReadStatusAction, getMessagesAction} from "../../actions/dialogs";
 import {setDialogLoading} from "../../actions/loadings";
 
 interface MatchParams {
@@ -30,6 +30,7 @@ interface MapStateToProps extends WithStyles<typeof styles>, RouteComponentProps
 interface MapDispatchToProps {
     getMessagesAction: (dialogId: string) => void,
     setDialogLoading: (loading: boolean) => void,
+    changeReadStatus: (dialogId: string, status: boolean, exclude: string) => void,
 }
 
 type Props = MapStateToProps & MapDispatchToProps;
@@ -40,6 +41,10 @@ class MessageContainer extends React.Component<Props, State> {
     UNSAFE_componentWillMount(): void {
         this.props.setDialogLoading(true);
         this.props.getMessagesAction(this.props.match.params.dialogId);
+    }
+
+    componentDidMount(): void {
+        this.props.changeReadStatus(this.props.match.params.dialogId, true, localStorage.getItem('userId') || '');
     }
 
     render() {
@@ -74,6 +79,7 @@ const mapStateToProps = (state: RootState) => ({
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>) => ({
     getMessagesAction: (dialogId: string) => dispatch(getMessagesAction(dialogId)),
     setDialogLoading: (loading: boolean) => dispatch(setDialogLoading(loading)),
+    changeReadStatus: (dialogId: string, status: boolean, exclude: string) => dispatch(changeReadStatusAction(dialogId, status, exclude))
 });
 
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(MessageContainer))

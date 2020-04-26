@@ -7,9 +7,8 @@ const styles = (theme: Theme) => createStyles({
     fullName: {
         fontWeight: 'bold',
     },
-    messagePreview: {
-
-    }
+    messagePreview: {},
+    unreadNumber: {},
 });
 
 export default styles;

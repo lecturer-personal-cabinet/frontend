@@ -1,5 +1,6 @@
 import {showNotification} from "./notifications";
 import {ThunkDispatch} from "redux-thunk";
+import {addNewMessage, setMessage} from "./dialogs";
 
 export class WebSocketController {
     private static ws = new WebSocket(process.env.REACT_APP_MESSAGE_SERVICE_HOST!);
@@ -53,6 +54,8 @@ export class WebSocketController {
                 this.dispatch(showNotification('Cообщение успешно отправлено'));
                 break;
             case 'message-received':
+                console.log(eventData.message);
+                this.dispatch(addNewMessage(eventData.message));
                 this.dispatch(showNotification('Получено новое сообщение'));
                 break;
             default: {}

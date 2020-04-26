@@ -114,13 +114,13 @@ class OwnProfile extends React.Component<Props, State> {
                             onSendMessageClick={() => {}}
                         />
                     </Grid>
-                    <Grid item md={12}>
+                    <Grid item xs={12}>
                         <InformationPaper
                             title={'О себе'}
                             content={this.props.profileInfo.description}
                         />
                     </Grid>
-                    <Grid item md={12}>
+                    <Grid item xs={12}>
                         <TimelinePostForm
                             open={this.state.timeline.insertPopupState}
                             handleClose={this.switchStateTimelinePostInsertPopup}

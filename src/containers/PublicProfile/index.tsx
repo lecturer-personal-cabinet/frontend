@@ -106,13 +106,13 @@ class PublicProfile extends React.Component<Props, State> {
                             withActiveBar={true}
                         />
                     </Grid>
-                    <Grid item md={12}>
+                    <Grid item xs={12}>
                         <InformationPaper
                             title={'О себе'}
                             content={this.props.profileInfo.description}
                         />
                     </Grid>
-                    <Grid item md={12}>
+                    <Grid item xs={12}>
                         {this.props.timeline.items.map(item => (
                             <div style={{marginTop: '10px'}}>
                                 <TimelinePost item={item} />

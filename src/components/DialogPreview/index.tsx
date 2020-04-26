@@ -1,7 +1,7 @@
 import React from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import styles from "./styles";
-import {Avatar, Grid, WithStyles} from "@material-ui/core";
+import {Avatar, Badge, Grid, WithStyles} from "@material-ui/core";
 import TextTruncate from "react-text-truncate";
 import { Dialog } from '../../types/dialogs';
 
@@ -26,9 +26,13 @@ function DialogPreview(props: Props) {
             alignItems='center'
         >
             <Grid item md={1}>
-                <Avatar/>
+                <Badge
+                    badgeContent={props.dialog.messages.filter(msg => !msg.isRead && msg.sender.id !== props.userId).length}
+                    color="primary">
+                    <Avatar/>
+                </Badge>
             </Grid>
-            <Grid item md={11}>
+            <Grid item md={10}>
                 <Grid container direction='column'>
                     <Grid item className={props.classes.fullName}>
                         {dialogName()}

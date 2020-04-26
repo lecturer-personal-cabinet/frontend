@@ -3,10 +3,18 @@ export type Notification = {
     message: string
 };
 
-export interface INotificationState {}
+export type MessageCount = {
+  dialogId: string,
+  count: number,
+};
+
+export interface INotificationState {
+    messageCounts: Map<string, MessageCount>,
+}
 
 export enum NotificationsActionsTypes {
     SHOW_TOAST = 'SHOW_TOAST',
+    CHANGE_MESSAGE_COUNT = 'CHANGE_MESSAGE_COUNT',
 }
 
 export interface ShowToastAction {
@@ -14,4 +22,9 @@ export interface ShowToastAction {
     payload: Notification;
 }
 
-export type NotificationActions = ShowToastAction;
+export interface ChangeMessageCountAction {
+    type: NotificationsActionsTypes.CHANGE_MESSAGE_COUNT,
+    payload: MessageCount
+}
+
+export type NotificationActions = ShowToastAction | ChangeMessageCountAction;

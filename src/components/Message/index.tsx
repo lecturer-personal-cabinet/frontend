@@ -6,6 +6,7 @@ interface Props extends WithStyles<typeof styles> {
     avatarSrc?: string,
     message: string,
     isOwnMessage: boolean,
+    isRead: boolean,
 }
 
 function Message (props: Props) {

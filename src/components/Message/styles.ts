@@ -17,7 +17,6 @@ const styles = (theme: Theme) => createStyles({
     },
     avatar: {
         display: 'flex',
-        justifyContent: 'ri',
         alignItems: 'center'
     }
 });

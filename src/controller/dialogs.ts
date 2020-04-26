@@ -15,3 +15,14 @@ export const getMessages = (dialogId: string) => {
         {}
     );
 };
+
+export const updateReadStatus = (dialogId: string, status: boolean, exclude: string) => {
+  return ApiRequest.withAuth(
+      'POST',
+      `/dialogs/${dialogId}/messages/is-read`,
+      {
+          status,
+          'excludeParticipant': exclude
+      }
+  );
+};
