@@ -16,9 +16,12 @@ import PublicProfile from "../PublicProfile";
 import {unauthenticatedMenuItems} from "./unauthenticated_menu";
 import DialogsContainer from "../DialogsContainer";
 import MessageContainer from "../MessageContainer";
+import {RootState} from "../../store";
+import {ThunkDispatch} from "redux-thunk";
+import {connect} from "react-redux";
 
 interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
-
+    unreadMessagesNumber: number,
 }
 
 interface State {
@@ -83,6 +86,7 @@ class Application extends React.Component<Props, State> {
                 title={this.state.currentPage.title}
                 sidebarItems={this.state.menuItems}
                 isAuthenticated={isAuthenticated()}
+                unreadMessagesNumber={this.props.unreadMessagesNumber}
             >
                 <Switch>
                     <Route path='/s/users' component={() => <PersonsPage isAuthenticated={isAuthenticated()} />}/>
@@ -100,4 +104,10 @@ class Application extends React.Component<Props, State> {
     }
 }
 
-export default withStyles(styles)(Application);
+const mapStateToProps = (state: RootState) => ({
+    unreadMessagesNumber: state.dialogsState.unreadMessageCount,
+});
+
+const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>) => ({});
+
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Application));

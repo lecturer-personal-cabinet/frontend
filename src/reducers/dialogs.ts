@@ -1,10 +1,10 @@
 import {DialogActionsTypes, DialogsActions, DialogsState} from "../types/dialogs";
-import {act} from "react-dom/test-utils";
 
 const initialState: DialogsState = {
     sendMessageDialogStatus: false,
     dialogs: [],
     messages: [],
+    unreadMessageCount: 0,
 };
 
 export function dialogsStateReducer(
@@ -18,6 +18,10 @@ export function dialogsStateReducer(
             return {...state, dialogs: action.payload};
         case DialogActionsTypes.SET_MESSAGES:
             return {...state, messages: action.payload};
+        case DialogActionsTypes.SET_UNREAD_COUNT:
+            return {...state, unreadMessageCount: action.payload};
+        case DialogActionsTypes.INCREASE_UNREAD_COUNT:
+            return {...state, unreadMessageCount: state.unreadMessageCount + action.payload};
         case DialogActionsTypes.SET_MESSAGE:
             const modifiedDialog = state.dialogs.find(dialog => dialog.id === action.payload.dialogId);
             modifiedDialog?.messages.push(action.payload);
@@ -25,10 +29,7 @@ export function dialogsStateReducer(
                 ...state,
                 messages: [...state.messages, action.payload],
                 dialogs: state.dialogs.map(dialog => {
-                    if (dialog.id == modifiedDialog?.id) {
-                        return modifiedDialog;
-                    }
-
+                    if (dialog.id === modifiedDialog?.id) return modifiedDialog;
                     return dialog;
                 })
             };

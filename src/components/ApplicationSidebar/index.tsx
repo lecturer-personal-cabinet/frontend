@@ -21,6 +21,7 @@ interface ApplicationSidebarProps extends WithStyles<typeof styles> {
     openState: boolean,
     sidebarItems: SidebarItem[][],
     withNotifications: boolean,
+    unreadMessagesNumber?: number,
 }
 
 function ApplicationSidebar(props: ApplicationSidebarProps) {
@@ -48,14 +49,13 @@ function ApplicationSidebar(props: ApplicationSidebarProps) {
                             </Badge>
                         </IconButton>
                         <IconButton color="inherit">
-                            <Badge badgeContent={6} color="secondary">
+                            <Badge badgeContent={props.unreadMessagesNumber} color="secondary">
                                 <MailIcon onClick={() => redirectToDialogs()}/>
                             </Badge>
                         </IconButton>
                     </div>
                 }
             </div>
-
 
             <Divider/>
             {props.sidebarItems.map(section => (

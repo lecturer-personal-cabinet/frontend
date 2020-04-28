@@ -17,7 +17,7 @@ function DialogPreview(props: Props) {
           .filter(p => p.id !== props.userId)
           .map(p => `${p.firstName} ${p.lastName}`);
 
-      return fullNames.length == 1 ? fullNames[0] : fullNames.join(',');
+      return fullNames.length === 1 ? fullNames[0] : fullNames.join(',');
     };
 
     return (
@@ -25,14 +25,14 @@ function DialogPreview(props: Props) {
             container
             alignItems='center'
         >
-            <Grid item md={1}>
+            <Grid item xs={3} md={2}>
                 <Badge
                     badgeContent={props.dialog.messages.filter(msg => !msg.isRead && msg.sender.id !== props.userId).length}
                     color="primary">
                     <Avatar/>
                 </Badge>
             </Grid>
-            <Grid item md={10}>
+            <Grid item xs={9} md={10}>
                 <Grid container direction='column'>
                     <Grid item className={props.classes.fullName}>
                         {dialogName()}

@@ -2,7 +2,7 @@ import {Dialog, DialogActionsTypes, DialogMessage, FlatMessage} from "../types/d
 import {ThunkAction} from "redux-thunk";
 import {RootState} from "../store";
 import {Action} from "typesafe-actions";
-import {getAllDialogs, getMessages, updateReadStatus} from "../controller/dialogs";
+import {getAllDialogs, getMessages, getMessagesCount, updateReadStatus} from "../controller/dialogs";
 import {setDialogLoading, setDialogsLoading} from "./loadings";
 import {getUser} from "../controller/users_controller";
 
@@ -54,6 +54,16 @@ export const changeReadStatusAction = (dialogId: string, status: boolean, exclud
     }
 };
 
+export const getUnreadMessagesCount = (userId: string)
+    : ThunkAction<void, RootState, null, Action<string>> => async dispatch => {
+    try {
+        const result = await getMessagesCount(userId, false);
+        dispatch(setUnreadMessagesCount(result.data));
+    } catch(e) {
+        console.error(e);
+    }
+};
+
 export function setSendMessageDialogState(open: boolean) {
     return {
         type: DialogActionsTypes.SEND_MESSAGE_DIALOG,
@@ -87,5 +97,19 @@ export function setMessagesRead(dialogId: string, read: boolean) {
         type: DialogActionsTypes.SET_MESSAGES_READ,
         read,
         dialogId,
+    }
+}
+
+export function setUnreadMessagesCount(count: number) {
+    return {
+        type: DialogActionsTypes.SET_UNREAD_COUNT,
+        payload: count
+    }
+}
+
+export function increaseUnreadMessagesCount(payload: number) {
+    return {
+        type: DialogActionsTypes.INCREASE_UNREAD_COUNT,
+        payload,
     }
 }

@@ -33,6 +33,7 @@ export interface DialogsState {
     sendMessageDialogStatus: boolean,
     dialogs: Dialog[],
     messages: DialogMessage[],
+    unreadMessageCount: number,
 }
 
 export enum DialogActionsTypes {
@@ -41,6 +42,8 @@ export enum DialogActionsTypes {
     SET_MESSAGES = 'SET_MESSAGES',
     SET_MESSAGE = 'SET_MESSAGE',
     SET_MESSAGES_READ = 'SET_MESSAGES_READ',
+    SET_UNREAD_COUNT = 'SET_UNREAD_COUNT',
+    INCREASE_UNREAD_COUNT = 'INCREASE_UNREAD_COUNT',
 }
 
 export interface SendMessageDialogStatus {
@@ -69,4 +72,20 @@ export interface SetMessagesRead {
     dialogId: string,
 }
 
-export type DialogsActions = SendMessageDialogStatus | SetDialogs | SetMessages | SetMessage | SetMessagesRead;
+export interface SetUnreadMessageCount {
+    type: DialogActionsTypes.SET_UNREAD_COUNT,
+    payload: number,
+}
+
+export interface IncreaseUnreadCount {
+    type: DialogActionsTypes.INCREASE_UNREAD_COUNT,
+    payload: number,
+}
+
+export type DialogsActions = SendMessageDialogStatus |
+    SetDialogs |
+    SetMessages |
+    SetMessage |
+    SetMessagesRead |
+    SetUnreadMessageCount |
+    IncreaseUnreadCount;

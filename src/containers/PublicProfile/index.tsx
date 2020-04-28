@@ -19,6 +19,7 @@ import {isAuthenticated} from "../../actions/authentication";
 import SendMessageDialog from "../../components/SendMessageDialog";
 import {setSendMessageDialogState} from "../../actions/dialogs";
 import {WebSocketController} from "../../actions/websocket";
+import {redirectToProfile} from "../../actions/redirects";
 
 interface MatchParams {
     userId: string,
@@ -63,6 +64,7 @@ class PublicProfile extends React.Component<Props, State> {
     }
 
     UNSAFE_componentWillMount(): void {
+        if(this.props.match.params.userId === localStorage.getItem('userId')) redirectToProfile();
         this.props.setTimelineLoading(true);
         this.props.setProfileLoading(true);
         this.props.setProfileInfoLoading(true);

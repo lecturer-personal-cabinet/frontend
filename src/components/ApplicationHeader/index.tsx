@@ -35,6 +35,7 @@ interface ApplicationHeaderProps extends WithStyles<typeof styles> {
     sidebarItems: SidebarItem[][],
     userName?: string,
     isAuthenticated: boolean,
+    unreadMessagesNumber?: number,
 }
 
 type Props = MapStateToProps & MapDispatchToProps & ApplicationHeaderProps;
@@ -133,7 +134,7 @@ class ApplicationHeader extends React.Component<Props, ApplicationHeaderState> {
                             className={this.props.classes.sidebarButton}>
                             {this.state.sidebar.state ?
                                 <ChevronLeft/> :
-                                <Badge badgeContent={this.props.isAuthenticated ? 1 : undefined} color="secondary">
+                                <Badge badgeContent={this.props.isAuthenticated ? this.props.unreadMessagesNumber : undefined} color="secondary">
                                     <ChevronRight/>
                                 </Badge>
                             }
@@ -156,6 +157,7 @@ class ApplicationHeader extends React.Component<Props, ApplicationHeaderState> {
                     openState={this.state.sidebar.state}
                     sidebarItems={this.props.sidebarItems}
                     withNotifications={this.props.isAuthenticated}
+                    unreadMessagesNumber={this.props.unreadMessagesNumber}
                 />
 
                 <main

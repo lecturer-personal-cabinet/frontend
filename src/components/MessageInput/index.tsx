@@ -10,14 +10,14 @@ interface Props extends WithStyles<typeof styles> {
 function MessageInput (props: Props) {
     return (
         <Grid container spacing={2}>
-            <Grid item md={11}>
+            <Grid item xs={8} md={9}>
                 <TextField
                     label={props.textFieldLabel}
                     variant="outlined"
                     className={props.classes.textInput}
                 />
             </Grid>
-            <Grid item md={1}>
+            <Grid item xs={4} md={3}>
                 <Button
                     variant="contained"
                     color="primary"

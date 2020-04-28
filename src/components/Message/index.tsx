@@ -15,10 +15,10 @@ function Message (props: Props) {
             container
             direction={props.isOwnMessage ? 'row-reverse' : 'row'}
         >
-            <Grid item md={1} className={props.classes.avatar} justify={"center"} alignItems={"center"}>
+            <Grid item xs={2} md={1} className={props.classes.avatar} justify={"center"} alignItems={"center"}>
                 <Avatar src={props.avatarSrc} />
             </Grid>
-            <Grid item md={6} className={props.classes.message}>
+            <Grid item xs={10} md={6} className={props.classes.message}>
                 <div className={props.classes.messageContent}>{props.message}</div>
             </Grid>
 

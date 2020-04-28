@@ -92,7 +92,7 @@ class UsersContainer extends React.Component<Props, State> {
                         onSearch={this.onSearch}
                     />
                 </div>
-                <PersonsList users={this.props.users}
+                <PersonsList users={this.props.users.filter(u => u.id !== localStorage.getItem('userId'))}
                              onDialogIconClick={this.onDialogIconClick}
                              onInfoIconClick={this.onInfoIconClick}
                              withSendMessage={this.props.isAuthenticated}

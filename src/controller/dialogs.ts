@@ -26,3 +26,11 @@ export const updateReadStatus = (dialogId: string, status: boolean, exclude: str
       }
   );
 };
+
+export const getMessagesCount = (userId: string, isRead: boolean) => {
+  return ApiRequest.withAuth(
+      'GET',
+      `/users/${userId}/dialogs/messages/count?isRead=${isRead}`,
+      {}
+  )
+};

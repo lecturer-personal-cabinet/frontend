@@ -1,4 +1,4 @@
-import {createStyles, fade, Theme} from "@material-ui/core";
+import {createStyles, Theme} from "@material-ui/core";
 
 const styles = (theme: Theme) => createStyles({
     messageWrapper: {
