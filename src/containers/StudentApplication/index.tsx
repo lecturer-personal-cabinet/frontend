@@ -9,7 +9,6 @@ import ApplicationHeader from '../../components/ApplicationHeader';
 import {sidebarItems} from "./menu";
 import {SidebarItem} from "../../components/ApplicationSidebar/types";
 import {PrivateRoute} from "../../components/PrivateRoute";
-import PortfolioContainer from "../PortfolioContainer";
 import CompleteProfileContainer from "../CompleteProfileContainer";
 import {isAuthenticated} from "../../actions/authentication";
 import PublicProfile from "../PublicProfile";
@@ -19,6 +18,7 @@ import MessageContainer from "../MessageContainer";
 import {RootState} from "../../store";
 import {ThunkDispatch} from "redux-thunk";
 import {connect} from "react-redux";
+import PortfolioContainer from "../PortfolioContainer";
 
 interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
     unreadMessagesNumber: number,
@@ -95,7 +95,8 @@ class Application extends React.Component<Props, State> {
                     <PrivateRoute path='/s/dialogs/:dialogId' component={MessageContainer} />
                     <PrivateRoute path='/s/dialogs' component={DialogsContainer} />
                     <PrivateRoute path='/s/profile' component={DashboardPage} />
-                    <PrivateRoute path='/s/portfolio' component={PortfolioContainer} />
+                    <PrivateRoute path='/s/portfolio/:userId' component={PortfolioContainer} />} />
+                    <PrivateRoute path='/s/portfolio' component={PortfolioContainer} />} />
                     <Redirect from="/s" to="/s/profile" />
                     <Route component={NotFound}/>
                 </Switch>

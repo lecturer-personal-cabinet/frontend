@@ -1,11 +1,15 @@
-export const redirectToProfile = () => window.location.href = '/s/profile';
+import history from "../history";
 
-export const redirectToPublicProfile = (userId: string) => window.location.href = `/s/profile/${userId}`;
+export const redirectToProfile = () => history.push('/s/profile');
 
-export const redirectToSignIn = () => window.location.href = '/sign-in';
+export const redirectToPublicProfile = (userId: string) => history.push(`/s/profile/${userId}`);
 
-export const redirectToProfileComplete = () => window.location.href = '/s/profile/complete';
+export const redirectToSignIn = () => history.push('/sign-in');
 
-export const redirectToDialogs = () => window.location.href = '/s/dialogs';
+export const redirectToProfileComplete = () => history.push('/s/profile/complete');
 
-export const redirectToMessages = (dialogId: string) => window.location.href = `/s/dialogs/${dialogId}`;
+export const redirectToDialogs = () => history.push('/s/dialogs');
+
+export const redirectToMessages = (dialogId: string) => history.push(`/s/dialogs/${dialogId}`);
+
+export const redirectToUserPortfolio = (userId: string) => history.push(`/s/portfolio/${userId}`);

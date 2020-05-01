@@ -112,6 +112,7 @@ class OwnProfile extends React.Component<Props, State> {
                             isAuthenticated={isAuthenticated()}
                             withActiveBar={false}
                             onSendMessageClick={() => {}}
+                            onPortfolioClick={() => {}}
                         />
                     </Grid>
                     <Grid item xs={12}>

@@ -19,7 +19,7 @@ import {isAuthenticated} from "../../actions/authentication";
 import SendMessageDialog from "../../components/SendMessageDialog";
 import {setSendMessageDialogState} from "../../actions/dialogs";
 import {WebSocketController} from "../../actions/websocket";
-import {redirectToProfile} from "../../actions/redirects";
+import {redirectToProfile, redirectToUserPortfolio} from "../../actions/redirects";
 
 interface MatchParams {
     userId: string,
@@ -104,6 +104,7 @@ class PublicProfile extends React.Component<Props, State> {
                             groupNumber={''}
                             formattedBirthdayDate={''}
                             onSendMessageClick={() => this.props.setSendMessageDialogState(true)}
+                            onPortfolioClick={() => redirectToUserPortfolio(this.props.match.params.userId)}
                             isAuthenticated={isAuthenticated()}
                             withActiveBar={true}
                         />

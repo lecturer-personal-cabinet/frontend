@@ -11,8 +11,16 @@ import {getPortfolioCardsAction, savePortfolioCardAction} from "../../actions/po
 import {setPortfolioCardsLoading} from "../../actions/loadings";
 import PageLoader from "../../components/PageLoader";
 import PortfolioCardComponent from "../../components/PortfolioCardComponent";
+import {RouteComponentProps} from "react-router-dom";
+import {isAuthenticated} from "../../actions/authentication";
+import nanoid from "nanoid";
 
-interface MapStateToProps extends WithStyles<typeof styles> {
+interface MatchParams {
+    userId: string,
+}
+
+interface MapStateToProps extends WithStyles<typeof styles>, RouteComponentProps<MatchParams> {
+    isAuthenticated: boolean,
     portfolioCards: PortfolioCard[],
     loading: {
         portfolioCards: boolean,
@@ -35,8 +43,16 @@ interface State {
 
 class PortfolioContainer extends React.Component<Props, State> {
     UNSAFE_componentWillMount(): void {
+        console.log(this.props.match.params.userId);
         this.props.setPortfolioCardsLoading(true);
-        this.props.getPortfolioCardsAction(localStorage.getItem('userId') || '');
+        this.props.getPortfolioCardsAction(this.props.match.params.userId || localStorage.getItem('userId') || '');
+    }
+
+    componentDidUpdate(prevProps: Props) {
+        if (prevProps.match.params.userId !== this.props.match.params.userId) {
+            this.props.setPortfolioCardsLoading(true);
+            this.props.getPortfolioCardsAction(this.props.match.params.userId || localStorage.getItem('userId') || '');
+        }
     }
 
     constructor(props: Props) {
@@ -92,11 +108,15 @@ class PortfolioContainer extends React.Component<Props, State> {
         if(this.props.loading.portfolioCards) return <PageLoader />;
         return (
             <div className={this.props.classes.root}>
-                {this.dialogPortfolioCardForm()}
-                <PortfolioControlPanel onAddPortfolioCardClick={() => this.switchDialogPortfolioCardState()} />
+                {this.props.isAuthenticated && !this.props.match.params.userId &&
+                    <div>
+                        {this.dialogPortfolioCardForm()}
+                        <PortfolioControlPanel onAddPortfolioCardClick={() => this.switchDialogPortfolioCardState()} />
+                    </div>
+                }
                 <Grid container spacing={3} className={this.props.classes.cardsContainer}>
                     {this.props.portfolioCards.map(card => (
-                        <Grid item md={3}><PortfolioCardComponent item={card}/></Grid>
+                        <Grid item md={3} key={nanoid()}><PortfolioCardComponent item={card}/></Grid>
                     ))}
                 </Grid>
             </div>
@@ -104,6 +124,7 @@ class PortfolioContainer extends React.Component<Props, State> {
     }
 }
 const mapStateToProps = (state: RootState) => ({
+    isAuthenticated: isAuthenticated(),
     portfolioCards: state.portfolioState.cards,
     loading: {
         portfolioCards: state.loadingState.portfolioCards,

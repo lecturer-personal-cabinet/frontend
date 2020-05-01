@@ -14,6 +14,7 @@ interface Props extends WithStyles<typeof styles> {
     withActiveBar: boolean,
 
     onSendMessageClick: () => void,
+    onPortfolioClick: () => void,
 }
 
 function ProfileInformation(props: Props) {
@@ -50,8 +51,13 @@ function ProfileInformation(props: Props) {
                         >
                             Сообщение
                         </Button>
-                        <Button variant="contained" color="primary" className={props.classes.actionButton}>
-                            Secondary
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            className={props.classes.actionButton}
+                            onClick={() => props.onPortfolioClick()}
+                        >
+                            Портфолио
                         </Button>
                     </Grid>
                 </Grid>
