@@ -8,6 +8,7 @@ const initialState: LoadingState = {
     timezones: true,
     dialogs: true,
     dialog: true,
+    portfolioCards: true,
 };
 
 export function loadingReducer(
@@ -29,6 +30,8 @@ export function loadingReducer(
             return {...state, dialogs: action.loading};
         case LoadingsActionTypes.DIALOG:
             return {...state, dialog: action.loading};
+        case LoadingsActionTypes.PORTFOLIO_CARDS:
+            return {...state, portfolioCards: action.loading};
         default:
             return state;
     }

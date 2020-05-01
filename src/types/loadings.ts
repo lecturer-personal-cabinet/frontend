@@ -6,6 +6,7 @@ export interface LoadingState {
     timezones: boolean,
     dialogs: boolean,
     dialog: boolean,
+    portfolioCards: boolean,
 }
 
 export enum LoadingsActionTypes {
@@ -16,6 +17,7 @@ export enum LoadingsActionTypes {
     TIMEZONES = 'TIMEZONES',
     DIALOGS = 'DIALOGS',
     DIALOG = 'DIALOG',
+    PORTFOLIO_CARDS = 'PORTFOLIO_CARDS',
 }
 
 export interface UserProfileLoadingAction {
@@ -53,6 +55,11 @@ export interface DialogLoadingAction {
     loading: boolean,
 }
 
+export interface PortfolioCardsLoadingAction {
+    type: LoadingsActionTypes.PORTFOLIO_CARDS,
+    loading: boolean,
+}
+
 export type LoadingActions =
     UserProfileLoadingAction |
     UserProfileInfoLoadingAction |
@@ -60,4 +67,5 @@ export type LoadingActions =
     UsersListLoadingAction |
     TimezonesLoadingAction |
     DialogsLoadingAction |
-    DialogLoadingAction;
+    DialogLoadingAction |
+    PortfolioCardsLoadingAction;

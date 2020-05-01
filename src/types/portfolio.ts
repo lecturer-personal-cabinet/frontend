@@ -1,7 +1,7 @@
 import {User} from "./users";
 
 export interface PortfolioState {
-
+    cards: PortfolioCard[],
 }
 
 export type PortfolioItem = {
@@ -13,12 +13,28 @@ export type PortfolioItem = {
     creator: User
 };
 
+export type PortfolioCard = {
+    id?: string,
+    title: string,
+    description: string,
+    previewImageLink: string,
+    tags: string[],
+    userId: string
+};
+
 export enum PortfolioActionTypes {
-    DUMMY = 'DUMMY',
+    SET_PORTFOLIO_CARDS = 'SET_PORTFOLIO_CARDS',
+    ADD_PORTFOLIO_CARD = 'ADD_PORTFOLIO_CARD',
 }
 
-export interface DummyAction {
-    type: PortfolioActionTypes.DUMMY
+export interface AddPortfolioCard {
+    type: PortfolioActionTypes.ADD_PORTFOLIO_CARD,
+    payload: PortfolioCard
 }
 
-export type PortfolioActions = DummyAction;
+export interface SetPortfolioCards {
+    type: PortfolioActionTypes.SET_PORTFOLIO_CARDS,
+    payload: PortfolioCard[],
+}
+
+export type PortfolioActions = AddPortfolioCard | SetPortfolioCards;

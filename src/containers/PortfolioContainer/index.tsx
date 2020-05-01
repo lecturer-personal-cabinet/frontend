@@ -1,114 +1,113 @@
 import React from 'react';
-import {withStyles, WithStyles} from "@material-ui/core";
+import {Dialog, withStyles, WithStyles} from "@material-ui/core";
 import styles from "./styles";
-import Grid from '@material-ui/core/Grid';
 import {RootState} from "../../store";
 import {connect} from "react-redux";
 import {ThunkDispatch} from "redux-thunk";
-import {PortfolioItem} from "../../types/portfolio";
-import PortfolioItemComponent from '../../components/PortfolioItemComponent';
+import PortfolioCardForm from "../../components/forms/ProfileCardForm";
+import PortfolioControlPanel from "../../components/PortfolioControlPanel";
+import {PortfolioCard} from "../../types/portfolio";
+import {getPortfolioCardsAction, savePortfolioCardAction} from "../../actions/portfolio";
+import {setPortfolioCardsLoading} from "../../actions/loadings";
+import PageLoader from "../../components/PageLoader";
 
-interface MapStateToProps extends WithStyles<typeof styles> {}
-interface MapDispatchToProps {}
+interface MapStateToProps extends WithStyles<typeof styles> {
+    portfolioCards: PortfolioCard[],
+    loading: {
+        portfolioCards: boolean,
+    },
+}
+
+interface MapDispatchToProps {
+    savePortfolioCardAction: (card: PortfolioCard) => void,
+    setPortfolioCardsLoading: (loading: boolean) => void,
+    getPortfolioCardsAction: (userId: string) => void,
+}
 
 type Props = MapStateToProps & MapDispatchToProps;
 
 interface State {
-    items: PortfolioItem[],
+    dialog: {
+        addPortfolioCard: boolean,
+    }
 }
 
 class PortfolioContainer extends React.Component<Props, State> {
+    UNSAFE_componentWillMount(): void {
+        this.props.setPortfolioCardsLoading(true);
+        this.props.getPortfolioCardsAction(localStorage.getItem('userId') || '');
+    }
+
     constructor(props: Props) {
         super(props);
-
         this.state = {
-            items: [
-                {
-                    id: '1',
-                    title: 'Item Title 1',
-                    description: 'The project is file-based ingestion pipeline into the HDFS. It helps in processing and visualizing large sets of data. Input data is produced by several external providers and put in AWS S3 or HDFS storage working on the cluster with several nodes. During processing steps it should be analyzed (statistical and business metrics), validated, anonymized, deduplicated and normalized. Finalized data gets aggregated, saved at the several storages (HDFS, Hive tables) and visualized through Hue dashboards in user-friendly graphics including filters, timelines, processing results and other statistic information.',
-                    portfolioPhotos: [
-                        'https://amayei.nyc3.digitaloceanspaces.com/2020/01/1943f78b50faa21ee7ee1f03dd52dd64fed22fd3.jpg',
-                        'https://amayei.nyc3.digitaloceanspaces.com/2020/01/1943f78b50faa21ee7ee1f03dd52dd64fed22fd3.jpg',
-                        'https://amayei.nyc3.digitaloceanspaces.com/2020/01/1943f78b50faa21ee7ee1f03dd52dd64fed22fd3.jpg',
-                        'https://amayei.nyc3.digitaloceanspaces.com/2020/01/1943f78b50faa21ee7ee1f03dd52dd64fed22fd3.jpg',
-                        'https://amayei.nyc3.digitaloceanspaces.com/2020/01/1943f78b50faa21ee7ee1f03dd52dd64fed22fd3.jpg',
-                        'https://amayei.nyc3.digitaloceanspaces.com/2020/01/1943f78b50faa21ee7ee1f03dd52dd64fed22fd3.jpg',
-                        'https://s3-eu-west-1.amazonaws.com/oceanographic/wp-content/uploads/2019/11/26104000/ocean-communities.jpg',
-                        'https://www.aljazeera.com/mritems/imagecache/mbdxxlarge/mritems/Images/2019/6/12/5f77ac61d2ab4d6a86e1aa0b110179c8_18.jpg',
-                    ],
-                    creator: {
-                        id: 'string',
-                        firstName: 'Vladimir',
-                        lastName: 'Baklan',
-                        email: 'string',
-                    },
-                    created: '08/02/2010 12:22'
-                },
-                {
-                    id: '1',
-                    title: 'Item Title 1',
-                    description: 'The project is file-based ingestion pipeline into the HDFS. It helps in processing and visualizing large sets of data. Input data is produced by several external providers and put in AWS S3 or HDFS storage working on the cluster with several nodes. During processing steps it should be analyzed (statistical and business metrics), validated, anonymized, deduplicated and normalized. Finalized data gets aggregated, saved at the several storages (HDFS, Hive tables) and visualized through Hue dashboards in user-friendly graphics including filters, timelines, processing results and other statistic information.',
-                    portfolioPhotos: [
-                        'https://amayei.nyc3.digitaloceanspaces.com/2020/01/1943f78b50faa21ee7ee1f03dd52dd64fed22fd3.jpg',
-                        'https://amayei.nyc3.digitaloceanspaces.com/2020/01/1943f78b50faa21ee7ee1f03dd52dd64fed22fd3.jpg',
-                        'https://amayei.nyc3.digitaloceanspaces.com/2020/01/1943f78b50faa21ee7ee1f03dd52dd64fed22fd3.jpg',
-                        'https://amayei.nyc3.digitaloceanspaces.com/2020/01/1943f78b50faa21ee7ee1f03dd52dd64fed22fd3.jpg',
-                        'https://amayei.nyc3.digitaloceanspaces.com/2020/01/1943f78b50faa21ee7ee1f03dd52dd64fed22fd3.jpg',
-                        'https://amayei.nyc3.digitaloceanspaces.com/2020/01/1943f78b50faa21ee7ee1f03dd52dd64fed22fd3.jpg',
-                        'https://s3-eu-west-1.amazonaws.com/oceanographic/wp-content/uploads/2019/11/26104000/ocean-communities.jpg',
-                        'https://www.aljazeera.com/mritems/imagecache/mbdxxlarge/mritems/Images/2019/6/12/5f77ac61d2ab4d6a86e1aa0b110179c8_18.jpg',
-                    ],
-                    creator: {
-                        id: 'string',
-                        firstName: 'Vladimir',
-                        lastName: 'Baklan',
-                        email: 'string',
-                    },
-                    created: '08/02/2010 12:22'
-                },
-                {
-                    id: '1',
-                    title: 'Item Title 1',
-                    description: 'The project is file-based ingestion pipeline into the HDFS. It helps in processing and visualizing large sets of data. Input data is produced by several external providers and put in AWS S3 or HDFS storage working on the cluster with several nodes. During processing steps it should be analyzed (statistical and business metrics), validated, anonymized, deduplicated and normalized. Finalized data gets aggregated, saved at the several storages (HDFS, Hive tables) and visualized through Hue dashboards in user-friendly graphics including filters, timelines, processing results and other statistic information.',
-                    portfolioPhotos: [
-                        'https://amayei.nyc3.digitaloceanspaces.com/2020/01/1943f78b50faa21ee7ee1f03dd52dd64fed22fd3.jpg',
-                        'https://amayei.nyc3.digitaloceanspaces.com/2020/01/1943f78b50faa21ee7ee1f03dd52dd64fed22fd3.jpg',
-                        'https://amayei.nyc3.digitaloceanspaces.com/2020/01/1943f78b50faa21ee7ee1f03dd52dd64fed22fd3.jpg',
-                        'https://amayei.nyc3.digitaloceanspaces.com/2020/01/1943f78b50faa21ee7ee1f03dd52dd64fed22fd3.jpg',
-                        'https://amayei.nyc3.digitaloceanspaces.com/2020/01/1943f78b50faa21ee7ee1f03dd52dd64fed22fd3.jpg',
-                        'https://amayei.nyc3.digitaloceanspaces.com/2020/01/1943f78b50faa21ee7ee1f03dd52dd64fed22fd3.jpg',
-                        'https://s3-eu-west-1.amazonaws.com/oceanographic/wp-content/uploads/2019/11/26104000/ocean-communities.jpg',
-                        'https://www.aljazeera.com/mritems/imagecache/mbdxxlarge/mritems/Images/2019/6/12/5f77ac61d2ab4d6a86e1aa0b110179c8_18.jpg',
-                    ],
-                    creator: {
-                        id: 'string',
-                        firstName: 'Vladimir',
-                        lastName: 'Baklan',
-                        email: 'string',
-                    },
-                    created: '08/02/2010 12:22'
-                },
-            ]
+            dialog: {
+                addPortfolioCard: false,
+            },
         };
+
+        this.switchDialogPortfolioCardState = this.switchDialogPortfolioCardState.bind(this);
+        this.onAddPortfolioCard = this.onAddPortfolioCard.bind(this);
+    }
+
+    private onAddPortfolioCard (title: string, description: string): void {
+        const card = {
+            title,
+            description,
+            previewImageLink: '[TEST LINK]',
+            tags: [],
+            userId: localStorage.getItem('userId') || '',
+        };
+        this.props.savePortfolioCardAction(card);
+        this.switchDialogPortfolioCardState();
+    }
+
+    private dialogPortfolioCardForm () {
+        return (
+            <Dialog
+                open={this.state.dialog.addPortfolioCard}
+                onClose={() => this.switchDialogPortfolioCardState()}
+                fullWidth={true}
+                maxWidth={"md"}
+            >
+                <PortfolioCardForm
+                    onSavePortfolioCard={this.onAddPortfolioCard}
+                />
+            </Dialog>
+        );
+    }
+
+    private switchDialogPortfolioCardState () {
+        this.setState({
+            ...this.state,
+            dialog: {
+                ...this.state.dialog,
+                addPortfolioCard: !this.state.dialog.addPortfolioCard,
+            }
+        });
     }
 
     render() {
+        if(this.props.loading.portfolioCards) return <PageLoader />;
         return (
             <div className={this.props.classes.root}>
-                <Grid container spacing={3}>
-                    {this.state.items.map(item => (
-                        <Grid item md={12}>
-                            <PortfolioItemComponent item={item} />
-                        </Grid>
-                    ))}
-                </Grid>
+                {this.dialogPortfolioCardForm()}
+                <PortfolioControlPanel onAddPortfolioCardClick={() => this.switchDialogPortfolioCardState()} />
             </div>
         )
     }
 }
-const mapStateToProps = (state: RootState) => ({});
+const mapStateToProps = (state: RootState) => ({
+    portfolioCards: state.portfolioState.cards,
+    loading: {
+        portfolioCards: state.loadingState.portfolioCards,
+    },
+});
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>) => ({});
+const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>) => ({
+    savePortfolioCardAction: (card: PortfolioCard) => dispatch(savePortfolioCardAction(card)),
+    setPortfolioCardsLoading: (loading: boolean) => dispatch(setPortfolioCardsLoading(loading)),
+    getPortfolioCardsAction: (userId: string) => dispatch(getPortfolioCardsAction(userId)),
+});
 
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(PortfolioContainer))

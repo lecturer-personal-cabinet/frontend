@@ -48,3 +48,10 @@ export function setDialogLoading(loading: boolean) {
         loading,
     }
 }
+
+export function setPortfolioCardsLoading(loading: boolean) {
+    return {
+        type: LoadingsActionTypes.PORTFOLIO_CARDS,
+        loading,
+    }
+}
