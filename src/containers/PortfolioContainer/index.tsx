@@ -1,5 +1,5 @@
 import React from 'react';
-import {Dialog, withStyles, WithStyles} from "@material-ui/core";
+import {Dialog, Grid, withStyles, WithStyles} from "@material-ui/core";
 import styles from "./styles";
 import {RootState} from "../../store";
 import {connect} from "react-redux";
@@ -10,6 +10,7 @@ import {PortfolioCard} from "../../types/portfolio";
 import {getPortfolioCardsAction, savePortfolioCardAction} from "../../actions/portfolio";
 import {setPortfolioCardsLoading} from "../../actions/loadings";
 import PageLoader from "../../components/PageLoader";
+import PortfolioCardComponent from "../../components/PortfolioCardComponent";
 
 interface MapStateToProps extends WithStyles<typeof styles> {
     portfolioCards: PortfolioCard[],
@@ -93,6 +94,11 @@ class PortfolioContainer extends React.Component<Props, State> {
             <div className={this.props.classes.root}>
                 {this.dialogPortfolioCardForm()}
                 <PortfolioControlPanel onAddPortfolioCardClick={() => this.switchDialogPortfolioCardState()} />
+                <Grid container spacing={3} className={this.props.classes.cardsContainer}>
+                    {this.props.portfolioCards.map(card => (
+                        <Grid item md={3}><PortfolioCardComponent item={card}/></Grid>
+                    ))}
+                </Grid>
             </div>
         )
     }
