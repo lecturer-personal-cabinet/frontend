@@ -20,6 +20,7 @@ export const getTimezones = (): ThunkAction<void, RootState, null, Action<string
     });
 };
 
+
 function setTimezones(timezones: string[]) {
     return {
         type: CommonActionsTypes.SET_TIMEZONES,

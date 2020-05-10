@@ -15,7 +15,11 @@ import {PortfolioCard} from "../../types/portfolio";
 import TextTruncate from "react-text-truncate";
 
 interface Props extends WithStyles<typeof styles> {
-    item: PortfolioCard
+    item: PortfolioCard,
+    showEdit: boolean,
+
+    onEdit: (id: string) => void,
+    onShow: (id: string) => void,
 }
 
 function PortfolioCardComponent(props: Props) {
@@ -44,9 +48,14 @@ function PortfolioCardComponent(props: Props) {
                 </CardContent>
             </CardActionArea>
             <CardActions>
-                <Button size="small" color="primary">
+                <Button size="small" color="primary" onClick={() => props.onShow(props.item.id!)}>
                     Открыть
                 </Button>
+                {props.showEdit &&
+                    <Button size="small" color="primary" onClick={() => props.onEdit(props.item.id!)}>
+                        Редактировать
+                    </Button>
+                }
             </CardActions>
         </Card>
     );

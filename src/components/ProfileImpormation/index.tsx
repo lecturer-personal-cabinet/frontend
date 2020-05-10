@@ -12,9 +12,11 @@ interface Props extends WithStyles<typeof styles> {
     formattedBirthdayDate: string,
     isAuthenticated: boolean,
     withActiveBar: boolean,
+    image?: string,
 
     onSendMessageClick: () => void,
     onPortfolioClick: () => void,
+    onAvatarClick: () => void,
 }
 
 function ProfileInformation(props: Props) {
@@ -27,7 +29,7 @@ function ProfileInformation(props: Props) {
                 alignItems="center"
                 justify="center"
             >
-                <Avatar className={props.classes.avatar} />
+                <Avatar src={props.image} onClick={() => props.onAvatarClick()} className={props.classes.avatar} />
             </Grid>
             <div className={props.classes.name}>{`${props.firstName} ${props.lastName}`}</div>
             <div className={props.classes.secondaryInformation}>{`${props.faculty} ${props.groupNumber}`}</div>

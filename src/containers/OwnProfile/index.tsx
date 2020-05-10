@@ -11,10 +11,11 @@ import {connect} from "react-redux";
 import PageLoader from "../../components/PageLoader";
 import {User, UserInfo} from "../../types/users";
 import {setProfileInfoLoading, setProfileLoading, setTimelineLoading} from "../../actions/loadings";
-import {getProfile, getProfileInfo} from "../../actions/users";
+import {getProfile, getProfileInfo, updateProfileAction} from "../../actions/users";
 import {getAllPosts, savePost} from "../../actions/user_timeline";
 import ProfileInformation from "../../components/ProfileImpormation";
 import {isAuthenticated} from "../../actions/authentication";
+import UploadContainer from "../UploadContainer";
 
 interface StateToProps extends WithStyles<typeof styles> {
     timeline: {
@@ -37,6 +38,7 @@ interface DispatchToProps {
     getProfile: (userId: string) => void,
     getProfileInfo: (userId: string) => void,
     savePost: (userId: string, title: string, content: string, sender: User) => void,
+    updateProfileAction: (user: User, userId: string) => void,
 }
 
 type Props = StateToProps & DispatchToProps
@@ -45,6 +47,7 @@ interface State {
     timeline: {
         insertPopupState: boolean,
     },
+    openUploadAvatar: boolean,
 }
 
 class OwnProfile extends React.Component<Props, State> {
@@ -54,7 +57,12 @@ class OwnProfile extends React.Component<Props, State> {
             timeline: {
                 insertPopupState: false,
             },
+            openUploadAvatar: false,
         };
+
+        this.setOpenUploadAvatar = this.setOpenUploadAvatar.bind(this);
+        this.onAvatarClick = this.onAvatarClick.bind(this);
+        this.onUploaded = this.onUploaded.bind(this);
     }
 
     UNSAFE_componentWillMount(): void {
@@ -65,16 +73,6 @@ class OwnProfile extends React.Component<Props, State> {
         this.props.getProfileInfo(localStorage.getItem('userId') || '');
         this.props.getAllPosts(localStorage.getItem('userId') || '');
     }
-
-    private avatarBlock = (alt: string, src: string) => (
-        <Paper className={this.props.classes.item}>
-            <Avatar
-                variant="square"
-                className={this.props.classes.avatar}
-                alt={alt}
-                src={src}/>
-        </Paper>
-    );
 
     private switchStateTimelinePostInsertPopup = () => {
       this.setState({
@@ -95,12 +93,36 @@ class OwnProfile extends React.Component<Props, State> {
         this.switchStateTimelinePostInsertPopup();
     };
 
+    private onAvatarClick = () => {
+        this.setOpenUploadAvatar(true);
+    };
+
+    private onUploaded = (url: string) => {
+        console.log(url);
+        const updatedProfile = this.props.profile;
+        updatedProfile.image = url;
+        this.props.updateProfileAction(updatedProfile, this.props.profile.id || localStorage.getItem('userId') || '');
+        this.setOpenUploadAvatar(false);
+    };
+
+    private setOpenUploadAvatar = (open: boolean) => {
+        this.setState({
+            ...this.state,
+            openUploadAvatar: open,
+        });
+    };
+
     render() {
         if(this.props.loading.timelineLoading ||
             this.props.loading.profileLoading ||
             this.props.loading.profileInfoLoading) return <PageLoader />;
         return (
             <div className={this.props.classes.root}>
+                <UploadContainer
+                    openUpload={this.setOpenUploadAvatar}
+                    open={this.state.openUploadAvatar}
+                    onSubmit={this.onUploaded}
+                />
                 <Grid container spacing={3}>
                     <Grid item md={12} xs={12} sm={12}>
                         <ProfileInformation
@@ -113,6 +135,8 @@ class OwnProfile extends React.Component<Props, State> {
                             withActiveBar={false}
                             onSendMessageClick={() => {}}
                             onPortfolioClick={() => {}}
+                            onAvatarClick={this.onAvatarClick}
+                            image={this.props.profile.image}
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -159,6 +183,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>) => ({
     getProfile: (userId: string) => dispatch(getProfile(userId)),
     getProfileInfo: (userId: string) => dispatch(getProfileInfo(userId)),
     savePost: (userId: string, title: string, content: string, sender: User) => dispatch(savePost(userId, title, content, sender)),
+    updateProfileAction: (user: User, userId: string) => dispatch(updateProfileAction(user, userId)),
 });
 
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(OwnProfile))

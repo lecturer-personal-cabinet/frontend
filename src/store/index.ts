@@ -15,6 +15,8 @@ import {CommonState} from "../types/common";
 import {commonReducer} from "../reducers/common";
 import {DialogsState} from "../types/dialogs";
 import {dialogsStateReducer} from "../reducers/dialogs";
+import {BuilderState} from "../types/builder";
+import {builderStateReducer} from "../reducers/builder";
 
 export interface RootState {
     userState: IUsersState,
@@ -24,6 +26,7 @@ export interface RootState {
     loadingState: LoadingState,
     commonState: CommonState,
     dialogsState: DialogsState,
+    builderState: BuilderState,
 }
 
 const rootReducer = combineReducers<RootState>({
@@ -34,6 +37,7 @@ const rootReducer = combineReducers<RootState>({
     loadingState: loadingReducer,
     commonState: commonReducer,
     dialogsState: dialogsStateReducer,
+    builderState: builderStateReducer,
 });
 
 export default function configureStore(): Store<RootState, any> {

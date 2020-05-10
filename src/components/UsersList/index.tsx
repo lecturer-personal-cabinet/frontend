@@ -35,7 +35,7 @@ function UsersList(props: UsersListProps) {
     const userRow = (user: User) => (
       <TableRow key={user.id} style={{cursor: 'pointer'}} onClick={() => onUserRowClick(user)}>
           <TableCell align="center">
-              <Avatar alt={user.firstName + ' ' + user.lastName} src={user.avatarSrc}/>
+              <Avatar alt={user.firstName + ' ' + user.lastName} src={user.image}/>
           </TableCell>
           <TableCell align="left">
               {user.firstName + ' ' + user.lastName}

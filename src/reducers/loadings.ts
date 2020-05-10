@@ -9,6 +9,7 @@ const initialState: LoadingState = {
     dialogs: true,
     dialog: true,
     portfolioCards: true,
+    builderItems: true,
 };
 
 export function loadingReducer(
@@ -32,6 +33,8 @@ export function loadingReducer(
             return {...state, dialog: action.loading};
         case LoadingsActionTypes.PORTFOLIO_CARDS:
             return {...state, portfolioCards: action.loading};
+        case LoadingsActionTypes.BUILDER_ITEMS:
+            return {...state, builderItems: action.loading};
         default:
             return state;
     }

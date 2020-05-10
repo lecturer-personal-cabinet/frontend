@@ -9,10 +9,12 @@ export const updateUser = (user: User) => {
             id: user.id,
             firstName: user.firstName,
             lastName: user.lastName,
-            email: user.email
+            email: user.email,
+            image: user.image,
         }
     );
 };
+
 
 export const saveUserInfo = (userId: string, userInfo: UserInfo) => {
     return ApiRequest.withAuth(
@@ -36,9 +38,9 @@ export const getUserProfile = (userId: string) => {
 };
 
 export const getUser = (userId: string) => {
-  return ApiRequest.withAuth(
-      'GET',
-      `/users/${userId}`,
-      {}
-  );
+    return ApiRequest.withAuth(
+        'GET',
+        `/users/${userId}`,
+        {}
+    );
 };

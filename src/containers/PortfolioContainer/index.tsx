@@ -14,12 +14,17 @@ import PortfolioCardComponent from "../../components/PortfolioCardComponent";
 import {RouteComponentProps} from "react-router-dom";
 import {isAuthenticated} from "../../actions/authentication";
 import nanoid from "nanoid";
+import {redirectToUserPortfolioItem, redirectToUserPortfolioItemBuilder} from "../../actions/redirects";
+
+interface CustomProps {
+    isPublic: boolean,
+}
 
 interface MatchParams {
     userId: string,
 }
 
-interface MapStateToProps extends WithStyles<typeof styles>, RouteComponentProps<MatchParams> {
+interface MapStateToProps  extends WithStyles<typeof styles>, RouteComponentProps<MatchParams> {
     isAuthenticated: boolean,
     portfolioCards: PortfolioCard[],
     loading: {
@@ -33,7 +38,7 @@ interface MapDispatchToProps {
     getPortfolioCardsAction: (userId: string) => void,
 }
 
-type Props = MapStateToProps & MapDispatchToProps;
+type Props = CustomProps & MapStateToProps & MapDispatchToProps;
 
 interface State {
     dialog: {
@@ -104,6 +109,14 @@ class PortfolioContainer extends React.Component<Props, State> {
         });
     }
 
+    private onEdit = (id: string) => {
+        redirectToUserPortfolioItemBuilder(id);
+    };
+
+    private onShow = (id: string) => {
+        redirectToUserPortfolioItem(id);
+    };
+
     render() {
         if(this.props.loading.portfolioCards) return <PageLoader />;
         return (
@@ -116,7 +129,14 @@ class PortfolioContainer extends React.Component<Props, State> {
                 }
                 <Grid container spacing={3} className={this.props.classes.cardsContainer}>
                     {this.props.portfolioCards.map(card => (
-                        <Grid item md={3} key={nanoid()}><PortfolioCardComponent item={card}/></Grid>
+                        <Grid item md={3} key={nanoid()}>
+                            <PortfolioCardComponent
+                                item={card}
+                                showEdit={!this.props.isPublic}
+                                onEdit={this.onEdit}
+                                onShow={this.onShow}
+                            />
+                        </Grid>
                     ))}
                 </Grid>
             </div>

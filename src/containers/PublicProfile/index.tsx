@@ -20,6 +20,7 @@ import SendMessageDialog from "../../components/SendMessageDialog";
 import {setSendMessageDialogState} from "../../actions/dialogs";
 import {WebSocketController} from "../../actions/websocket";
 import {redirectToProfile, redirectToUserPortfolio} from "../../actions/redirects";
+import {DropzoneArea} from "material-ui-dropzone";
 
 interface MatchParams {
     userId: string,
@@ -107,6 +108,8 @@ class PublicProfile extends React.Component<Props, State> {
                             onPortfolioClick={() => redirectToUserPortfolio(this.props.match.params.userId)}
                             isAuthenticated={isAuthenticated()}
                             withActiveBar={true}
+                            onAvatarClick={() => {}}
+                            image={this.props.profile.image}
                         />
                     </Grid>
                     <Grid item xs={12}>

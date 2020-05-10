@@ -68,7 +68,6 @@ class CompleteProfileContainer extends React.Component<Props, State> {
     }
 
     UNSAFE_componentWillMount(): void {
-        console.log('asdjasoidas');
         this.props.setProfileLoading(true);
         this.props.setProfileInfoLoading(true);
         this.props.getProfile(localStorage.getItem('userId') || '');

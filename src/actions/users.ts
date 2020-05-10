@@ -53,6 +53,16 @@ export const saveProfileAndProfileInfo = (info: UserInfo, profile: User)
 
 };
 
+export const updateProfileAction = (user: User, userId: string)
+    : ThunkAction<void, RootState, null, Action<string>> => async dispatch => {
+    try {
+        const result = await updateUser(user);
+        dispatch(setProfile(result.data));
+    } catch(e) {
+        console.error(e);
+    }
+};
+
 export function setUsers(users: User[]) {
     return {
         type: UsersActionTypes.GET_ALL,

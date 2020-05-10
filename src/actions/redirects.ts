@@ -13,3 +13,7 @@ export const redirectToDialogs = () => history.push('/s/dialogs');
 export const redirectToMessages = (dialogId: string) => history.push(`/s/dialogs/${dialogId}`);
 
 export const redirectToUserPortfolio = (userId: string) => history.push(`/s/portfolio/${userId}`);
+
+export const redirectToUserPortfolioItem = (id: string) => history.push(`/s/portfolio/${id}/display`);
+
+export const redirectToUserPortfolioItemBuilder = (id: string) => history.push(`/s/portfolio/${id}/builder`);

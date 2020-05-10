@@ -55,3 +55,10 @@ export function setPortfolioCardsLoading(loading: boolean) {
         loading,
     }
 }
+
+export function setBuilderItems(loading: boolean) {
+    return {
+        type: LoadingsActionTypes.BUILDER_ITEMS,
+        loading,
+    }
+}

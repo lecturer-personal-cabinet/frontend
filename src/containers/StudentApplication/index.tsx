@@ -19,6 +19,8 @@ import {RootState} from "../../store";
 import {ThunkDispatch} from "redux-thunk";
 import {connect} from "react-redux";
 import PortfolioContainer from "../PortfolioContainer";
+import ExtendedPortfolioContainer from "../PortfolioBuilder";
+import PortfolioBuilder from "../PortfolioBuilder";
 
 interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
     unreadMessagesNumber: number,
@@ -81,6 +83,8 @@ class Application extends React.Component<Props, State> {
     };
 
     render() {
+        // @ts-ignore
+        // @ts-ignore
         return (
             <ApplicationHeader
                 title={this.state.currentPage.title}
@@ -95,8 +99,10 @@ class Application extends React.Component<Props, State> {
                     <PrivateRoute path='/s/dialogs/:dialogId' component={MessageContainer} />
                     <PrivateRoute path='/s/dialogs' component={DialogsContainer} />
                     <PrivateRoute path='/s/profile' component={DashboardPage} />
-                    <PrivateRoute path='/s/portfolio/:userId' component={PortfolioContainer} />} />
-                    <PrivateRoute path='/s/portfolio' component={PortfolioContainer} />} />
+                    <PrivateRoute path='/s/portfolio/:cardId/builder' component={PortfolioBuilder} />} />
+                    <PrivateRoute path='/s/portfolio/:cardId/display' component={PortfolioBuilder} />} />
+                    <PrivateRoute path='/s/portfolio/:userId' component={(props: any) => <PortfolioContainer {...props} isPublic={true} />}/>
+                    <PrivateRoute path='/s/portfolio' component={(props: any) => <PortfolioContainer {...props} isPublic={false} />}/>
                     <Redirect from="/s" to="/s/profile" />
                     <Route component={NotFound}/>
                 </Switch>

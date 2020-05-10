@@ -7,6 +7,7 @@ export interface LoadingState {
     dialogs: boolean,
     dialog: boolean,
     portfolioCards: boolean,
+    builderItems: boolean,
 }
 
 export enum LoadingsActionTypes {
@@ -18,6 +19,7 @@ export enum LoadingsActionTypes {
     DIALOGS = 'DIALOGS',
     DIALOG = 'DIALOG',
     PORTFOLIO_CARDS = 'PORTFOLIO_CARDS',
+    BUILDER_ITEMS = 'BUILDER_ITEMS',
 }
 
 export interface UserProfileLoadingAction {
@@ -60,6 +62,11 @@ export interface PortfolioCardsLoadingAction {
     loading: boolean,
 }
 
+export interface BuilderItemsAction {
+    type: LoadingsActionTypes.BUILDER_ITEMS,
+    loading: boolean,
+}
+
 export type LoadingActions =
     UserProfileLoadingAction |
     UserProfileInfoLoadingAction |
@@ -68,4 +75,5 @@ export type LoadingActions =
     TimezonesLoadingAction |
     DialogsLoadingAction |
     DialogLoadingAction |
-    PortfolioCardsLoadingAction;
+    PortfolioCardsLoadingAction |
+    BuilderItemsAction;

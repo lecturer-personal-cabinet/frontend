@@ -4,6 +4,7 @@ export type User = {
     lastName: string,
     email: string,
     avatarSrc?: string,
+    image?: string,
 }
 
 export type UserInfo = {
