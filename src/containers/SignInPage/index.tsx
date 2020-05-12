@@ -41,6 +41,7 @@ class SignInPage extends React.Component<SignInProps, SignInState> {
                             onSuccess={this.props.onGoogleSuccess}
                             onFailure={this.onGoogleFailure}
                         />
+
                     </div>
                     <div className={this.props.classes.paper}>
                         <SignInForm />
