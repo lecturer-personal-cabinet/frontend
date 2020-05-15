@@ -77,7 +77,7 @@ class PortfolioBuilder extends React.Component<Props, State> {
                     variant="contained"
                     color="primary"
                     onClick={() => this.toggleBuilder(true)}>
-                    Войти
+                    Добавить
                 </Button>
                 <Button
                     fullWidth
