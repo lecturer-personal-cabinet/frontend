@@ -14,10 +14,10 @@ import {setProfileInfoLoading, setProfileLoading, setTimelineLoading} from "../.
 import {getProfile, getProfileInfo} from "../../actions/users";
 import TimelinePost from "../../components/TimelinePost";
 import PageLoader from "../../components/PageLoader";
-import { RouteComponentProps } from 'react-router-dom';
-import {isAuthenticated} from "../../actions/authentication";
+import {RouteComponentProps} from 'react-router-dom';
+import {getUserId, isAuthenticated} from "../../actions/authentication";
 import SendMessageDialog from "../../components/SendMessageDialog";
-import {setSendMessageDialogState} from "../../actions/dialogs";
+import {sendMessageAction, setSendMessageDialogState} from "../../actions/dialogs";
 import {WebSocketController} from "../../actions/websocket";
 import {redirectToProfile, redirectToUserPortfolio} from "../../actions/redirects";
 import {DropzoneArea} from "material-ui-dropzone";
@@ -50,6 +50,7 @@ interface MapDispatchToProps {
     getProfile: (userId: string) => void,
     getProfileInfo: (userId: string) => void,
     setSendMessageDialogState: (open: boolean) => void,
+    sendMessageAction: (senderId: string, receiverId: string, content: string) => void,
 }
 
 type Props = MapStateToProps & MapDispatchToProps;
@@ -65,7 +66,7 @@ class PublicProfile extends React.Component<Props, State> {
     }
 
     UNSAFE_componentWillMount(): void {
-        if(this.props.match.params.userId === localStorage.getItem('userId')) redirectToProfile();
+        if (this.props.match.params.userId === localStorage.getItem('userId')) redirectToProfile();
         this.props.setTimelineLoading(true);
         this.props.setProfileLoading(true);
         this.props.setProfileInfoLoading(true);
@@ -75,18 +76,19 @@ class PublicProfile extends React.Component<Props, State> {
         this.props.setSendMessageDialogState(false);
     }
 
-    private onSendClick (receivers: User[], message: string) {
+    private onSendClick(receivers: User[], message: string) {
+        this.props.sendMessageAction(getUserId(), receivers[0].id!, message);
         this.props.setSendMessageDialogState(false);
-        WebSocketController.sendMessage(
-            localStorage.getItem('userId') || '',
-            receivers.map(r => r.id!),
-            message)
+        // WebSocketController.sendMessage(
+        //     localStorage.getItem('userId') || '',
+        //     receivers.map(r => r.id!),
+        //     message)
     }
 
     render() {
-        if(this.props.loading.timelineLoading ||
+        if (this.props.loading.timelineLoading ||
             this.props.loading.profileLoading ||
-            this.props.loading.profileInfoLoading) return <PageLoader />;
+            this.props.loading.profileInfoLoading) return <PageLoader/>;
         return (
             <div className={this.props.classes.root}>
                 <SendMessageDialog openDialog={this.props.dialogs.sendMessageDialog}
@@ -108,7 +110,8 @@ class PublicProfile extends React.Component<Props, State> {
                             onPortfolioClick={() => redirectToUserPortfolio(this.props.match.params.userId)}
                             isAuthenticated={isAuthenticated()}
                             withActiveBar={true}
-                            onAvatarClick={() => {}}
+                            onAvatarClick={() => {
+                            }}
                             image={this.props.profile.image}
                         />
                     </Grid>
@@ -121,7 +124,7 @@ class PublicProfile extends React.Component<Props, State> {
                     <Grid item xs={12}>
                         {this.props.timeline.items.map(item => (
                             <div style={{marginTop: '10px'}}>
-                                <TimelinePost item={item} />
+                                <TimelinePost item={item}/>
                             </div>
                         ))}
                     </Grid>
@@ -155,6 +158,8 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>) => ({
     getProfile: (userId: string) => dispatch(getProfile(userId)),
     getProfileInfo: (userId: string) => dispatch(getProfileInfo(userId)),
     setSendMessageDialogState: (open: boolean) => dispatch(setSendMessageDialogState(open)),
+    sendMessageAction: (senderId: string, receiverId: string, content: string) =>
+        dispatch(sendMessageAction(senderId, receiverId, content))
 });
 
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(PublicProfile))

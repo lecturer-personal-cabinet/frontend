@@ -13,7 +13,7 @@ import MessageInput from "../../components/MessageInput";
 import ChatList from "../../components/ChatList";
 import {DialogMessage} from "../../types/dialogs";
 import PageLoader from "../../components/PageLoader";
-import {changeReadStatusAction, getMessagesAction} from "../../actions/dialogs";
+import {changeReadStatusAction, getMessagesAction, sendMessageAction} from "../../actions/dialogs";
 import {setDialogLoading} from "../../actions/loadings";
 
 interface MatchParams {
@@ -31,6 +31,7 @@ interface MapDispatchToProps {
     getMessagesAction: (dialogId: string) => void,
     setDialogLoading: (loading: boolean) => void,
     changeReadStatus: (dialogId: string, status: boolean, exclude: string) => void,
+    sendMessageAction: (senderId: string, receiverId: string, content: string) => void,
 }
 
 type Props = MapStateToProps & MapDispatchToProps;
@@ -79,7 +80,9 @@ const mapStateToProps = (state: RootState) => ({
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>) => ({
     getMessagesAction: (dialogId: string) => dispatch(getMessagesAction(dialogId)),
     setDialogLoading: (loading: boolean) => dispatch(setDialogLoading(loading)),
-    changeReadStatus: (dialogId: string, status: boolean, exclude: string) => dispatch(changeReadStatusAction(dialogId, status, exclude))
+    changeReadStatus: (dialogId: string, status: boolean, exclude: string) => dispatch(changeReadStatusAction(dialogId, status, exclude)),
+    sendMessageAction: (senderId: string, receiverId: string, content: string) =>
+        dispatch(sendMessageAction(senderId, receiverId, content))
 });
 
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(MessageContainer))

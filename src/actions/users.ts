@@ -1,4 +1,4 @@
-import {ThunkAction} from "redux-thunk";
+import {ThunkAction, ThunkDispatch} from "redux-thunk";
 import {User, UserInfo, UsersActionTypes} from "../types/users";
 import {ApiRequest} from "./api-tool";
 import {RootState} from "../store";
@@ -82,5 +82,12 @@ export function setProfileInfo(profileInfo: UserInfo) {
     return {
         type: UsersActionTypes.SET_PROFILE_INFO,
         payload: profileInfo
+    }
+}
+
+export function setIsAuthenticated(isAuthenticated: boolean) {
+    return {
+        type: UsersActionTypes.IS_AUTHENTICATED,
+        payload: isAuthenticated,
     }
 }

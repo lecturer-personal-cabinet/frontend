@@ -2,7 +2,7 @@ import {Dialog, DialogActionsTypes, DialogMessage, FlatMessage} from "../types/d
 import {ThunkAction} from "redux-thunk";
 import {RootState} from "../store";
 import {Action} from "typesafe-actions";
-import {getAllDialogs, getMessages, getMessagesCount, updateReadStatus} from "../controller/dialogs";
+import {getAllDialogs, getMessages, getMessagesCount, sendMessage, updateReadStatus} from "../controller/dialogs";
 import {setDialogLoading, setDialogsLoading} from "./loadings";
 import {getUser} from "../controller/users_controller";
 
@@ -62,6 +62,15 @@ export const getUnreadMessagesCount = (userId: string)
     } catch(e) {
         console.error(e);
     }
+};
+
+export const sendMessageAction = (senderId: string, receiverId: string, content: string)
+    : ThunkAction<void, RootState, null, Action<string>> => async dispatch => {
+  try {
+      await sendMessage(senderId, receiverId, content);
+  } catch(e) {
+      console.error(e);
+  }
 };
 
 export function setSendMessageDialogState(open: boolean) {

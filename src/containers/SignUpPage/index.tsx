@@ -9,6 +9,8 @@ import {connect} from "react-redux";
 import SignUpForm from "../../components/forms/SignUpForm";
 import {showNotification} from "../../actions/notifications";
 import {ThunkDispatch} from "redux-thunk";
+import {User} from "../../types/users";
+import {createAccount} from "../../actions/authentication";
 
 interface SignUpProps extends WithStyles<typeof styles> {
     signUp: {
@@ -18,7 +20,7 @@ interface SignUpProps extends WithStyles<typeof styles> {
         }
     },
     showNotification: (message: string) => void;
-    signUpMethod: (firstName: string, lastName: string, email: string, password: string) => void;
+    signUpMethod: (user: User) => void;
 }
 
 interface SignUpState {}
@@ -30,9 +32,16 @@ class SignUpPage extends React.Component<SignUpProps, SignUpState> {
         this.showMessage = this.showMessage.bind(this);
     }
 
-    private onSubmit(firstName: string, lastName: string, email: string, password: string): boolean {
-        this.props.signUpMethod(firstName, lastName, email, password);
-        return true;
+    private onSubmit(firstName: string, lastName: string, email: string, password: string, patronymic?: string) {
+        const user = {
+            firstName,
+            lastName,
+            email,
+            password,
+            patronymic
+        };
+
+        this.props.signUpMethod(user);
     }
 
     private showMessage(message: string) {
@@ -64,7 +73,7 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>) => ({
     showNotification: (message: string) => dispatch(showNotification(message)),
-    signUpMethod: (firstName: string, lastName: string, email: string, password: string) => {},
+    signUpMethod: (user: User) => dispatch(createAccount(user)),
 });
 
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(SignUpPage))

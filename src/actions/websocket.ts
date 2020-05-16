@@ -1,66 +1,36 @@
 import {showNotification} from "./notifications";
 import {ThunkDispatch} from "redux-thunk";
 import {addNewMessage, increaseUnreadMessagesCount, setUnreadMessagesCount} from "./dialogs";
+import {getUserId} from "./authentication";
 
 export class WebSocketController {
-    private static ws = new WebSocket(process.env.REACT_APP_MESSAGE_SERVICE_HOST!);
-    private static dispatch: ThunkDispatch<{}, {}, any>;
+    private static ws: WebSocket;
+    static dispatch: ThunkDispatch<{}, {}, any>;
 
-    constructor(dispatch: ThunkDispatch<{}, {}, any>) {
-        WebSocketController.dispatch = dispatch;
-        if (WebSocketController.ws === null)
-            WebSocketController.ws = new WebSocket(process.env.REACT_APP_MESSAGE_SERVICE_HOST!);
-        // @ts-ignore
-        WebSocketController.ws.onopen = () => {
-            setTimeout(() => {
-                WebSocketController.sendJoinChannelEvent(localStorage.getItem('userId')!);
-                WebSocketController.sendMetricsEventRequest(localStorage.getItem('userId')!);
-            }, 1000);
-
-            setInterval(() => {
-                WebSocketController.sendMetricsEventRequest(localStorage.getItem('userId')!)
-            }, 5000);
-        };
-
-        WebSocketController.ws.onclose = () => {
-            setTimeout(() => WebSocketController.ws = new WebSocket(process.env.REACT_APP_MESSAGE_SERVICE_HOST!), 1000);
-        };
-
-        WebSocketController.ws.onmessage = (message) => {
-            WebSocketController.handleIncomingEvents(JSON.parse(message.data));
-        };
-
-        WebSocketController.ws.onerror = (e) => {
-          console.log('Error: ' + JSON.stringify(e));
-        };
-    };
-
-    private static sendJoinChannelEvent(userId: string) {
-        const request = {
-            userId,
-            'eventType': 'join-event',
-            'data': {userId},
-        };
-
-        try {
-            WebSocketController.ws.send(JSON.stringify(request));
-        } catch(e) {
-            console.log(e);
-        }
+    public static run() {
+        WebSocketController.connect();
     }
 
-    private static sendMetricsEventRequest(userId: string) {
-        const request = {
-            userId,
-            'eventType': 'metrics-event-request',
-            'data': {userId},
+    private static connect() {
+        const ws = new WebSocket(`${process.env.REACT_APP_MESSAGE_SERVICE_HOST!}/${getUserId()}`);
+        ws.onopen = function() {
+
+        };
+        ws.onmessage = function(e) {
+            WebSocketController.handleIncomingEvents(JSON.parse(e.data));
         };
 
-        try {
-            WebSocketController.ws.send(JSON.stringify(request));
-        } catch(e) {
-            console.log(e);
-        }
+        ws.onclose = function(e) {
+            console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
+            setTimeout(function() {
+                WebSocketController.connect();
+            }, 1000);
+        };
+
+        ws.onerror = function(err) {
+            console.error('Socket encountered error: ', err, 'Closing socket');
+            ws.close();
+        };
     }
 
     private static handleIncomingEvents(eventData: any) {

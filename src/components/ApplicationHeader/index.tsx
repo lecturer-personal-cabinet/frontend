@@ -22,12 +22,16 @@ import {connect} from "react-redux";
 import {ThunkDispatch} from "redux-thunk";
 import {logout} from "../../actions/authentication";
 import {redirectToSignIn} from "../../actions/redirects";
+import {setIsAuthenticated} from "../../actions/users";
 
-interface MapStateToProps {}
+interface MapStateToProps {
+    stateIsAuthenticated: boolean,
+}
 
 interface MapDispatchToProps {
     logout: () => void,
     redirectToSignIn: () => void,
+    setIsAuthenticated: (isAuthenticated: boolean) => void,
 }
 
 interface ApplicationHeaderProps extends WithStyles<typeof styles> {
@@ -116,6 +120,13 @@ class ApplicationHeader extends React.Component<Props, ApplicationHeaderState> {
     );
 
     render() {
+        if(!this.props.stateIsAuthenticated && this.props.isAuthenticated) {
+            this.props.setIsAuthenticated(true);
+        }
+        if(this.props.stateIsAuthenticated && !this.props.isAuthenticated) {
+            this.props.setIsAuthenticated(false);
+        }
+
         return (
             <div>
                 <CssBaseline/>
@@ -174,11 +185,14 @@ class ApplicationHeader extends React.Component<Props, ApplicationHeaderState> {
     }
 }
 
-const mapStateToProps = (state: RootState) => ({});
+const mapStateToProps = (state: RootState) => ({
+    stateIsAuthenticated: state.userState.authenticated,
+});
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>) => ({
     logout: () => dispatch(logout()),
     redirectToSignIn: () => redirectToSignIn(),
+    setIsAuthenticated: (isAuthenticated: boolean) => dispatch(setIsAuthenticated(isAuthenticated)),
 });
 
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(ApplicationHeader))

@@ -59,6 +59,7 @@ class DialogsContainer extends React.Component<Props, State> {
     );
 
     render() {
+        console.log(this.props.dialogs);
         if(this.props.loading.dialogs) return <PageLoader />;
         return (
             <Box className={this.props.classes.root}>

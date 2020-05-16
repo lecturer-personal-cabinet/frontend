@@ -1,4 +1,5 @@
 import {IUsersState, UserActions, UsersActionTypes} from "../types/users";
+import {WebSocketController} from "../actions/websocket";
 
 const initialState: IUsersState = {
     users: [],
@@ -7,7 +8,8 @@ const initialState: IUsersState = {
             isFailure: false,
             errorMessage: '',
         }
-    }
+    },
+    authenticated: false,
 };
 
 export function usersReducer(
@@ -53,6 +55,12 @@ export function usersReducer(
                 ...state,
                 profileInfo: action.payload,
             };
+        case UsersActionTypes.IS_AUTHENTICATED:
+            if(action.payload) {
+                console.log('asjdhasuhdasiuhdaui')
+                WebSocketController.run();
+            }
+            return {...state, authenticated: action.payload};
         default:
             return state;
     }

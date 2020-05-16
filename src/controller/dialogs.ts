@@ -34,3 +34,11 @@ export const getMessagesCount = (userId: string, isRead: boolean) => {
       {}
   )
 };
+
+export const sendMessage = (senderId: string, receiverId: string, content: string) => {
+  return ApiRequest.withAuth(
+      'POST',
+      '/messages/send',
+      {senderId, receiverId, content}
+  )
+};

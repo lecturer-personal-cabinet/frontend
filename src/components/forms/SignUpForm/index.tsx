@@ -5,165 +5,142 @@ import Grid from "@material-ui/core/Grid";
 import {Link} from "react-router-dom";
 import React from "react";
 import styles from "./styles";
+import * as Yup from "yup";
+import {Formik} from "formik";
 
 interface SignUpFormProps extends WithStyles<typeof styles> {
-    submit: (firstName: string, lastName: string, email: string, password: string) => boolean,
+    submit: (firstName: string, lastName: string, email: string, password: string, patronymic?: string) => void,
 }
 
-function SignUpForm(props: SignUpFormProps) {
-    const [values, setValues] = React.useState({
-        firstName: '',
-        lastName: '',
-        email: '',
-        pwdValue: ''
-    });
 
-    const [errors, setErrors] = React.useState({
-        firstName: false,
-        lastName: false,
-        email: false,
-        pwdValue: false,
-        hasErrors: true,
-    });
-
-    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-        e.preventDefault();
-        const {name, value} = e.currentTarget;
-        setValues(prevState => ({...prevState, [name]: value}));
-        updateErrors(name, value);
-    };
-
-    const updateErrors = (name: string, value: string) => {
-        let validationState = false;
-        switch (name) {
-            case 'firstName':
-                validationState = !isNameValid(value);
-                break;
-            case 'lastName':
-                validationState = !isNameValid(value);
-                break;
-            case 'email':
-                validationState = !isEmailValid(value);
-                break;
-            case 'pwdValue':
-                validationState = !isPasswordValid(value);
-                break;
-        }
-
-        setErrors(prevState => ({
-            ...prevState,
-            [name]: validationState,
-            hasErrors: !isFormValid()
-        }));
-    };
-
-    const isFormValid = () => {
-        return isPasswordValid(values.pwdValue) &&
-            isEmailValid(values.email) &&
-            isNameValid(values.firstName) &&
-            isNameValid(values.lastName);
-    };
-
-    const isPasswordValid = (value: string): boolean => {
-        const passwordRegexp = /^(?!.* )(?=.*\d)(?=.*[A-Z]).{8,15}$/;
-        return passwordRegexp.test(value);
-    };
-
-    const isEmailValid = (value: string): boolean => {
-        const emailRegexp = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/;
-        return emailRegexp.test(value);
-    };
-
-    const isNameValid = (value: string): boolean => {
-        return value.length > 3;
-    };
-
-    const handleSubmit = () => {
-        if (!isFormValid()) return false;
-        props.submit(values.firstName, values.lastName, values.email, values.pwdValue);
-    };
-
+function SignUpForm(globalProps: SignUpFormProps) {
     return (
-        <form className={props.classes.form} onSubmit={handleSubmit} noValidate autoComplete="off">
-            <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                    <TextField
-                        name="firstName"
-                        variant="outlined"
-                        required
-                        fullWidth
-                        id="firstName"
-                        label="Имя"
-                        autoFocus
-                        value={values.firstName}
-                        onChange={handleChange}
-                        error={errors.firstName}
-                    />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <TextField
-                        variant="outlined"
-                        required
-                        fullWidth
-                        id="lastName"
-                        label="Фамилия"
-                        name="lastName"
-                        value={values.lastName}
-                        onChange={handleChange}
-                        error={errors.lastName}
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <TextField
-                        variant="outlined"
-                        required
-                        fullWidth
-                        id="email"
-                        label="Email"
-                        name="email"
-                        value={values.email}
-                        onChange={handleChange}
-                        error={errors.email}
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <TextField
-                        style={{display: 'none'}}
-                        variant="outlined"
-                        name="password"
-                        label="Password"
-                        type="password"/>
-                    <TextField
-                        variant="outlined"
-                        required
-                        fullWidth
-                        id="pwdValue"
-                        label="Пароль"
-                        name="pwdValue"
-                        type="password"
-                        value={values.pwdValue}
-                        onChange={handleChange}
-                        error={errors.pwdValue} />
-                </Grid>
-            </Grid>
-            <Button
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={props.classes.submit}
-                disabled={errors.hasErrors}
-                onClick={() => handleSubmit()}
-            >
-                Sign Up
-            </Button>
-            <Grid container justify="flex-end">
-                <Grid item>
-                    <Link to='/sign-in'>
-                        Already have an account? Sign in
-                    </Link>
-                </Grid>
-            </Grid>
-        </form>
+        <Formik
+            initialValues={{
+                firstName: '',
+                lastName: '',
+                patronymic: '',
+                email: '',
+                password: ''
+            }}
+            validationSchema={Yup.object().shape({
+                firstName: Yup.string()
+                    .required('Имя обязательно')
+                    .min(2, 'Минимальная длина имени - 2 символа')
+                    .max(40, 'Максимальная длина имени - 40 символов'),
+                lastName: Yup.string()
+                    .required('Фамилия обязательна')
+                    .min(2, 'Минимальная длина фамлиии - 2 символа')
+                    .max(40, 'Максимальная длина фамилии - 40 символов'),
+                email: Yup.string()
+                    .email()
+                    .required('Электронная почта обязательна'),
+                password: Yup.string()
+                    .required('Пароль обязательный.')
+                    .min(6, 'Минимальная длина пароля - 6 символов')
+                    .matches(/[a-zA-Z0-9]/, 'Пароль может содержать только латинские буквы и цифры')
+            })}
+            onSubmit={fields => globalProps.submit(fields.firstName, fields.lastName, fields.email, fields.password, fields.patronymic)}>
+            {(props) => {
+                const {
+                    values,
+                    touched,
+                    errors,
+                    dirty,
+                    isSubmitting,
+                    handleChange,
+                    handleBlur,
+                    handleSubmit
+                } = props;
+                return (
+                    <form onSubmit={handleSubmit} style={{padding: '10px'}}>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    label="Имя"
+                                    name="firstName"
+                                    value={values.firstName}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    helperText={(errors.firstName && touched.firstName) && errors.firstName}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    label="Фамилия"
+                                    name="lastName"
+                                    value={values.lastName}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    helperText={(errors.lastName && touched.lastName) && errors.lastName}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    variant="outlined"
+                                    fullWidth
+                                    label="Отчество"
+                                    name="patronymic"
+                                    value={values.patronymic}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    helperText={(errors.patronymic && touched.patronymic) && errors.patronymic}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    label="Электронная почта"
+                                    name="email"
+                                    value={values.email}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    helperText={(errors.email && touched.email) && errors.email}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    label="Пароль"
+                                    name="password"
+                                    type="password"
+                                    value={values.password}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    helperText={(errors.password && touched.password) && errors.password}
+                                />
+                            </Grid>
+                        </Grid>
+                        <Button
+                            fullWidth
+                            disabled={!dirty || isSubmitting}
+                            className={globalProps.classes.submit}
+                            variant="contained"
+                            color="primary"
+                            type="submit">
+                            Создать аккаунт
+                        </Button>
+                        <Grid container justify="flex-end">
+                            <Grid item>
+                                <Link to='/sign-in'>
+                                    Уже есть аккаунт? Войти
+                                </Link>
+                            </Grid>
+                        </Grid>
+                    </form>
+                )
+            }}
+        </Formik>
     )
 }
 

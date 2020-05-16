@@ -45,17 +45,17 @@ export const ApiRequest = class {
     }
 
     static withoutAuth(method: Method, endpoint: string, data?: object) {
-        return ApiRequest.apiCall(method, endpoint, data);
+        return ApiRequest.apiCall(method, endpoint, false, data);
     }
 
     static withAuth(method: Method, endpoint: string, data?: object) {
         const additionalHeaders = {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
         };
-        return ApiRequest.apiCall(method, endpoint, data, additionalHeaders)
+        return ApiRequest.apiCall(method, endpoint, true, data, additionalHeaders)
     }
 
-    private static apiCall(method: Method, endpoint: string, data?: object, headers?: object) {
+    private static apiCall(method: Method, endpoint: string, withAuth: boolean, data?: object, headers?: object) {
         return apiClient({
             baseURL: API_HOST,
             method: method,
@@ -65,7 +65,7 @@ export const ApiRequest = class {
                 ...headers,
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                ...(withAuth && {'Authorization': `Bearer ${localStorage.getItem('token')}`}),
             },
             data,
         });

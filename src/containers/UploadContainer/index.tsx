@@ -5,6 +5,7 @@ import {connect} from "react-redux";
 import {DropzoneDialog} from "material-ui-dropzone";
 import axios from 'axios';
 import {API_HOST, ApiRequest} from "../../actions/api-tool";
+import {getToken} from "../../actions/authentication";
 
 interface CustomProps {
     open: boolean,
@@ -28,7 +29,8 @@ class UploadContainer extends React.Component<Props, State> {
         formData.append('file', file);
         const config = {
             headers: {
-                'content-type': 'multipart/form-data'
+                'content-type': 'multipart/form-data',
+                'Authorization': `Bearer ${getToken()}`
             }
         };
 

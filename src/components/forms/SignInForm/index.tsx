@@ -5,52 +5,89 @@ import Grid from "@material-ui/core/Grid";
 import {Link} from "react-router-dom";
 import React from "react";
 import styles from "./styles";
+import * as Yup from "yup";
+import {Formik} from "formik";
 
 interface SignInFormProps extends WithStyles<typeof styles> {
-
+    onSubmit: (email: string, password: string) => void,
 }
 
-function SignInForm (props: SignInFormProps) {
+function SignInForm (globalProps: SignInFormProps) {
     return (
-        <form className={props.classes.form} noValidate>
-            <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email"
-                name="email"
-                autoComplete="email"
-                autoFocus
-            />
-            <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Пароль"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-            />
-            <Button
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={props.classes.submit}>
-                Войти
-            </Button>
-            <Grid container>
-                <Grid item xs></Grid>
-                <Grid item>
-                    <Link to='/sign-up'>
-                        {"Нет аккаунта? Зарегистрируйтесь"}
-                    </Link>
-                </Grid>
-            </Grid>
-        </form>
+        <Formik
+            initialValues={{
+                email: '',
+                password: ''
+            }}
+            validationSchema={Yup.object().shape({
+                email: Yup.string()
+                    .required('Электронный адрес обязателен'),
+                password: Yup.string()
+                    .required('Пароль обязателен'),
+            })}
+            onSubmit={fields => globalProps.onSubmit(fields.email, fields.password)}>
+            {(props) => {
+                const {
+                    values,
+                    touched,
+                    errors,
+                    dirty,
+                    isSubmitting,
+                    handleChange,
+                    handleBlur,
+                    handleSubmit
+                } = props;
+                return (
+                    <form onSubmit={handleSubmit} style={{padding: '10px'}}>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12}>
+                                <TextField
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    label="Электронная почта"
+                                    name="email"
+                                    value={values.email}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    helperText={(errors.email && touched.email) && errors.email}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    type="password"
+                                    label="Пароль"
+                                    name="password"
+                                    value={values.password}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    helperText={(errors.password && touched.password) && errors.password}
+                                />
+                            </Grid>
+                        </Grid>
+                        <Button
+                            fullWidth
+                            disabled={!dirty || isSubmitting}
+                            className={globalProps.classes.submit}
+                            variant="contained"
+                            color="primary"
+                            type="submit">
+                            Войти
+                        </Button>
+                        <Grid container justify="flex-end">
+                            <Grid item>
+                                <Link to='/sign-up'>
+                                    Нет аккаунта? Зарегистрируйтесь
+                                </Link>
+                            </Grid>
+                        </Grid>
+                    </form>
+                )
+            }}
+        </Formik>
     )
 }
 

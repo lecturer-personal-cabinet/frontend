@@ -9,12 +9,12 @@ import configureStore from "./store";
 import SignInPage from './containers/SignInPage';
 import SignUpPage from './containers/SignUpPage';
 import ApplicationContainer from "./components/ApplicationContainer";
-import {WebSocketController} from "./actions/websocket";
 import { Router } from "react-router-dom";
 import history from "./history";
+import {WebSocketController} from "./actions/websocket";
 
 const store = configureStore();
-new WebSocketController(store.dispatch);
+WebSocketController.dispatch = store.dispatch;
 
 ReactDOM.render((
         <Provider store={store}>

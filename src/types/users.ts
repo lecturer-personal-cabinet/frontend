@@ -1,3 +1,5 @@
+import {ThunkDispatch} from "redux-thunk";
+
 export type User = {
     id?: string,
     firstName: string,
@@ -5,6 +7,8 @@ export type User = {
     email: string,
     avatarSrc?: string,
     image?: string,
+    patronymic?: string,
+    password?: string,
 }
 
 export type UserInfo = {
@@ -25,6 +29,7 @@ export interface IUsersState {
     },
     profile?: User,
     profileInfo?: UserInfo,
+    authenticated: boolean,
 }
 
 export enum UsersActionTypes {
@@ -33,6 +38,7 @@ export enum UsersActionTypes {
     SIGN_UP_FAILURE = 'SIGN_UP_FAILURE',
     SET_PROFILE = 'SET_PROFILE',
     SET_PROFILE_INFO = 'SET_PROFILE_INFO',
+    IS_AUTHENTICATED = 'IS_AUTHENTICATED',
 }
 
 export interface IGetUsersAction {
@@ -65,9 +71,15 @@ export interface SetProfileInfoAction {
     payload: UserInfo,
 }
 
+export interface SetIsAuthenticated {
+    type: UsersActionTypes.IS_AUTHENTICATED,
+    payload: boolean,
+}
+
 export type UserActions =
     IGetUsersAction |
     SignUpSuccessAction |
     SignUpFailureAction |
     SetProfileAction |
-    SetProfileInfoAction;
+    SetProfileInfoAction |
+    SetIsAuthenticated;
