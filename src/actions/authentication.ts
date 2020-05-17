@@ -79,6 +79,7 @@ export const isAuthenticated = () => {
 };
 
 export const getUserId = () => {
+    console.trace();
     // @ts-ignore
     return getDecodedProfile().data.userId;
 };

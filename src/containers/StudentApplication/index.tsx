@@ -21,6 +21,7 @@ import {connect} from "react-redux";
 import PortfolioContainer from "../PortfolioContainer";
 import ExtendedPortfolioContainer from "../PortfolioBuilder";
 import PortfolioBuilder from "../PortfolioBuilder";
+import Dialogs from "../Dialogs";
 
 interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
     unreadMessagesNumber: number,
@@ -97,7 +98,7 @@ class Application extends React.Component<Props, State> {
                     <PrivateRoute path='/s/profile/complete' component={CompleteProfileContainer} />
                     <Route path='/s/profile/:userId' component={PublicProfile} />
                     <PrivateRoute path='/s/dialogs/:dialogId' component={MessageContainer} />
-                    <PrivateRoute path='/s/dialogs' component={DialogsContainer} />
+                    <PrivateRoute path='/s/dialogs' component={Dialogs} />
                     <PrivateRoute path='/s/profile' component={DashboardPage} />
                     <PrivateRoute path='/s/portfolio/:cardId/builder' component={PortfolioBuilder} />} />
                     <PrivateRoute path='/s/portfolio/:cardId/display' component={PortfolioBuilder} />} />
