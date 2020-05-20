@@ -44,11 +44,6 @@ function ApplicationSidebar(props: ApplicationSidebarProps) {
                 {props.withNotifications &&
                     <div>
                         <IconButton color="inherit">
-                            <Badge badgeContent={11} color="secondary">
-                                <NotificationsIcon/>
-                            </Badge>
-                        </IconButton>
-                        <IconButton color="inherit">
                             <Badge badgeContent={props.unreadMessagesNumber} color="secondary">
                                 <MailIcon onClick={() => redirectToDialogs()}/>
                             </Badge>

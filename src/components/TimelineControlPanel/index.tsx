@@ -13,7 +13,6 @@ function TimelineControlPanel(props: Props) {
         <Paper className={props.classes.root}>
             <Grid container>
                 <PostAdd className={props.classes.actionIcon} onClick={() => props.onPostAddClick()} />
-                <AddPhotoAlternate className={props.classes.actionIcon} />
             </Grid>
         </Paper>
     );

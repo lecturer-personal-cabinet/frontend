@@ -12,25 +12,29 @@ export class WebSocketController {
     }
 
     private static connect() {
-        const ws = new WebSocket(`${process.env.REACT_APP_MESSAGE_SERVICE_HOST!}/${getUserId()}`);
-        ws.onopen = function() {
+        try {
+            const ws = new WebSocket(`${process.env.REACT_APP_MESSAGE_SERVICE_HOST!}/${getUserId()}`);
+            ws.onopen = function () {
 
-        };
-        ws.onmessage = function(e) {
-            WebSocketController.handleIncomingEvents(JSON.parse(e.data));
-        };
+            };
+            ws.onmessage = function (e) {
+                WebSocketController.handleIncomingEvents(JSON.parse(e.data));
+            };
 
-        ws.onclose = function(e) {
-            console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
-            setTimeout(function() {
-                WebSocketController.connect();
-            }, 1000);
-        };
+            ws.onclose = function (e) {
+                console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
+                setTimeout(function () {
+                    WebSocketController.connect();
+                }, 1000);
+            };
 
-        ws.onerror = function(err) {
-            console.error('Socket encountered error: ', err, 'Closing socket');
-            ws.close();
-        };
+            ws.onerror = function (err) {
+                console.error('Socket encountered error: ', err, 'Closing socket');
+                ws.close();
+            };
+        } catch (e) {
+            console.error(e);
+        }
     }
 
     private static handleIncomingEvents(eventData: any) {

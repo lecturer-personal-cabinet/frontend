@@ -29,8 +29,8 @@ function PortfolioCardComponent(props: Props) {
                 <CardMedia
                     component="img"
                     alt={props.item.title}
-                    height="140"
-                    image="https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://coursera-course-photos.s3.amazonaws.com/fa/e15e80504811e6bcaf7158d37ab7ca/LightBulb.jpg?auto=format%2Ccompress&dpr=1"
+                    height="240"
+                    image={props.item.previewImageLink}
                     title={props.item.title}
                 />
                 <CardContent>

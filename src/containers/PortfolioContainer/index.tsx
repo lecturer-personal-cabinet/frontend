@@ -72,11 +72,11 @@ class PortfolioContainer extends React.Component<Props, State> {
         this.onAddPortfolioCard = this.onAddPortfolioCard.bind(this);
     }
 
-    private onAddPortfolioCard (title: string, description: string): void {
+    private onAddPortfolioCard (title: string, description: string, url: string): void {
         const card = {
             title,
             description,
-            previewImageLink: '[TEST LINK]',
+            previewImageLink: url,
             tags: [],
             userId: localStorage.getItem('userId') || '',
         };

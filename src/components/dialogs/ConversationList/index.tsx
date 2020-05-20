@@ -15,7 +15,7 @@ export default function ConversationList(props: Props) {
     return (
         <div className="conversation-list">
             <Toolbar
-                title="Messenger"
+                title=""
                 leftItems={[
                     <ToolbarButton key="cog" icon="ion-ios-cog"/>
                 ]}

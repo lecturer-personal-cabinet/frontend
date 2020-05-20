@@ -57,9 +57,9 @@ class PortfolioBuilder extends React.Component<Props, State> {
         this.saveBuilderItems = this.saveBuilderItems.bind(this);
     }
 
-    private toggleBuilder = (state: boolean) => this.setState({...this.state, builderStatus: state});
+    private readonly toggleBuilder = (state: boolean) => this.setState({...this.state, builderStatus: state});
 
-    private saveBuilderItems = () => {
+    private readonly saveBuilderItems = () => {
       this.props.saveAllBuilderItems(this.props.match.params.cardId, this.props.elementsToSave);
     };
 

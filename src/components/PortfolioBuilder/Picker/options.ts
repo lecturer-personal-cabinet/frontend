@@ -7,7 +7,7 @@ type Option = {
 export const options: Option[] = [
     {
         itemTitle: 'Заголовок',
-        itemIcon: 'dashboard',
+        itemIcon: 'title',
         modal: 'title',
     },
     {
@@ -17,7 +17,7 @@ export const options: Option[] = [
     },
     {
         itemTitle: 'Компетенции',
-        itemIcon: 'dashboard',
+        itemIcon: 'toc',
         modal: 'skills',
     }
 ];

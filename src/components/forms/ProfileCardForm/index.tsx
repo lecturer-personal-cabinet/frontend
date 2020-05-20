@@ -9,12 +9,24 @@ import {Formik} from "formik";
 import * as Yup from 'yup';
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
+import UploadContainer from "../../../containers/UploadContainer";
 
 interface Props extends WithStyles<typeof styles> {
-    onSavePortfolioCard: (title: string, description: string) => void,
+    onSavePortfolioCard: (title: string, description: string, url: string) => void,
 }
 
 function PortfolioCardForm(globalProps: Props) {
+    const [openUpload, setOpenUpload] = React.useState(false);
+    const [values, setValues] = React.useState({
+        title: '',
+        description: '',
+    });
+
+    const onUpload = (url: string) => {
+        setOpenUpload(false);
+        globalProps.onSavePortfolioCard(values.title, values.description, url);
+    };
+
     return (
         <Formik
             initialValues={{
@@ -31,7 +43,10 @@ function PortfolioCardForm(globalProps: Props) {
                     .min(10)
                     .max(300)
             })}
-            onSubmit={fields => globalProps.onSavePortfolioCard(fields.title, fields.description)}>
+            onSubmit={fields => {
+                setOpenUpload(true);
+                setValues(fields);
+            }}>
             {(props) => {
                 const {
                     values,
@@ -46,6 +61,8 @@ function PortfolioCardForm(globalProps: Props) {
                 return (
                     <form onSubmit={handleSubmit} className={globalProps.classes.root}>
                         <Grid container spacing={3}>
+
+                            <UploadContainer open={openUpload} openUpload={(e) => {}} onSubmit={onUpload}/>
                             <Grid item xs={12}>
                                 <TextField
                                     className={globalProps.classes.formElement}
