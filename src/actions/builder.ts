@@ -31,6 +31,7 @@ export const saveAllBuilderItems = (portfolioId: string, items: BuilderItem[])
         // @ts-ignore
         const data = result.data.map(item => {
             return {
+                id: item.id,
                 type: item.type,
                 order: item.order,
                 metadata: JSON.parse(item.metadata),

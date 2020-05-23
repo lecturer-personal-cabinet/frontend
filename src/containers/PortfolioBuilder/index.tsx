@@ -10,12 +10,12 @@ import {RouteComponentProps} from 'react-router-dom';
 import styles from "./styles";
 import {ThunkDispatch} from "redux-thunk";
 import Picker from "../../components/PortfolioBuilder/Picker";
-import Button from "@material-ui/core/Button";
 import {BuilderItem} from "../../types/builder";
-import {addBuilderItem, getAllBuilderItems, saveAllBuilderItems} from "../../actions/builder";
+import {addBuilderItem, getAllBuilderItems, saveAllBuilderItems, setBuilderItemsAction} from "../../actions/builder";
 import {setBuilderItems} from "../../actions/loadings";
 import PageLoader from "../../components/PageLoader";
 import {getBuilderComponent} from "../../components/PortfolioBuilder/utils/builderFactory";
+import PortfolioControlPanel from "../../components/PortfolioControlPanel";
 
 interface MatchParams {
     cardId: string,
@@ -33,6 +33,7 @@ interface MapDispatchToProps {
     setBuilderItemsLoading: (loading: boolean) => void,
     getAllBuilderItems: (portfolioId: string) => void,
     saveAllBuilderItems: (portfolioId: string, items: BuilderItem[]) => void,
+    cleanItems: () => void,
 }
 
 type Props = MapStateToProps & MapDispatchToProps;
@@ -55,37 +56,25 @@ class PortfolioBuilder extends React.Component<Props, State> {
 
         this.toggleBuilder = this.toggleBuilder.bind(this);
         this.saveBuilderItems = this.saveBuilderItems.bind(this);
+        this.onElementSave = this.onElementSave.bind(this);
     }
 
     private readonly toggleBuilder = (state: boolean) => this.setState({...this.state, builderStatus: state});
 
-    private readonly saveBuilderItems = () => {
-      this.props.saveAllBuilderItems(this.props.match.params.cardId, this.props.elementsToSave);
-    };
+    private readonly saveBuilderItems = () => {};
 
-    private onElementSave = (item: BuilderItem) => {
+    private readonly onElementSave = (item: BuilderItem) => {
         item.order = this.props.elementsToSave.length + 1;
-        this.props.addBuilderItem(item);
+        console.log(this.props.elementsToSave);
+        this.props.elementsToSave.push(item);
+        this.props.saveAllBuilderItems(this.props.match.params.cardId, this.props.elementsToSave);
     };
 
     render() {
         if(this.props.loading.builderItems) return <PageLoader />;
         return (
             <div className={this.props.classes.root}>
-                <Button
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    onClick={() => this.toggleBuilder(true)}>
-                    Добавить
-                </Button>
-                <Button
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    onClick={() => this.saveBuilderItems()}>
-                    Сохранить
-                </Button>
+                <PortfolioControlPanel onAddPortfolioCardClick={() => this.toggleBuilder(true)} />
                 <Picker
                     open={this.state.builderStatus}
                     toggleDrawer={this.toggleBuilder}
@@ -114,10 +103,9 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>) => ({
-    addBuilderItem: (item: BuilderItem) => dispatch(addBuilderItem(item)),
     setBuilderItemsLoading: (loading: boolean) => dispatch(setBuilderItems(loading)),
     getAllBuilderItems: (portfolioId: string) => dispatch(getAllBuilderItems(portfolioId)),
-    saveAllBuilderItems: (portfolioId: string, items: BuilderItem[]) => dispatch(saveAllBuilderItems(portfolioId, items))
+    saveAllBuilderItems: (portfolioId: string, items: BuilderItem[]) => dispatch(saveAllBuilderItems(portfolioId, items)),
 });
 
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(PortfolioBuilder))

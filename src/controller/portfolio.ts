@@ -29,6 +29,7 @@ export const getPortfolioItems = (portfolioId: string) => {
 export const savePortfolioItems = (portfolioCardId: string, items: BuilderItem[]) => {
     const apiItems = items.map(item => {
         return {
+            id: item.id,
             portfolioCard: {
                 id: portfolioCardId,
             },

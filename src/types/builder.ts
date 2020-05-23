@@ -3,6 +3,7 @@ export interface BuilderState {
 }
 
 export type BuilderItem = {
+    id?: string,
     type: string,
     order: number,
     metadata: object,
