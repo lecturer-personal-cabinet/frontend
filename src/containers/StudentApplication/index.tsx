@@ -100,8 +100,8 @@ class Application extends React.Component<Props, State> {
                     <PrivateRoute path='/s/dialogs/:dialogId' component={MessageContainer} />
                     <PrivateRoute path='/s/dialogs' component={Dialogs} />
                     <PrivateRoute path='/s/profile' component={DashboardPage} />
-                    <PrivateRoute path='/s/portfolio/:cardId/builder' component={PortfolioBuilder} />} />
-                    <PrivateRoute path='/s/portfolio/:cardId/display' component={PortfolioBuilder} />} />
+                    <PrivateRoute path='/s/portfolio/:cardId/builder' component={PortfolioBuilder} />
+                    <PrivateRoute path='/s/portfolio/:cardId/display' component={PortfolioBuilder} />
                     <PrivateRoute path='/s/portfolio/:userId' component={(props: any) => <PortfolioContainer {...props} isPublic={true} />}/>
                     <PrivateRoute path='/s/portfolio' component={(props: any) => <PortfolioContainer {...props} isPublic={false} />}/>
                     <Redirect from="/s" to="/s/profile" />
