@@ -8,7 +8,7 @@ ENV PATH /usr/src/app/node_modules/.bin:$PATH
 
 COPY package.json /usr/src/app/package.json
 RUN yarn install
-RUN yarn install react-scripts@2.1.8 -g
+RUN yarn global add react-scripts@2.1.8
 
 COPY ./package-lock.json /usr/src/app/
 COPY ./public /usr/src/app/public
