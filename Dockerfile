@@ -1,15 +1,24 @@
-FROM node:12.14.0-alpine as build-deps
+# build environment
+FROM node:11.13 as builder
+
+RUN mkdir /usr/src/app
 WORKDIR /usr/src/app
-COPY package.json yarn.lock ./
-RUN yarn
-COPY . ./
+
+ENV PATH /usr/src/app/node_modules/.bin:$PATH
+
+COPY package.json /usr/src/app/package.json
+RUN yarn install
+RUN yarn install react-scripts@2.1.8 -g
+
+COPY ./package-lock.json /usr/src/app/
+COPY ./public /usr/src/app/public
+COPY ./src /usr/src/app/src
+
+
 RUN yarn build
 
-FROM nginx:1.12-alpine
-RUN rm /etc/nginx/conf.d/default.conf
-COPY nginx.conf /etc/nginx/conf.d
-
-COPY --from=build-deps /usr/src/app/build /usr/share/nginx/html
-EXPOSE 80
+# production environment
+FROM nginx:1.15.10-alpine
+COPY --from=builder /usr/src/app/build /var/www
+COPY ./nginx.conf /etc/nginx/nginx.conf
 CMD ["nginx", "-g", "daemon off;"]
-
