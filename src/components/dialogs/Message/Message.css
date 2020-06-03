@@ -25,6 +25,7 @@
 .message.start .bubble-container .bubble {
   /* margin-top: 10px; */
   border-top-left-radius: 20px;
+  border: 20px;
 }
 
 .message.end .bubble-container .bubble {

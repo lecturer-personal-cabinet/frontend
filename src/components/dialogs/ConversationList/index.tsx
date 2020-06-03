@@ -9,6 +9,7 @@ import ConversationListItem from "../ConversationListItem";
 interface Props {
     conversations: Dialog[],
     onDialogClick: (dialogId: string) => void,
+    selected?: string,
 }
 
 export default function ConversationList(props: Props) {
@@ -30,6 +31,7 @@ export default function ConversationList(props: Props) {
                         onDialogClick={props.onDialogClick}
                         key={conversation.name}
                         data={conversation}
+                        selected={conversation.id == props.selected}
                     />
                 )
             }

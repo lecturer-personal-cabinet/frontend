@@ -6,6 +6,7 @@ const styles = (theme: Theme) => createStyles({
     },
     subtitle: {
         fontWeight: 'bold',
+        maxWidth: '100%',
     },
     content: {
         marginTop: theme.spacing(3),

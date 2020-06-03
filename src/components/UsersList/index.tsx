@@ -40,7 +40,7 @@ function UsersList(props: UsersListProps) {
           <TableCell align="left">
               {user.firstName + ' ' + user.lastName}
           </TableCell>
-          {actionCell(user)}
+          {/*{actionCell(user)}*/}
       </TableRow>
     );
 

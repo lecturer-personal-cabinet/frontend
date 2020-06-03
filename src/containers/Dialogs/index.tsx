@@ -5,11 +5,18 @@ import {ThunkDispatch} from "redux-thunk";
 import ConversationList from "../../components/dialogs/ConversationList";
 import MessageList from "../../components/dialogs/MessageList";
 import './styles.css';
-import {setDialogLoading, setDialogsLoading} from "../../actions/loadings";
-import {changeReadStatusAction, getDialogsAction, getMessagesAction, sendMessageAction} from "../../actions/dialogs";
+import {setDialogsLoading} from "../../actions/loadings";
+import {
+    changeReadStatusAction,
+    getDialogsAction,
+    getMessagesAction,
+    sendMessageAndUpdateAction
+} from "../../actions/dialogs";
 import {Dialog, DialogMessage} from "../../types/dialogs";
 import PageLoader from "../../components/PageLoader";
 import {getUserId} from "../../actions/authentication";
+import {showError} from "../../actions/notifications";
+import { animateScroll } from "react-scroll";
 
 interface MapStateToProps {
     loading: {
@@ -24,7 +31,7 @@ interface MapDispatchToProps {
     getDialogsAction: (userId: string) => void,
     getMessagesAction: (dialogId: string) => void,
     changeReadStatus: (dialogId: string, status: boolean, exclude: string) => void,
-    sendMessageAction: (senderId: string, receiverId: string, content: string) => void,
+    sendMessageAction: (senderId: string, receiverId: string, content: string, dialogId: string) => void,
 }
 
 type Props = MapStateToProps & MapDispatchToProps;
@@ -34,7 +41,6 @@ interface State {
 }
 
 class Dialogs extends React.Component<Props, State> {
-
     constructor(props: Props) {
         super(props);
         this.state = {
@@ -61,9 +67,36 @@ class Dialogs extends React.Component<Props, State> {
         });
     }
 
+    componentDidMount () {
+        this.scrollToBottom();
+    }
+
     componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>, snapshot?: any): void {
         console.log('Did update');
-        this.props.changeReadStatus(this.state.dialogId!, true, getUserId());
+        this.scrollToBottom();
+        // this.props.changeReadStatus(this.state.dialogId!, true, getUserId());
+        // this.props.getMessagesAction(this.state.dialogId!);
+    }
+
+    private onMessageSend = (message: string) => {
+        try {
+            const dialogId = this.state.dialogId;
+            const participants = this.props.dialogs.find(e => e.id == dialogId)!.participants || [];
+            const receiverId = participants.filter(e => e.user.id !== getUserId())[0];
+            if(receiverId && receiverId.user.id) {
+                this.props.sendMessageAction(getUserId(), receiverId.user.id!, message, dialogId!);
+                this.props.changeReadStatus(this.state.dialogId!, true, getUserId());
+            }
+        } catch (e) {
+            console.error(e);
+            showError('Ошибка отправки сообщения');
+        }
+    };
+
+    private scrollToBottom() {
+        animateScroll.scrollToBottom({
+            containerId: "messages-container"
+        });
     }
 
     render() {
@@ -72,14 +105,17 @@ class Dialogs extends React.Component<Props, State> {
             <div className="messenger">
                 <div className="scrollable sidebar">
                     <ConversationList
+                        selected={this.state.dialogId}
                         onDialogClick={this.onDialogClick}
                         conversations={this.props.dialogs}
                     />
                 </div>
 
-                <div className="scrollable content">
-                    <MessageList messages={this.props.messages}/>
-                </div>
+                {this.state.dialogId &&
+                    <div className="scrollable content" id={"messages-container"}>
+                      <MessageList messages={this.props.messages} onNewMessage={this.onMessageSend}/>
+                    </div>
+                }
             </div>
         )
     }
@@ -98,8 +134,8 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>) => ({
     getDialogsAction: (userId: string) => dispatch(getDialogsAction(userId)),
     getMessagesAction: (dialogId: string) => dispatch(getMessagesAction(dialogId)),
     changeReadStatus: (dialogId: string, status: boolean, exclude: string) => dispatch(changeReadStatusAction(dialogId, status, exclude)),
-    sendMessageAction: (senderId: string, receiverId: string, content: string) =>
-        dispatch(sendMessageAction(senderId, receiverId, content))
+    sendMessageAction: (senderId: string, receiverId: string, content: string, dialogId: string) =>
+        dispatch(sendMessageAndUpdateAction(senderId, receiverId, content, dialogId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dialogs);

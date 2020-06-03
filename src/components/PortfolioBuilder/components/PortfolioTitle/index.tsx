@@ -9,7 +9,7 @@ interface Props extends WithStyles<typeof styles> {
 
 function PortfolioTitle(props: Props) {
     return (
-        <Typography gutterBottom variant="h3" component="h3" align={'center'}>
+        <Typography gutterBottom variant="h4" component="h4" align={'center'}>
             <span className={props.classes.text}>{props.title}</span>
         </Typography>
     );

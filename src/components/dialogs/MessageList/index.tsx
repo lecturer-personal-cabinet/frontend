@@ -1,101 +1,105 @@
 import React from 'react';
-import Compose from '../Compose';
 import Toolbar from '../Toolbar';
-import ToolbarButton from '../ToolbarButton';
 import Message from '../Message';
 import moment from 'moment';
 
 import './MessageList.css';
 import {DialogMessage} from "../../../types/dialogs";
 import {getUserId} from "../../../actions/authentication";
+import {Button, Grid} from "@material-ui/core";
+import TextField from "@material-ui/core/TextField";
 
 interface Props {
     messages: DialogMessage[],
+    onNewMessage: (message: string) => void,
 }
 
 export default function MessageList(props: Props) {
+    const [message, setMessage] = React.useState('');
     const MY_USER_ID = getUserId();
 
-    const renderMessages = () => {
-        let i = 0;
-        let messageCount = props.messages.length;
-        let tempMessages = [];
-
-        while (i < messageCount) {
-            let previous = props.messages[i - 1];
-            let current = props.messages[i];
-            let next = props.messages[i + 1];
-            let isMine = current.sender.id === MY_USER_ID;
-            let currentMoment = moment(current.createdTs);
-            let prevBySameAuthor = false;
-            let nextBySameAuthor = false;
-            let startsSequence = true;
-            let endsSequence = true;
-            let showTimestamp = true;
-
-            if (previous) {
-                let previousMoment = moment(previous.createdTs);
-                let previousDuration = moment.duration(currentMoment.diff(previousMoment));
-                prevBySameAuthor = previous.sender.id === current.sender.id;
-
-                if (prevBySameAuthor && previousDuration.as('hours') < 1) {
-                    startsSequence = false;
-                }
-
-                if (previousDuration.as('hours') < 1) {
-                    showTimestamp = false;
-                }
-            }
-
-            if (next) {
-                let nextMoment = moment(next.createdTs);
-                let nextDuration = moment.duration(nextMoment.diff(currentMoment));
-                nextBySameAuthor = next.sender.id === current.sender.id;
-
-                if (nextBySameAuthor && nextDuration.as('hours') < 1) {
-                    endsSequence = false;
-                }
-            }
-
-            tempMessages.push(
-                <Message
-                    key={i}
-                    isMine={isMine}
-                    startsSequence={startsSequence}
-                    endsSequence={endsSequence}
-                    showTimestamp={showTimestamp}
-                    data={current}
-                />
-            );
-
-            // Proceed to the next message.
-            i += 1;
+    const handleSendMessage = () => {
+        if (message.length > 0) {
+            setMessage('');
+            props.onNewMessage(message);
         }
+    };
 
-        return tempMessages;
+    const renderMessages = () => {
+        return props.messages
+            .sort((a: DialogMessage, b: DialogMessage) => {
+                if (a.createdTs > b.createdTs) {
+                    return 1;
+                } else if (a.createdTs < b.createdTs) {
+                    return -1;
+                } else {
+                    return 0;
+                }
+            })
+            .map((m, index) => {
+                return (<Message
+                    key={index}
+                    isMine={m.sender.id === MY_USER_ID}
+                    startsSequence={false}
+                    endsSequence={false}
+                    showTimestamp={false}
+                    data={m}
+                />)
+            });
     };
 
     return (
         <div className="message-list">
             <Toolbar
                 title=""
-                rightItems={[
-                    <ToolbarButton key="info" icon="ion-ios-information-circle-outline"/>,
-                    <ToolbarButton key="video" icon="ion-ios-videocam"/>,
-                    <ToolbarButton key="phone" icon="ion-ios-call"/>
-                ]}
+                rightItems={[]}
             />
 
-            <div className="message-list-container">{renderMessages()}</div>
-
-            <Compose rightItems={[
-                <ToolbarButton key="photo" icon="ion-ios-camera"/>,
-                <ToolbarButton key="image" icon="ion-ios-image"/>,
-                <ToolbarButton key="audio" icon="ion-ios-mic"/>,
-                <ToolbarButton key="money" icon="ion-ios-card"/>,
-                <ToolbarButton key="games" icon="ion-logo-game-controller-b"/>,
-                <ToolbarButton key="emoji" icon="ion-ios-happy"/>
-            ]}/>
+            <div className="message-list-container">
+                {renderMessages()}
+                <Grid
+                    container
+                    spacing={2}
+                    // direction="column"
+                    alignItems="center"
+                    justify="center"
+                    style={{
+                        position: 'fixed',
+                        width: 'calc(100% - 20px)',
+                        bottom: '0px',
+                    }}>
+                    <Grid item xs={8}>
+                        <TextField
+                            style={{height: '40px'}}
+                            autoFocus
+                            margin="dense"
+                            label="Сообщение"
+                            type="text"
+                            fullWidth
+                            variant="outlined"
+                            name="message"
+                            value={message}
+                            onChange={e => setMessage(e.target.value)}
+                            onKeyDown={e => {
+                                if (e.key === 'Enter') {
+                                    handleSendMessage()
+                                }
+                            }}
+                        />
+                    </Grid>
+                    <Grid item xs={4}>
+                        <Button
+                            style={{height: '40px'}}
+                            variant="contained"
+                            color="primary"
+                            onClick={() => handleSendMessage()}
+                        >
+                            Отправить
+                        </Button>
+                    </Grid>
+                </Grid>
+                {/*<Compose rightItems={[]} onSubmit={props.onNewMessage}/>*/}
+            </div>
         </div>
     );
 }

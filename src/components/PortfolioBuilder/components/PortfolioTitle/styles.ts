@@ -5,7 +5,7 @@ const styles = (theme: Theme) => createStyles({
         padding: theme.spacing(3),
     },
     text: {
-        textTransform: 'uppercase',
+        // textTransform: 'uppercase',
     }
 });
 

@@ -18,9 +18,7 @@ import {RouteComponentProps} from 'react-router-dom';
 import {getUserId, isAuthenticated} from "../../actions/authentication";
 import SendMessageDialog from "../../components/SendMessageDialog";
 import {sendMessageAction, setSendMessageDialogState} from "../../actions/dialogs";
-import {WebSocketController} from "../../actions/websocket";
 import {redirectToProfile, redirectToUserPortfolio} from "../../actions/redirects";
-import {DropzoneArea} from "material-ui-dropzone";
 
 interface MatchParams {
     userId: string,

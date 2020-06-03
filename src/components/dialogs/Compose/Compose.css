@@ -19,14 +19,15 @@
 
 .compose-input {
   flex: 1;
-  border: none;
+  border: 3px solid #3F51B5;
+  max-width: 75%;
   font-size: 14px;
-  height: 40px;
+  height: 60px;
   background: none;
 }
 
 .compose-input::placeholder {
-  opacity: 0.3;
+  opacity: 0.7;
 }
 
 .compose .toolbar-button {

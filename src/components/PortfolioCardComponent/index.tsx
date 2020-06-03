@@ -39,7 +39,7 @@ function PortfolioCardComponent(props: Props) {
                     </Typography>
                     <Typography variant="body2" color="textSecondary" component="p">
                         <TextTruncate
-                            line={1}
+                            line={4}
                             element="span"
                             truncateText="…"
                             text={props.item.description}

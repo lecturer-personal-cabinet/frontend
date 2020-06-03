@@ -15,7 +15,13 @@ function PortfolioDescription(props: Props) {
                 <span className={props.classes.subtitle}>{props.subtitle}</span>
             </Typography>
             <Typography className={props.classes.content}>
-                <span>{props.content}</span>
+                <span>
+                    <Typography>
+                        <pre style={{ fontFamily: 'inherit' }}>
+                            {props.content}
+                        </pre>
+                    </Typography>
+                </span>
             </Typography>
         </Paper>
     );

@@ -104,7 +104,7 @@ class CompleteProfileContainer extends React.Component<Props, State> {
 
     private title = () => (
         <Paper className={this.props.classes.paper}>
-            <h1>Завершите настройку профиля</h1>
+            {this.props.profileInfo && <h1>Редактирование профиля</h1> || <h1>Завершите настройку профиля</h1>}
         </Paper>
     );
 
@@ -276,7 +276,22 @@ class CompleteProfileContainer extends React.Component<Props, State> {
             phoneNumber: this.state.form.phoneNumber || this.props.profileInfo?.phoneNumber || '',
         };
 
-        this.props.saveProfileAndProfileInfo(info, profile);
+        this.setState({
+            form: {
+                firstName: '',
+                lastName: '',
+                description: '',
+                address: '',
+                phoneNumber: '',
+            },
+            error: {
+                firstName: '',
+                lastName: '',
+                description: '',
+                address: '',
+                phoneNumber: '',
+            }
+        }, () => this.props.saveProfileAndProfileInfo(info, profile));
     };
 
     render() {

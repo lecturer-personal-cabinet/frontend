@@ -105,6 +105,8 @@ export const Skills = (builderProps: BuilderModalProps) => {
                                                             type="text"
                                                             fullWidth
                                                             variant="outlined"
+                                                            onChange={handleChange}
+                                                            value={values.skills[index]}
                                                             name={`skills.${index}`}
                                                         />
                                                     </Grid>

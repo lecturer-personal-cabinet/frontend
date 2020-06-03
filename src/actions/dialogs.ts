@@ -5,12 +5,14 @@ import {Action} from "typesafe-actions";
 import {getAllDialogs, getMessages, getMessagesCount, sendMessage, updateReadStatus} from "../controller/dialogs";
 import {setDialogLoading, setDialogsLoading} from "./loadings";
 import {getUser} from "../controller/users_controller";
+import {getUserId} from "./authentication";
 
 export const getDialogsAction = (userId: string): ThunkAction<void, RootState, null, Action<string>> => async dispatch => {
     try {
         const result = await getAllDialogs(userId);
         dispatch(setDialogs(result.data));
         dispatch(setDialogsLoading(false));
+        // dispatch(getUnreadMessagesCount(getUserId()));
     } catch(e) {
         console.error(e);
     }
@@ -39,6 +41,7 @@ export const addNewMessage = (flatMessage: FlatMessage): ThunkAction<void, RootS
         };
 
         dispatch(setMessage(message));
+        // dispatch(getUnreadMessagesCount(getUserId()));
     } catch(e) {
         console.error(e);
     }
@@ -48,7 +51,7 @@ export const changeReadStatusAction = (dialogId: string, status: boolean, exclud
     : ThunkAction<void, RootState, null, Action<string>> => async dispatch => {
     try {
         await updateReadStatus(dialogId, status, exclude);
-        dispatch(setMessagesRead(dialogId, status));
+        // dispatch(getUnreadMessagesCount(getUserId()));
     } catch(e) {
         console.error(e);
     }
@@ -58,7 +61,7 @@ export const getUnreadMessagesCount = (userId: string)
     : ThunkAction<void, RootState, null, Action<string>> => async dispatch => {
     try {
         const result = await getMessagesCount(userId, false);
-        dispatch(setUnreadMessagesCount(result.data));
+        dispatch(setUnreadMessagesCount(result.data.updatedMessagesNumber));
     } catch(e) {
         console.error(e);
     }
@@ -71,6 +74,16 @@ export const sendMessageAction = (senderId: string, receiverId: string, content:
   } catch(e) {
       console.error(e);
   }
+};
+
+export const sendMessageAndUpdateAction = (senderId: string, receiverId: string, content: string, dialogId: string)
+    : ThunkAction<void, RootState, null, Action<string>> => async dispatch => {
+    try {
+        const result = await sendMessage(senderId, receiverId, content);
+        dispatch(setMessage(result.data));
+    } catch(e) {
+        console.error(e);
+    }
 };
 
 export function setSendMessageDialogState(open: boolean) {

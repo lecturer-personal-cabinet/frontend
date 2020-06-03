@@ -29,12 +29,12 @@ export const Description = (builderProps: BuilderModalProps) =>  {
             validationSchema={Yup.object().shape({
                 description: Yup.string()
                     .required('Описание обязателен')
-                    .min(5)
-                    .max(400),
+                    .min(5, 'Минимум 5 символов')
+                    .max(400, 'Максимум 400 символов'),
                 subtitle: Yup.string()
                     .required('Подзаголовок обязателен')
-                    .min(5)
-                    .max(50)
+                    .min(5, 'Минимум 5 символов')
+                    .max(50, 'Максимум 50 символов')
             })}
             onSubmit={fields => save(fields.subtitle, fields.description)}>
             {(props) => {

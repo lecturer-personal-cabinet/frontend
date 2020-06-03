@@ -3,11 +3,13 @@ import shave from 'shave';
 
 import './ConversationListItem.css';
 import {Dialog} from "../../../types/dialogs";
+import {Badge} from "@material-ui/core";
 
 interface Props {
     key: string,
     data: Dialog,
     onDialogClick: (dialogId: string) => void,
+    selected: boolean,
 }
 
 export default function ConversationListItem(props: Props) {
@@ -15,14 +17,13 @@ export default function ConversationListItem(props: Props) {
         shave('.conversation-snippet', 20);
     });
 
-    // const { photo, name, text } = props.data;
-
     return (
         <div className="conversation-list-item" onClick={() => props.onDialogClick(props.data.id)}>
-            {/*<img className="conversation-photo" src={props.data.participants} alt="conversation" />*/}
             <div className="conversation-info">
                 <h1 className="conversation-title">{props.key}</h1>
-                <p className="conversation-snippet">{props.data.name}</p>
+                <Badge color="secondary" variant="dot" invisible={!props.selected}>
+                    <p className="conversation-snippet">{props.data.name}</p>
+                </Badge>
             </div>
         </div>
     );

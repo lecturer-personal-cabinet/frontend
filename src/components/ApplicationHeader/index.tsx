@@ -21,7 +21,7 @@ import {RootState} from "../../store";
 import {connect} from "react-redux";
 import {ThunkDispatch} from "redux-thunk";
 import {logout} from "../../actions/authentication";
-import {redirectToSignIn} from "../../actions/redirects";
+import {redirectToProfileComplete, redirectToSignIn} from "../../actions/redirects";
 import {setIsAuthenticated} from "../../actions/users";
 
 interface MapStateToProps {
@@ -99,6 +99,11 @@ class ApplicationHeader extends React.Component<Props, ApplicationHeaderState> {
                 onClick={() => this.props.logout()}
             >
                 Выйти
+            </MenuItem>
+            <MenuItem
+                onClick={() => redirectToProfileComplete()}
+            >
+                Редактировать профиль
             </MenuItem>
         </Menu>
     );

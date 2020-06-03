@@ -26,7 +26,7 @@ export type FlatMessage = {
 
 export type DialogParticipant = {
     id: string,
-    user: User[],
+    user: User,
 }
 
 export interface DialogsState {
@@ -44,6 +44,7 @@ export enum DialogActionsTypes {
     SET_MESSAGES_READ = 'SET_MESSAGES_READ',
     SET_UNREAD_COUNT = 'SET_UNREAD_COUNT',
     INCREASE_UNREAD_COUNT = 'INCREASE_UNREAD_COUNT',
+    UPDATE_UNREAD = 'UPDATE_UNREAD',
 }
 
 export interface SendMessageDialogStatus {

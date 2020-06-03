@@ -1,7 +1,7 @@
 import React from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import styles from "./styles";
-import {Paper, WithStyles} from "@material-ui/core";
+import {Paper, Typography, WithStyles} from "@material-ui/core";
 import {UserTimelineItem} from "../../types/user_timeline";
 import PostPreviewDialog from "../PostPreviewDialog";
 import PostSignature from "../PostSignature";
@@ -17,7 +17,11 @@ function TimelinePost(props: Props) {
 
     const content = (content: string) => (
         <div className={props.classes.description}>
-            {content}
+            <Typography>
+                <pre style={{ fontFamily: 'inherit' }}>
+                    {content}
+                </pre>
+            </Typography>
         </div>
     );
 

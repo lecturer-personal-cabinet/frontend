@@ -4,7 +4,7 @@ import {
     DialogActions,
     DialogContent,
     DialogContentText,
-    DialogTitle,
+    DialogTitle, Paper, Typography,
     withStyles,
     WithStyles
 } from "@material-ui/core";
@@ -35,7 +35,11 @@ function PostPreviewDialog (props: Props) {
             </DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    {props.content}
+                    <Typography>
+                        <pre style={{ fontFamily: 'inherit' }}>
+                            {props.content}
+                        </pre>
+                    </Typography>
                 </DialogContentText>
                 <PostSignature
                     fullName={props.signerFullName}

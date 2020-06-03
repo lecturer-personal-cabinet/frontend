@@ -73,9 +73,7 @@ function ProfileInformation(props: Props) {
                 justify="center"
                 className={props.classes.actionsBar}
             >
-                <Grid item><ProfileStats metric={'2K'} title={'Orders'} /></Grid>
-                <Grid item><ProfileStats metric={'2K'} title={'Orders'} /></Grid>
-                <Grid item><ProfileStats metric={'2K'} title={'Orders'} /></Grid>
+
             </Grid>
         </Paper>
     );
