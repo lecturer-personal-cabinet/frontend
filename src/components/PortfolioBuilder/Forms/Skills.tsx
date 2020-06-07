@@ -37,7 +37,7 @@ export const Skills = (builderProps: BuilderModalProps) => {
             // style={{margin: '5px'}}
             variant="contained"
             color="primary"
-            onClick={() => arrayHelpers.insert(index, '')}
+            onClick={() => arrayHelpers.insert(index + 1, '')}
         >
             +
         </Button>
@@ -57,7 +57,7 @@ export const Skills = (builderProps: BuilderModalProps) => {
                 title: Yup.string()
                     .required('Подзаголовок обязателен')
                     .min(5)
-                    .max(20)
+                    .max(200)
             })}
             onSubmit={fields => save(fields.skills, fields.title)}>
             {(props) => {

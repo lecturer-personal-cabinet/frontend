@@ -46,8 +46,8 @@ class UploadContainer extends React.Component<Props, State> {
                 <DropzoneDialog
                     filesLimit={1}
                     acceptedFiles={['image/*']}
-                    cancelButtonText={"cancel"}
-                    submitButtonText={"submit"}
+                    cancelButtonText={"Отменить"}
+                    submitButtonText={"Сохранить"}
                     maxFileSize={5000000}
                     open={this.props.open}
                     onClose={() => this.props.openUpload(false)}
@@ -55,7 +55,7 @@ class UploadContainer extends React.Component<Props, State> {
                         this.handleSubmit(files[0]);
                     }}
                     showPreviews={true}
-                    showFileNamesInPreview={true}
+                    showFileNamesInPreview={false}
                 />
             </div>
         )

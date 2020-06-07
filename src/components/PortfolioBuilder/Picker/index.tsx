@@ -14,6 +14,7 @@ import {Title} from "../Forms/Title";
 import {BuilderItem} from "../../../types/builder";
 import {Description} from "../Forms/Description";
 import {Skills} from "../Forms/Skills";
+import {ImageBuilder} from "../Forms/ImageBuilder";
 
 interface Props extends WithStyles<typeof styles> {
     open: boolean,
@@ -45,6 +46,10 @@ function Picker(props: Props) {
                 break;
             case 'skills':
                 setModal(<Skills onSave={onSave}/>);
+                setOpenModal(true);
+                break;
+            case 'image':
+                setModal(<ImageBuilder onSave={onSave}/>);
                 setOpenModal(true);
                 break;
             default:

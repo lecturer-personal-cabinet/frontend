@@ -45,14 +45,17 @@ function ProfileInformation(props: Props) {
                     className={props.classes.actionsBar}
                 >
                     <Grid item md={12}>
-                        <Button
-                            variant="contained"
-                            color="secondary"
-                            className={props.classes.actionButton}
-                            onClick={() => props.onSendMessageClick()}
-                        >
-                            Сообщение
-                        </Button>
+                        {localStorage.getItem('token') &&
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                className={props.classes.actionButton}
+                                onClick={() => props.onSendMessageClick()}
+                            >
+                              Сообщение
+                            </Button>
+                          }
+
                         <Button
                             variant="contained"
                             color="primary"

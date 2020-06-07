@@ -19,5 +19,10 @@ export const options: Option[] = [
         itemTitle: 'Компетенции',
         itemIcon: 'toc',
         modal: 'skills',
+    },
+    {
+        itemTitle: 'Изображение',
+        itemIcon: 'image',
+        modal: 'image'
     }
 ];

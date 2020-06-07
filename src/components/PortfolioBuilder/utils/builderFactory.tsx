@@ -3,6 +3,7 @@ import PortfolioTitle from "../components/PortfolioTitle";
 import React from "react";
 import PortfolioDescription from "../components/PortfolioDescription";
 import PortfolioSkills from "../components/PortfolioSkills";
+import PortfolioImage from "../components/PortfolioImage";
 
 export function getBuilderComponent(item: BuilderItem) {
     switch(item.type) {
@@ -20,6 +21,10 @@ export function getBuilderComponent(item: BuilderItem) {
             console.log('skills');
             // @ts-ignore
             return (<PortfolioSkills skills={item.metadata['skills']} title={item.metadata['title']} />);
+        case 'image':
+            console.log('image');
+            // @ts-ignore
+            return (<PortfolioImage url={item.metadata['url']} />);
         default: return undefined;
     }
 }

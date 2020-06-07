@@ -30,11 +30,11 @@ export const Description = (builderProps: BuilderModalProps) =>  {
                 description: Yup.string()
                     .required('Описание обязателен')
                     .min(5, 'Минимум 5 символов')
-                    .max(400, 'Максимум 400 символов'),
+                    .max(4000, 'Максимум 400 символов'),
                 subtitle: Yup.string()
                     .required('Подзаголовок обязателен')
                     .min(5, 'Минимум 5 символов')
-                    .max(50, 'Максимум 50 символов')
+                    .max(300, 'Максимум 50 символов')
             })}
             onSubmit={fields => save(fields.subtitle, fields.description)}>
             {(props) => {

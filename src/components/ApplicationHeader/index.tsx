@@ -165,16 +165,19 @@ class ApplicationHeader extends React.Component<Props, ApplicationHeaderState> {
                                 onClick={this.handleAccountMenuState}>
                             {!this.props.userName ? 'Меню' : this.props.userName}
                         </Button>
-                        {this.props.isAuthenticated && this.authenticatedMenu()}
-                        {!this.props.isAuthenticated && this.unauthenticatedMenu()}
+                        {localStorage.getItem('token') && this.authenticatedMenu()}
+                        {!localStorage.getItem('token') && this.unauthenticatedMenu()}
                     </Toolbar>
                 </AppBar>
-                <ApplicationSidebar
-                    openState={this.state.sidebar.state}
-                    sidebarItems={this.props.sidebarItems}
-                    withNotifications={this.props.isAuthenticated}
-                    unreadMessagesNumber={this.props.unreadMessagesNumber}
-                />
+
+                {localStorage.getItem('token') &&
+                    <ApplicationSidebar
+                      openState={this.state.sidebar.state}
+                      sidebarItems={this.props.sidebarItems}
+                      withNotifications={this.props.isAuthenticated}
+                      unreadMessagesNumber={this.props.unreadMessagesNumber}
+                    />
+                }
 
                 <main
                     className={clsx({
